@@ -18,6 +18,7 @@ export class CardsComponent {
 
   constructor(private readonly cardsService:CardsService){
     this.loadCards();
+    this.getDataFromApiBack();
   }
 
 
@@ -77,9 +78,14 @@ export class CardsComponent {
   }
 
 
-  public getCardById(id:number){
-
-
+  public getDataFromApiBack(){
+      console.log("getDataFromApiBack");
+      const data = this.cardsService.getDataFromApiBack().subscribe({
+        next : (response:any)=>{
+          console.log("Voici la réponse du back !!!!!!!!!!!!!!!!")
+          console.log(response);
+        }
+      })
     
   }
 

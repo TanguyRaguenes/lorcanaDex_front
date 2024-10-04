@@ -15,9 +15,9 @@
       <div class="flex flex-wrap -m-4">
         @for(card of cardsArray; track card.getUniqueId()){
 
-            <a class="p-4 lg:w-1/2" [routerLink]="['/card', card.getUniqueId()]">
+            <a class="p-4 w-full lg:w-1/3 md:w-1/2 card" [routerLink]="['/card', card.getUniqueId()]">
               <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-                  <img alt="team" class="flex-shrink-0 rounded-lg w-48 h-48 object-contain object-center sm:mb-0 mb-4" [src]="card.getImage()">
+                  <img alt="team" class="flex-shrink-0 rounded-lg object-contain object-center sm:mb-0 mb-4" [src]="card.getImage()">
               </div>
             </a>
 

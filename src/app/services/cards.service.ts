@@ -31,7 +31,7 @@ export class CardsService {
 
   public getCardById(id:string|null): Observable<any>{
 
-    console.log("getCardById")
+    console.log("getCardById");
 
     console.log(environment.apiGetCard + id);
 
@@ -43,6 +43,15 @@ export class CardsService {
 
 
 
+  }
+
+  public getDataFromApiBack():Observable<any>{
+
+    console.log("getDataFromApiBack");
+
+    const response=this.http.get(environment.apiBack)
+
+    return response;
   }
 
 }

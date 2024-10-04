@@ -70,10 +70,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "lorcanaDex_front:build:production"
+              "buildTarget": "lorcanaDex_front:build:production",
+              "proxyConfig": "proxyconfig.json"
             },
             "development": {
-              "buildTarget": "lorcanaDex_front:build:development"
+              "buildTarget": "lorcanaDex_front:build:development",
+              "proxyConfig": "proxyconfig.json"
             }
           },
           "defaultConfiguration": "development"
