@@ -4,7 +4,6 @@ import { Card } from '../../models/Card';
 import { CardsService } from '../../services/cards.service';
 import { RouterLink } from '@angular/router';
 
-
 @Component({
   selector: 'app-cards',
   standalone: true,
