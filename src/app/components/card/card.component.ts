@@ -10,24 +10,28 @@ import { Card } from '../../models/Card';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
-export class CardComponent implements OnInit{
+export class CardComponent implements OnInit {
 
-  public card?:Card;
+  public card?: Card;
 
-  constructor(private readonly route:ActivatedRoute, private readonly cardsService:CardsService){
+  constructor(private readonly route: ActivatedRoute, private readonly cardsService: CardsService) {
     this.loadImage();
- }
+  }
 
   ngOnInit(): void {
 
   }
 
-  public loadImage(){
+  public loadImage() {
     this.cardsService.getCardById(this.route.snapshot.paramMap.get('id')).subscribe({
-      next:(response:Array<any>)=>{
-        console.log(response);
+      next: (response: Array<any>) => {
+        console.log("getCardById", {
+          response: response[0]
+        }
 
-        if(response.length>0){
+        );
+
+        if (response.length > 0) {
 
           this.card = new Card(
             response[0].Artist,
@@ -55,12 +59,12 @@ export class CardComponent implements OnInit{
             response[0].Strength,
             response[0].Set_ID
 
-        );
+          );
 
         }
 
-      },error:(err:any)=> console.log(err)
+      }, error: (err: any) => console.log(err)
     })
   }
-      
+
 }

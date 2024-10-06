@@ -4,11 +4,6 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// const token = sessionStorage.getItem('jwtToken');
-// const headers = {
-//   headers: { Authorization: `Bearer ${token}` }
-// };
-
 
 @Injectable({
   providedIn: 'root'
@@ -19,13 +14,7 @@ export class CardsService {
 
   public getCards(): any {
 
-    console.log("getCards")
-
-    console.log(environment.apiGetCards)
-
     const response = this.http.get(environment.apiGetCards);
-
-    console.log(response)
 
     return response;
 
@@ -36,13 +25,9 @@ export class CardsService {
 
   public getCardById(id: string | null): Observable<any> {
 
-    console.log("getCardById");
-
-    console.log(environment.apiGetCard + id);
+    console.log("");
 
     const response = this.http.get(environment.apiGetCard + id);
-
-    console.log(response)
 
     return response;
 
@@ -58,9 +43,9 @@ export class CardsService {
     };
 
 
-    console.log("getDataFromApiBack");
-    console.log(token)
-    console.log(headers);
+    console.log("getDataFromApiBack Authorization :", {
+      headers: headers.headers.Authorization
+    });
     const response = this.http.get(environment.apiBack, headers)
 
     return response;

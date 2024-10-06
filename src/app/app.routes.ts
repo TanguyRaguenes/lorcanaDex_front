@@ -6,9 +6,9 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 
 export const routes: Routes = [
 
-    { path: '', component: HomeComponent },
+    { path: '', component: LoginFormComponent },
+    { path: 'home', component: HomeComponent },
     { path: 'cards', component: CardsComponent },
-    { path: 'loginForm', component: LoginFormComponent },
     { path: 'card/:id', component: CardComponent },
 
 
