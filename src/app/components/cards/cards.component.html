@@ -1,13 +1,26 @@
 <section class="text-gray-600 body-font">
   <div class="container px-5 py-24 mx-auto">
 
+
+    <div class="w-11/12 flex items-center justify-between mx-auto">
+      <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
+        (click)="previousPage()">
+        arrow_back_ios_new
+      </span>
+      <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
+        (click)="nextPage()">
+        arrow_forward_ios
+      </span>
+    </div>
+
     <div class="flex flex-wrap justify-center">
 
-      @for(card of cardsArray; track card.getUniqueId()){
+      @for(card of cardsToDisplay; track card.getUniqueId()){
 
       <a class="p-2 w-full lg:w-1/3 md:w-1/2 card" [routerLink]="['/card', card.getUniqueId()]">
         <div class="w-11/12 mx-auto">
-          <img alt="team" class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-105"
+          <img alt="team"
+            class="rounded-lg h-full w-full object-contain object-center transition-all duration-300 hover:scale-105"
             [src]="card.getImage()">
         </div>
       </a>
