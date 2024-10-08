@@ -46,7 +46,8 @@ export class CardsService {
     console.log("getDataFromApiBack Authorization :", {
       headers: headers.headers.Authorization
     });
-    const response = this.http.get(`${environment.apiGetCardsFromBDD}/rarity/Legendary`, headers)
+    const response = this.http.get(`${environment.apiGetCardsFromBDD}`, headers)
+    // const response = this.http.get(`${environment.apiGetCardsFromBDD}/rarity/Legendary`, headers)
 
     return response;
   }

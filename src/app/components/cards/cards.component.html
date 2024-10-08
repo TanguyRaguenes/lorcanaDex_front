@@ -1,32 +1,56 @@
-<section class="text-gray-600 body-font">
-  <div class="container px-5 py-24 mx-auto">
+<header>
 
+  <span class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+    (click)="ToggleVisibilityFiltersModal()">
+    search
+  </span>
 
-    <div class="w-11/12 flex items-center justify-between mx-auto">
-      <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
-        (click)="previousPage()">
-        arrow_back_ios_new
-      </span>
-      <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
-        (click)="nextPage()">
-        arrow_forward_ios
-      </span>
-    </div>
+  <div id="filtersModal" class="hidden fixed top-0 left-0 w-full h-full bg-red-100">
+    <span class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+      (click)="ToggleVisibilityFiltersModal()">
+      close
+    </span>
+    <div id="inkContainer" class="flex flex-wrap justify-center w-1/2 mx-auto">
 
-    <div class="flex flex-wrap justify-center">
-
-      @for(card of cardsToDisplay; track card.getUniqueId()){
-
-      <a class="p-2 w-full lg:w-1/3 md:w-1/2 card" [routerLink]="['/card', card.getUniqueId()]">
-        <div class="w-11/12 mx-auto">
-          <img alt="team"
-            class="rounded-lg h-full w-full object-contain object-center transition-all duration-300 hover:scale-105"
-            [src]="card.getImage()">
-        </div>
-      </a>
-
-      }
+      <div class="p-2 w-full lg:w-1/3 md:w-1/2 flex justify-center"
+        *ngFor="let inkImgName of inkImgNameArray; let i = index" (click)="filterArray('color',inkImgName)">
+        <img [src]="'/assets/images/' + inkImgName" alt=""
+          class="object-contain object-center max-w-full h-auto max-h-20 transition-all duration-300 hover:scale-150 hover:cursor-pointer">
+      </div>
 
     </div>
+
   </div>
-</section>
+</header>
+
+<main>
+  <section class=" text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+
+
+      <div class="w-11/12 flex items-center justify-between mx-auto">
+        <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
+          (click)="previousPage()">
+          arrow_back_ios_new
+        </span>
+        <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
+          (click)="nextPage()">
+          arrow_forward_ios
+        </span>
+      </div>
+
+      <div class="flex flex-wrap justify-center" [ngClass]="{'hidden': !imagesLoaded}">
+
+        <a class="p-2 w-full lg:w-1/3 md:w-1/2 card" [routerLink]="['/card', card.getUniqueId()]"
+          *ngFor="let card of cardsToDisplay; let i = index">
+          <div class="w-11/12 mx-auto">
+            <img alt="team"
+              class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-150 hover:cursor-pointer"
+              [src]="card.getImage()" (load)="onImageLoad()">
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+</main>
