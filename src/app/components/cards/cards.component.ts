@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Card } from '../../models/Card';
+import { Filter } from '../../models/Filter';
 import { CardsService } from '../../services/cards.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -22,16 +23,16 @@ export class CardsComponent {
   public counter: number = 0;
   public imagesLoaded: boolean = false;
 
+  public filtersArray: Array<Filter> = [];
+
   public inkImgNameArray: Array<string> = [
     "Amber.png", "Amethyst.png", "Emerald.png", "Ruby.png", "Sapphire.png", "Steel.png"
   ];
-
 
   constructor(private readonly cardsService: CardsService) {
     // this.loadCards();
     this.getDataFromApiBack();
   }
-
 
   public loadCards(): void {
 
@@ -183,16 +184,87 @@ export class CardsComponent {
 
   }
 
-  public filterArray(key: string, value: string): void {
+  public toggleInk(element: HTMLImageElement): void {
 
-    console.log(`filterArray key:${key}, value:${value}`)
+    // console.log(element);
+    // console.log(element.classList);
+    if (element.classList.contains("grayscale")) {
+      element.classList.remove("grayscale");
+      element.classList.add("grayscale-0");
+      element.classList.add("scale-150");
+    } else {
+      element.classList.add("grayscale");
+      element.classList.remove("grayscale-0")
+      element.classList.remove("scale-150");
+    }
+  }
+
+  public addNewFilter(key: string, value: string, eventTarget: EventTarget | null) {
+
+
+    let objectToAdd: Filter;
+
+    if (eventTarget instanceof HTMLImageElement) {
+
+      this.toggleInk(eventTarget);
+      objectToAdd = new Filter(key, value.slice(0, -4));
+
+    } else {
+      objectToAdd = new Filter(key, value);
+    }
+
+
+
+
+    const exists = this.filtersArray.some(e =>
+      e.getKey() === objectToAdd.getKey() && e.getValue() === objectToAdd.getValue()
+    );
+
+    if (exists) {
+
+      this.filtersArray = this.filtersArray.filter(e =>
+        !(e.getKey() === objectToAdd.getKey() && e.getValue() === objectToAdd.getValue())
+      );
+    } else {
+      this.filtersArray.push(objectToAdd);
+    }
+    console.log(this.filtersArray)
+  }
+
+
+  public filterArray(): void {
 
     this.cardsFiltered = [];
-    this.cardsFiltered = this.cardsStorage.filter(e => {
-      return e.getColor() == value.slice(0, -4);
-    })
+    this.filtersArray.forEach(filter => {
+
+      const methodName: string = "get" + filter.getKey().charAt(0).toUpperCase() + filter.getKey().slice(1);
+
+      const cards = this.cardsStorage.filter(card => {
+
+        if (typeof card[methodName as keyof Card] === 'function') {
+          return (card[methodName as keyof Card] as Function).call(card).includes(filter.getValue());
+        } else {
+          console.error(`La méthode ${methodName} n'existe pas sur card`);
+          return false;
+        }
+
+      });
+
+      cards.forEach(card => {
+        if (!this.cardsFiltered.includes(card)) {
+          this.cardsFiltered.push(card);
+        }
+      });
+
+    });
+
+    console.log("-----------------------")
+    console.log(this.cardsFiltered)
+    console.log("-----------------------")
+
 
     this.displayCards();
+    this.ToggleVisibilityFiltersModal();
 
   }
 
