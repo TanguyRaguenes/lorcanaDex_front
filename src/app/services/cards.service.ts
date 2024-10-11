@@ -52,4 +52,17 @@ export class CardsService {
     return response;
   }
 
+  public bulkData(): Observable<any> {
+
+    console.log("bulk data")
+
+    const token = sessionStorage.getItem('jwtToken');
+    const headers = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    return this.http.get(`${environment.apiBulkCards}`, headers)
+
+  }
+
 }

@@ -5,6 +5,7 @@ import { Filter } from '../../models/Filter';
 import { CardsService } from '../../services/cards.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cards',
@@ -275,4 +276,23 @@ export class CardsComponent {
       this.imagesLoaded = true;
     }
   }
+
+
+  public bulkData(): void {
+
+    this.cardsService.bulkData().subscribe({
+      next: (response: any) => {
+        console.log("----------------------------------------")
+        console.log("Bulk Terminé")
+        console.log(response);
+        console.log("----------------------------------------")
+      }
+
+    });
+
+  }
+
+
 }
+
+

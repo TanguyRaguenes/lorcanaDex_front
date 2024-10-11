@@ -11,5 +11,4 @@ export const routes: Routes = [
     { path: 'cards', component: CardsComponent },
     { path: 'card/:id', component: CardComponent },
 
-
 ];

@@ -5,6 +5,7 @@ export const environment = {
     apiGetCard: 'https://api.lorcana-api.com/cards/fetch?search=unique_id=',
     apiBack: 'http://localhost:8080/api/cards/1',
     login: 'http://localhost:8080/login',
-    apiGetCardsFromBDD:'http://localhost:8080/get-cards'
+    apiGetCardsFromBDD: 'http://localhost:8080/get-cards',
+    apiBulkCards: 'http://localhost:8080/bulk-data'
 
 };
