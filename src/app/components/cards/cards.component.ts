@@ -17,7 +17,11 @@ import { Observable } from 'rxjs';
 export class CardsComponent {
 
   public cardsStorage: Array<Card> = [];
+  public cardsFilteredOnColor: Array<Card> = [];
+  public cardsFilteredOnOthers: Array<Card> = [];
   public cardsFiltered: Array<Card> = [];
+
+
   public cardsToDisplay: Array<Card> = [];
   public page: number = 1;
   public nbCardsPerPage: number = 9;
@@ -30,64 +34,17 @@ export class CardsComponent {
     "Amber.png", "Amethyst.png", "Emerald.png", "Ruby.png", "Sapphire.png", "Steel.png"
   ];
 
+  public rarityImgNameArray: Array<string> = [
+    "Common.png", "Uncommon.png", "Rare.png", "Super Rare.png", "Legendary.png"
+  ];
+
+
   constructor(private readonly cardsService: CardsService) {
-    // this.loadCards();
     this.getDataFromApiBack();
   }
 
-  public loadCards(): void {
 
-
-    this.cardsService.getCards().subscribe(
-      {
-
-        next: (response: any) => {
-          this.cardsStorage = [];
-          response.forEach((element: any) => {
-            let card = new Card(
-              element.Artist,
-              element.Set_Name,
-              element.Classifications,
-              element.Date_Added,
-              element.Set_Num,
-              element.Color,
-              element.Gamemode,
-              element.Franchise,
-              element.Image,
-              element.Cost,
-              element.Inkable,
-              element.Name,
-              element.Type,
-              element.Lore,
-              element.Rarity,
-              element.Flavor_Text,
-              element.Unique_ID,
-              element.Card_Num,
-              element.Body_Text,
-              element.Willpower,
-              element.Card_Variants,
-              element.Date_Modified,
-              element.Strength,
-              element.Set_ID
-            );
-            // this.cardsStorage.push(card);
-          });
-
-          console.log("Réponse API externe")
-          console.log(this.cardsStorage);
-
-
-        }, error: (error: any) => {
-          console.log('Some error happenned');
-          console.error(error);
-        }
-
-      }
-
-    )
-
-  }
-
+  //Récupération à partir BDD de l'ensemble des cartes
 
   public getDataFromApiBack(): void {
     const data = this.cardsService.getDataFromApiBack().subscribe({
@@ -136,39 +93,18 @@ export class CardsComponent {
 
   }
 
+
+
   public displayCards(): void {
-    this.imagesLoaded = false;
-    console.log(`page: ${this.page}`)
+
     this.cardsToDisplay = [];
-    const startIndex = (this.page - 1) * this.nbCardsPerPage;
-    const endIndex = startIndex + this.nbCardsPerPage;
-    this.cardsToDisplay = this.cardsFiltered.slice(startIndex, endIndex);
+    this.cardsToDisplay = this.cardsFiltered;
+
     console.log({
       "cardsToDisplay": this.cardsToDisplay
     }
 
     )
-  }
-
-  public nextPage(): void {
-    console.log("nextPage")
-    console.log(`page: ${this.page}`)
-    console.log(`${this.cardsFiltered.length}`)
-    if ((this.page * this.nbCardsPerPage) < this.cardsFiltered.length) {
-      this.page++;
-      console.log(`page: ${this.page}`)
-      this.displayCards();
-    }
-  }
-
-  public previousPage(): void {
-    console.log("previousPage")
-    console.log(`page: ${this.page}`)
-    if (this.page > 1) {
-      this.page--;
-      console.log(`page: ${this.page}`)
-      this.displayCards();
-    }
   }
 
   public ToggleVisibilityFiltersModal(): void {
@@ -185,10 +121,12 @@ export class CardsComponent {
 
   }
 
-  public toggleInk(element: HTMLImageElement): void {
 
-    // console.log(element);
-    // console.log(element.classList);
+
+  // Gestion de l'affichage des encres
+
+  public toggleDisplay(element: HTMLImageElement): void {
+
     if (element.classList.contains("grayscale")) {
       element.classList.remove("grayscale");
       element.classList.add("grayscale-0");
@@ -207,7 +145,7 @@ export class CardsComponent {
 
     if (eventTarget instanceof HTMLImageElement) {
 
-      this.toggleInk(eventTarget);
+      this.toggleDisplay(eventTarget);
       objectToAdd = new Filter(key, value.slice(0, -4));
 
     } else {
@@ -233,31 +171,54 @@ export class CardsComponent {
   }
 
 
+
+  // Filtrer les cartes à afficher
+
   public filterArray(): void {
 
+    this.cardsFilteredOnColor = [];
+    this.cardsFilteredOnOthers = [];
     this.cardsFiltered = [];
+
+    let nofilterOncolor = true;
+    let nofilterOnOthers = true;
+
     this.filtersArray.forEach(filter => {
+
+      //Le nom du getter de la classe Card est généré grâce à la key de l'objet filtre
 
       const methodName: string = "get" + filter.getKey().charAt(0).toUpperCase() + filter.getKey().slice(1);
 
-      const cards = this.cardsStorage.filter(card => {
+      if (filter.getKey() == "color") {
 
-        if (typeof card[methodName as keyof Card] === 'function') {
-          return (card[methodName as keyof Card] as Function).call(card).includes(filter.getValue());
-        } else {
-          console.error(`La méthode ${methodName} n'existe pas sur card`);
-          return false;
-        }
+        nofilterOncolor = false;
+        this.filterColor(methodName, filter)
 
-      });
-
-      cards.forEach(card => {
-        if (!this.cardsFiltered.includes(card)) {
-          this.cardsFiltered.push(card);
-        }
-      });
+      }
 
     });
+
+    nofilterOncolor ? this.cardsFilteredOnColor = this.cardsStorage.slice() : null;
+
+    this.filtersArray.forEach(filter => {
+
+      //Le nom du getter de la classe Card est généré grâce à la key de l'objet filtre
+
+      const methodName: string = "get" + filter.getKey().charAt(0).toUpperCase() + filter.getKey().slice(1);
+
+      if (filter.getKey() != "color") {
+        nofilterOnOthers = false;
+        this.filterOthers(methodName, filter)
+
+      }
+
+    });
+
+    nofilterOnOthers ? this.cardsFilteredOnOthers = this.cardsFilteredOnColor.slice() : null;
+
+
+
+    this.cardsFiltered = this.cardsFilteredOnOthers.slice();
 
     console.log("-----------------------")
     console.log(this.cardsFiltered)
@@ -269,25 +230,61 @@ export class CardsComponent {
 
   }
 
-  public onImageLoad() {
-    this.counter++;
-    if (this.counter == this.nbCardsPerPage) {
-      this.counter = 0;
-      this.imagesLoaded = true;
-    }
+
+  public filterColor(methodName: any, filter: Filter): void {
+
+    const cardsThatMatchFilter = this.cardsStorage.filter(card => {
+
+      if (typeof card[methodName as keyof Card] === 'function') {
+        return (card[methodName as keyof Card] as Function).call(card).includes(filter.getValue());
+      } else {
+        console.error(`La méthode ${methodName} n'existe pas sur card`);
+        return false;
+      }
+
+    });
+
+    cardsThatMatchFilter.forEach(card => {
+      if (!this.cardsFilteredOnColor.includes(card)) {
+        this.cardsFilteredOnColor.push(card);
+      }
+    });
+
+
   }
 
+  public filterOthers(methodName: any, filter: Filter): void {
+
+
+    const cardsThatMatchFilter = this.cardsFilteredOnColor.filter(card => {
+
+      if (typeof card[methodName as keyof Card] === 'function') {
+        return (card[methodName as keyof Card] as Function).call(card).includes(filter.getValue());
+      } else {
+        console.error(`La méthode ${methodName} n'existe pas sur card`);
+        return false;
+      }
+
+    });
+
+    cardsThatMatchFilter.forEach(card => {
+      if (!this.cardsFilteredOnOthers.includes(card)) {
+        this.cardsFilteredOnOthers.push(card);
+      }
+    });
+
+  }
+
+  // Stockage en BDD de l'ensemble des cartes de Lorcana-api.com
 
   public bulkData(): void {
 
     this.cardsService.bulkData().subscribe({
       next: (response: any) => {
-        console.log("----------------------------------------")
-        console.log("Bulk Terminé")
         console.log(response);
-        console.log("----------------------------------------")
-      }
-
+      }, error: (e => {
+        console.log(e)
+      })
     });
 
   }

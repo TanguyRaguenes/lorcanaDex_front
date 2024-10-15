@@ -16,38 +16,26 @@
       close
     </span>
 
-    <div id="inkContainer" class="w-full flex flex-wrap justify-center items-center w-1/2 mx-auto h-60 border-2 ">
+    <div id="inksContainer" class="w-1/2 flex flex-wrap justify-center items-center w-1/2 mx-auto h-60 border-2 ">
 
-      <div class="p-2 w-full lg:w-1/3 md:w-1/2 flex justify-center"
+      <div class="p-2 w-1/3 md:w-1/6 lg:w-1/6 flex justify-center"
         *ngFor="let inkImgName of inkImgNameArray; let i = index"
         (click)="addNewFilter('color',inkImgName, $event.target)">
-        <img [src]="'/assets/images/' + inkImgName" alt=""
+        <img [src]="'/assets/images/inks/' + inkImgName" alt=""
           class="object-contain object-center max-w-full h-auto max-h-16 filter grayscale transition-all duration-300 hover:cursor-pointer">
       </div>
 
     </div>
 
-    <div class="w-1/2 h-60 flex justify-between items-center mx-auto border-2">
-      <div class="flex flex-col">
-        <label for="1">Legendary</label>
-        <input type="radio" name="rarity" id="1" value="Legendary" class="hover:cursor-pointer">
+    <div id="raritiesContainer" class="w-1/2 flex flex-wrap justify-center items-center w-1/2 mx-auto h-60 border-2 ">
+
+      <div class="p-2 w-1/3 md:w-1/6 lg:w-1/6 flex justify-center"
+        *ngFor="let rarityImgName of rarityImgNameArray; let i = index"
+        (click)="addNewFilter('rarity',rarityImgName, $event.target)">
+        <img [src]="'/assets/images/rarities/' + rarityImgName" alt=""
+          class="object-contain object-center max-w-full h-auto max-h-16 filter grayscale transition-all duration-300 hover:cursor-pointer">
       </div>
-      <div class="flex flex-col">
-        <label for="2">Super Rare</label>
-        <input type="radio" name="rarity" id="2" value="Super Rare" class="hover:cursor-pointer">
-      </div>
-      <div class="flex flex-col">
-        <label for="3">Rare</label>
-        <input type="radio" name="rarity" id="3" value="Rare" class="hover:cursor-pointer">
-      </div>
-      <div class="flex flex-col">
-        <label for="4">Uncommon</label>
-        <input type="radio" name="rarity" id="4" value="Uncommon" class="hover:cursor-pointer">
-      </div>
-      <div class="flex flex-col">
-        <label for="5">Common</label>
-        <input type="radio" name="rarity" id="5" value="Common" class="hover:cursor-pointer">
-      </div>
+
     </div>
 
     <button
@@ -61,7 +49,7 @@
     <div class="container px-5 py-24 mx-auto">
 
 
-      <div class="w-11/12 flex items-center justify-between mx-auto">
+      <!-- <div class="w-11/12 flex items-center justify-between mx-auto">
         <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
           (click)="previousPage()">
           arrow_back_ios_new
@@ -70,16 +58,17 @@
           (click)="nextPage()">
           arrow_forward_ios
         </span>
-      </div>
+      </div> -->
 
-      <div class="flex flex-wrap justify-center" [ngClass]="{'hidden': !imagesLoaded}">
+      <div class="flex flex-wrap justify-center">
 
-        <a class="p-2 w-full lg:w-1/3 md:w-1/2 card" [routerLink]="['/card', card.getUniqueId()]"
+        <a class="p-2 w-1/3 md:w-1/4 lg:w-1/5 card" [routerLink]="['/card', card.getUniqueId()]"
           *ngFor="let card of cardsToDisplay; let i = index">
           <div class="w-11/12 mx-auto">
             <img alt="team"
               class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-150 hover:cursor-pointer"
-              [src]="card.getImage()" (load)="onImageLoad()">
+              [src]="card.getImage()" [attr.loading]="i > 12 ? 'lazy' : null">
+
           </div>
         </a>
 

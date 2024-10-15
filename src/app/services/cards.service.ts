@@ -18,8 +18,6 @@ export class CardsService {
 
     return response;
 
-
-
   }
 
 
@@ -31,23 +29,24 @@ export class CardsService {
 
     return response;
 
-
-
   }
 
   public getDataFromApiBack(): Observable<any> {
 
     const token = sessionStorage.getItem('jwtToken');
     const headers = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "x-function-name": 'getDataFromApiBack'
+      }
     };
 
 
     console.log("getDataFromApiBack Authorization :", {
       headers: headers.headers.Authorization
     });
+
     const response = this.http.get(`${environment.apiGetCardsFromBDD}`, headers)
-    // const response = this.http.get(`${environment.apiGetCardsFromBDD}/rarity/Legendary`, headers)
 
     return response;
   }
@@ -58,11 +57,13 @@ export class CardsService {
 
     const token = sessionStorage.getItem('jwtToken');
     const headers = {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "x-function-name": 'bulkData'
+      }
     };
 
-    return this.http.get(`${environment.apiBulkCards}`, headers)
-
+    return this.http.get(`${environment.apiBulkCards}`, headers);
   }
 
 }
