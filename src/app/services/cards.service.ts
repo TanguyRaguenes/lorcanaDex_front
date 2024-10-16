@@ -31,16 +31,16 @@ export class CardsService {
 
   }
 
+  //Récupérer toutes les cartes de la BDD
+
   public getDataFromApiBack(): Observable<any> {
 
     const token = sessionStorage.getItem('jwtToken');
     const headers = {
       headers: {
-        Authorization: `Bearer ${token}`,
-        "x-function-name": 'getDataFromApiBack'
+        Authorization: `Bearer ${token}`
       }
     };
-
 
     console.log("getDataFromApiBack Authorization :", {
       headers: headers.headers.Authorization
@@ -51,19 +51,27 @@ export class CardsService {
     return response;
   }
 
+
+  //Bulk l'api et stocker dans la BDD
+
   public bulkData(): Observable<any> {
 
     console.log("bulk data")
 
     const token = sessionStorage.getItem('jwtToken');
+
     const headers = {
       headers: {
-        Authorization: `Bearer ${token}`,
-        "x-function-name": 'bulkData'
+        Authorization: `Bearer ${token}`
       }
     };
 
-    return this.http.get(`${environment.apiBulkCards}`, headers);
+    console.log("bulkData Authorization :", {
+      headers: headers.headers.Authorization
+    });
+
+    const response = this.http.get(`${environment.apiBulkCards}`, headers);
+    return response;
   }
 
 }
