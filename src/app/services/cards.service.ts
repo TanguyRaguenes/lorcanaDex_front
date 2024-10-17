@@ -31,33 +31,9 @@ export class CardsService {
 
   }
 
+  //Récupérer toutes les cartes de la BDD
+
   public getDataFromApiBack(): Observable<any> {
-
-    const token = sessionStorage.getItem('jwtToken');
-
-    // const headers = {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // };
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-
-    console.log("getDataFromApiBack Authorization :", {
-      Authorization: `Bearer ${token}`
-    });
-
-    const response = this.http.get(`${environment.apiGetCardsFromBDD}`, { headers })
-
-    return response;
-  }
-
-  public bulkData(): Observable<any> {
-
-    console.log("bulk data")
 
     const token = sessionStorage.getItem('jwtToken');
     const headers = {
@@ -66,7 +42,36 @@ export class CardsService {
       }
     };
 
-    return this.http.get(`${environment.apiBulkCards}`, headers);
+    console.log("getDataFromApiBack Authorization :", {
+      Authorization: `Bearer ${token}`
+    });
+
+    const response = this.http.get(`${environment.apiGetCardsFromBDD}`, headers)
+
+    return response;
+  }
+
+
+  //Bulk l'api et stocker dans la BDD
+
+  public bulkData(): Observable<any> {
+
+    console.log("bulk data")
+
+    const token = sessionStorage.getItem('jwtToken');
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    };
+
+    console.log("bulkData Authorization :", {
+      headers: headers.headers.Authorization
+    });
+
+    const response = this.http.get(`${environment.apiBulkCards}`, headers);
+    return response;
   }
 
 }
