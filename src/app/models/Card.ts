@@ -8,6 +8,7 @@ export class Card {
     private gamemode: string;
     private franchise: string;
     private image: string;
+    private imageSmall: string;
     private cost: number;
     private inkable: boolean;
     private name: string;
@@ -34,6 +35,7 @@ export class Card {
         gamemode: string,
         franchise: string,
         image: string,
+        imageSmall: string,
         cost: number,
         inkable: boolean,
         name: string,
@@ -59,6 +61,7 @@ export class Card {
         this.gamemode = gamemode;
         this.franchise = franchise;
         this.image = image;
+        this.imageSmall = imageSmall;
         this.cost = cost;
         this.inkable = inkable;
         this.name = name;
@@ -111,6 +114,10 @@ export class Card {
 
     public getImage(): string {
         return this.image;
+    }
+
+    public getImageSmall(): string {
+        return this.imageSmall;
     }
 
     public getCost(): number {
@@ -210,6 +217,10 @@ export class Card {
         this.image = image;
     }
 
+    public setImageSmall(imageSmall: string): void {
+        this.imageSmall = imageSmall;
+    }
+
     public setCost(cost: number): void {
         this.cost = cost;
     }
@@ -282,6 +293,7 @@ export class Card {
             gamemode: ${this.gamemode},
             franchise: ${this.franchise},
             image: ${this.image},
+            imageSmall: ${this.imageSmall},
             cost: ${this.cost},
             inkable: ${this.inkable},
             name: ${this.name},

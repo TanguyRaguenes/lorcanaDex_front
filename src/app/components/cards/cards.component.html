@@ -38,27 +38,23 @@
 
     </div>
 
+    <div class="w-full">
+      <label for="filterOnCardsName" class="block w-full text-grey-600 text-center">Card's name</label>
+      <input type="text" id="filterOnCardsName" name="filterOnCardsName"
+        class="w-full bg-gray-100 rounded border border-gray-300" [(ngModel)]="filterOnCardsName">
+    </div>
+
     <button
       class="w-full text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
       (click)="filterArray()">Filter</button>
   </div>
+
+
 </header>
 
 <main>
   <section class=" text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto">
-
-
-      <!-- <div class="w-11/12 flex items-center justify-between mx-auto">
-        <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
-          (click)="previousPage()">
-          arrow_back_ios_new
-        </span>
-        <span class="material-symbols-rounded text-5xl text-fuchsia-900 hover:scale-150 hover:cursor-pointer"
-          (click)="nextPage()">
-          arrow_forward_ios
-        </span>
-      </div> -->
 
       <div class="flex flex-wrap justify-center">
 
@@ -67,7 +63,7 @@
           <div class="w-11/12 mx-auto">
             <img alt="team"
               class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-150 hover:cursor-pointer"
-              [src]="card.getImage()" [attr.loading]="i > 12 ? 'lazy' : null">
+              [src]="card.getImageSmall()" [attr.loading]="i > 12 ? 'lazy' : null">
 
           </div>
         </a>

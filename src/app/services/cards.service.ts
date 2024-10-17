@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -34,19 +34,23 @@ export class CardsService {
   public getDataFromApiBack(): Observable<any> {
 
     const token = sessionStorage.getItem('jwtToken');
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "x-function-name": 'getDataFromApiBack'
-      }
-    };
+
+    // const headers = {
+    //   headers: {
+    //     Authorization: `Bearer ${token}`
+    //   }
+    // };
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
 
 
     console.log("getDataFromApiBack Authorization :", {
-      headers: headers.headers.Authorization
+      Authorization: `Bearer ${token}`
     });
 
-    const response = this.http.get(`${environment.apiGetCardsFromBDD}`, headers)
+    const response = this.http.get(`${environment.apiGetCardsFromBDD}`, { headers })
 
     return response;
   }
@@ -58,8 +62,7 @@ export class CardsService {
     const token = sessionStorage.getItem('jwtToken');
     const headers = {
       headers: {
-        Authorization: `Bearer ${token}`,
-        "x-function-name": 'bulkData'
+        Authorization: `Bearer ${token}`
       }
     };
 

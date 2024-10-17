@@ -6,11 +6,12 @@ import { CardsService } from '../../services/cards.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-cards',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, FormsModule],
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss'
 })
@@ -20,6 +21,7 @@ export class CardsComponent {
   public cardsFilteredOnColor: Array<Card> = [];
   public cardsFilteredOnOthers: Array<Card> = [];
   public cardsFiltered: Array<Card> = [];
+  public filterOnCardsName: string = "";
 
 
   public cardsToDisplay: Array<Card> = [];
@@ -63,6 +65,7 @@ export class CardsComponent {
             element.Gamemode,
             element.Franchise,
             element.Image,
+            element.ImageSmall,
             element.Cost,
             element.Inkable,
             element.Name,
@@ -176,6 +179,22 @@ export class CardsComponent {
 
   public filterArray(): void {
 
+    console.log(`Filtre sur le nom de la carte ${this.filterOnCardsName}`)
+
+    console.log(this.filtersArray)
+
+    this.filtersArray = this.filtersArray.filter(e =>
+      !(e.getKey() === "name")
+    )
+
+    console.log(this.filtersArray)
+
+    if (this.filterOnCardsName != "") {
+      this.addNewFilter("name", this.filterOnCardsName, null)
+    }
+
+
+
     this.cardsFilteredOnColor = [];
     this.cardsFilteredOnOthers = [];
     this.cardsFiltered = [];
@@ -253,13 +272,24 @@ export class CardsComponent {
 
   }
 
+  // Fonction pour normaliser les chaînes
+  public normalizeString(str: string): string {
+    return str
+      .normalize('NFD') // Décompose les caractères accentués
+      .replace(/[\u0300-\u036f]/g, '') // Supprime les diacritiques (accents)
+      .toUpperCase(); // Met tout en majuscule pour ignorer la casse
+  }
+
+
   public filterOthers(methodName: any, filter: Filter): void {
 
 
     const cardsThatMatchFilter = this.cardsFilteredOnColor.filter(card => {
 
       if (typeof card[methodName as keyof Card] === 'function') {
-        return (card[methodName as keyof Card] as Function).call(card).includes(filter.getValue());
+        // return (card[methodName as keyof Card] as Function).call(card).includes(filter.getValue());
+        return this.normalizeString((card[methodName as keyof Card] as Function).call(card).toString())
+          .includes(this.normalizeString(filter.getValue()));
       } else {
         console.error(`La méthode ${methodName} n'existe pas sur card`);
         return false;
@@ -288,7 +318,6 @@ export class CardsComponent {
     });
 
   }
-
 
 }
 

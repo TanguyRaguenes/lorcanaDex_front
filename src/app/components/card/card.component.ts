@@ -43,6 +43,7 @@ export class CardComponent implements OnInit {
             response[0].Gamemode,
             response[0].Franchise,
             response[0].Image,
+            response[0].ImageSmall,
             response[0].Cost,
             response[0].Inkable,
             response[0].Name,
