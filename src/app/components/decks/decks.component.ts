@@ -98,23 +98,27 @@ export class DecksComponent {
 
   //CREATION DU DECK
 
-  public addDeckToBdd() {
-
-
-
+  public addDeckToBdd(): void {
 
     const deck = new Deck(
 
       this.decksName,
-      "toto",
+      "tanguy.raguenes@gmail.com",
       new Date(),
       new Date(),
       this.inkSelected[0],
       this.inkSelected[1],
 
-    )
+    );
 
-    this.decksService.addDeckToBdd(deck);
+    this.decksService.addDeckToBdd(deck).subscribe({
+      next: (response: any) => {
+        console.log(response);
+      }, error: (e => {
+        console.log(e);
+      })
+
+    });
 
 
   }
