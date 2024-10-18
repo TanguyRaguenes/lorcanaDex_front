@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { Card } from '../../models/Card';
 import { Filter } from '../../models/Filter';
-import { CardsService } from '../../services/cards.service';
+import { CardsService } from '../../services/cardsService';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
