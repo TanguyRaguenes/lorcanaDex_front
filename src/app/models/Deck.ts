@@ -4,17 +4,17 @@ export class Deck {
 
     private deckId: number;
     private deckName: string;
-    private userName: string;
+    private username: string;
     private creationDate: Date;
-    private updateDate: Date;
+    private updateDate: Date | null;
     private firstInk: string;
     private secondInk: string;
     private cardsArray: Array<Card>;
 
-    constructor(deckName: string, userName: string, creationDate: Date, updateDate: Date, firstInk: string, secondInk: string) {
+    constructor(deckName: string, username: string, creationDate: Date, updateDate: Date | null, firstInk: string, secondInk: string) {
         this.deckId = 0;
         this.deckName = deckName;
-        this.userName = userName;
+        this.username = username;
         this.creationDate = creationDate;
         this.updateDate = updateDate;
         this.firstInk = firstInk;
@@ -31,15 +31,15 @@ export class Deck {
         return this.deckName;
     }
 
-    public getUserName(): string {
-        return this.userName;
+    public getUsername(): string {
+        return this.username;
     }
 
     public getCreationDate(): Date {
         return this.creationDate;
     }
 
-    public getUpdateDate(): Date {
+    public getUpdateDate(): Date | null {
         return this.updateDate;
     }
 
@@ -64,8 +64,8 @@ export class Deck {
         this.deckName = deckName;
     }
 
-    public setUserName(userName: string): void {
-        this.userName = userName;
+    public setUsername(username: string): void {
+        this.username = username;
     }
 
     public setCreationDate(creationDate: Date): void {
@@ -92,9 +92,9 @@ export class Deck {
         return `Deck {
             deckId: ${this.deckId},
             deckName: "${this.deckName}",
-            userName: "${this.userName}",
+            username: "${this.username}",
             creationDate: ${this.creationDate.toISOString()},
-            updateDate: ${this.updateDate.toISOString()},
+            updateDate: ${this.updateDate != null ? this.updateDate.toISOString() : null},
             firstInk: "${this.firstInk}",
             secondInk: "${this.secondInk}",
             cards: [${this.cardsArray.map(card => card.toString()).join(", ")}]

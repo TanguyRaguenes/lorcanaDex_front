@@ -24,6 +24,8 @@ export class DecksComponent {
 
   private decksService: DecksService;
 
+  protected userDecks: Array<Deck> = [];
+
 
   // CONSTRUCTEUR
 
@@ -35,7 +37,23 @@ export class DecksComponent {
     ];
     this.decksName = "";
     this.decksService = decksService;
+    this.getDecksFromBdd();
 
+  }
+
+  public getDecksFromBdd(): void {
+    this.userDecks = [];
+    this.decksService.getDecksFromBdd().subscribe({
+      next: (response: Deck[]) => {
+        console.log(response);
+        this.userDecks = response;
+        console.log({
+          "userDecks": this.userDecks
+        })
+      }, error: (e => {
+        console.log(e)
+      })
+    })
   }
 
 
@@ -100,25 +118,39 @@ export class DecksComponent {
 
   public addDeckToBdd(): void {
 
-    const deck = new Deck(
+    const username = sessionStorage.getItem('username');
 
-      this.decksName,
-      "tanguy.raguenes@gmail.com",
-      new Date(),
-      new Date(),
-      this.inkSelected[0],
-      this.inkSelected[1],
+    console.log(`addDeckToBdd ; username : ${username}`)
 
-    );
+    if (username != null) {
 
-    this.decksService.addDeckToBdd(deck).subscribe({
-      next: (response: any) => {
-        console.log(response);
-      }, error: (e => {
-        console.log(e);
-      })
+      const deck = new Deck(
 
-    });
+        this.decksName,
+        username,
+        new Date(),
+        new Date(),
+        this.inkSelected[0],
+        this.inkSelected[1],
+
+      );
+
+      this.decksService.addDeckToBdd(deck).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.getDecksFromBdd();
+        }, error: (e => {
+          console.log(e);
+        })
+
+      });
+
+    } else {
+      console.log("username and/or deck are null")
+    }
+
+
+
 
 
   }

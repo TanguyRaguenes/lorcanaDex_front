@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment.development';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
@@ -35,7 +35,7 @@ export class CardsService {
 
   public getDataFromApiBack(): Observable<any> {
 
-    const token = sessionStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('token');
     const headers = {
       headers: {
         Authorization: `Bearer ${token}`
@@ -58,7 +58,7 @@ export class CardsService {
 
     console.log("bulk data")
 
-    const token = sessionStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('token');
 
     const headers = {
       headers: {
