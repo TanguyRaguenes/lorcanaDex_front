@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, TemplateRef } from '@angular/core';
 
 import { Card } from '../../models/Card';
 import { Filter } from '../../models/Filter';
@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cards.component.scss'
 })
 export class CardsComponent {
+
+  @Input() cardTemplate!: TemplateRef<any>;
 
   public cardsStorage: Array<Card> = [];
   public cardsFilteredOnColor: Array<Card> = [];

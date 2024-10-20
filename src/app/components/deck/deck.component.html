@@ -1,1 +1,14 @@
-<p>deck works!</p>
+<span class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+    (click)="goBack()">arrow_back</span>
+<p *ngIf="deckSelected">{{deckSelected.getDeckName()}}</p>
+
+
+<app-cards [cardTemplate]="cardTemplate"></app-cards>
+
+<ng-template #cardTemplate let-card>
+    <span
+        class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer">add</span>
+    <span
+        class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer">remove</span>
+
+</ng-template>

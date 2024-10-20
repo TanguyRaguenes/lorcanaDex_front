@@ -2,7 +2,7 @@
     <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
 
-            <img src="assets/images/logo.png" alt="Logo" class="w-12 h-12 rounded-full">
+            <img src="assets/images/facilier.png" alt="Logo" class="w-12 h-12 rounded-full">
 
             <span class="ml-3 text-xl">LorcanaDex</span>
         </a>
@@ -12,7 +12,11 @@
             <a class="mr-5 hover:text-gray-900" routerLink="cards">Cards</a>
             <a class="mr-5 hover:text-gray-900" routerLink="decks">Decks</a>
 
+
         </nav>
+
+        <span class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+            (click)="logout()">logout</span>
         <!-- <button
             class="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">Button
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

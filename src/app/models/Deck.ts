@@ -2,7 +2,7 @@ import { Card } from "./Card";
 
 export class Deck {
 
-    private deckId: number;
+    private deckId: number | null;
     private deckName: string;
     private username: string;
     private creationDate: Date;
@@ -11,8 +11,8 @@ export class Deck {
     private secondInk: string;
     private cardsArray: Array<Card>;
 
-    constructor(deckName: string, username: string, creationDate: Date, updateDate: Date | null, firstInk: string, secondInk: string) {
-        this.deckId = 0;
+    constructor(deckId: number | null, deckName: string, username: string, creationDate: Date, updateDate: Date | null, firstInk: string, secondInk: string) {
+        this.deckId = deckId;
         this.deckName = deckName;
         this.username = username;
         this.creationDate = creationDate;
@@ -23,7 +23,7 @@ export class Deck {
     }
 
     // Getters
-    public getDeckId(): number {
+    public getDeckId(): number | null {
         return this.deckId;
     }
 

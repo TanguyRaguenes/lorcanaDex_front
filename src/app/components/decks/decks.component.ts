@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Deck } from '../../models/Deck';
 import { DecksService } from '../../services/decks.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-decks',
@@ -16,48 +17,51 @@ export class DecksComponent {
 
   // ATTRIBUTS
 
-  public inkImgNameArray: Array<string>;
+  protected inkImgNameArray: Array<string>;
 
-  public inkSelected: Array<string>;
+  protected inksSelected: Array<string>;
 
-  public decksName: string;
+  protected deckNameChosen: string;
 
-  private decksService: DecksService;
+  protected userDecks: Array<Deck>;
 
-  protected userDecks: Array<Deck> = [];
-
+  protected showErrorDeckNameChosenAlreadyUsed: boolean;
+  protected showErrorNoDeckNameChosen: boolean;
+  protected showErrorNoInkSelected: boolean;
 
   // CONSTRUCTEUR
 
-  constructor(decksService: DecksService) {
+  constructor(private decksService: DecksService, private router: Router) {
 
-    this.inkSelected = [];
+    this.inksSelected = [];
     this.inkImgNameArray = [
       "Amber.png", "Amethyst.png", "Emerald.png", "Ruby.png", "Sapphire.png", "Steel.png"
     ];
-    this.decksName = "";
-    this.decksService = decksService;
+    this.deckNameChosen = "";
+    this.userDecks = [];
+    this.showErrorDeckNameChosenAlreadyUsed = false;
+    this.showErrorNoDeckNameChosen = false;
+    this.showErrorNoInkSelected = false;
     this.getDecksFromBdd();
 
   }
 
-  public getDecksFromBdd(): void {
-    this.userDecks = [];
-    this.decksService.getDecksFromBdd().subscribe({
-      next: (response: Deck[]) => {
-        console.log(response);
-        this.userDecks = response;
-        console.log({
-          "userDecks": this.userDecks
-        })
-      }, error: (e => {
-        console.log(e)
-      })
-    })
+  //METHODES :
+
+  // EDITER LE DECK
+
+  public editDeck(deckId: number) {
+
+    const deck: Deck | undefined = this.userDecks.find(e => e.getDeckId() == deckId)
+
+    if (deck) {
+      sessionStorage.setItem("deckSelected", JSON.stringify(deck))
+      this.router.navigate(["/deck"])
+    }
+
   }
 
-
-  // AFFICHAGE DE LA MODAL
+  // AFFICHAGE MODAL
 
   public ToggleVisibilityFiltersModal() {
 
@@ -84,15 +88,15 @@ export class DecksComponent {
     console.log(element.id)
 
 
-    if (element.classList.contains("grayscale") && this.inkSelected.length < 2) {
+    if (element.classList.contains("grayscale") && this.inksSelected.length < 2) {
       element.classList.remove("grayscale");
       element.classList.add("grayscale-0");
       element.classList.add("scale-150");
-      this.inkSelected.push(element.id);
+      this.inksSelected.push(element.id);
     } else {
 
 
-      element.classList.contains("grayscale") ? null : this.inkSelected = this.inkSelected.filter(e => e != element.id);
+      element.classList.contains("grayscale") ? null : this.inksSelected = this.inksSelected.filter(e => e != element.id);
 
       element.classList.add("grayscale");
       element.classList.remove("grayscale-0")
@@ -100,7 +104,7 @@ export class DecksComponent {
 
     }
 
-    console.log(this.inkSelected)
+    console.log(this.inksSelected)
 
   }
 
@@ -114,9 +118,30 @@ export class DecksComponent {
 
   }
 
-  //CREATION DU DECK
+  //AJOUT DECK BDD
 
   public addDeckToBdd(): void {
+
+    this.showErrorDeckNameChosenAlreadyUsed = false;
+    this.showErrorNoDeckNameChosen = false;
+    this.showErrorNoInkSelected = false;
+
+    const deckExists = this.userDecks.some((e: Deck) => e.getDeckName() === this.deckNameChosen);
+
+    if (deckExists) {
+      this.showErrorDeckNameChosenAlreadyUsed = true;
+      return;
+    }
+
+    if (this.inksSelected.length < 1) {
+      this.showErrorNoInkSelected = true;
+      return;
+    }
+
+    if (this.deckNameChosen === "") {
+      this.showErrorNoDeckNameChosen = true;
+      return;
+    }
 
     const username = sessionStorage.getItem('username');
 
@@ -125,13 +150,13 @@ export class DecksComponent {
     if (username != null) {
 
       const deck = new Deck(
-
-        this.decksName,
+        null,
+        this.deckNameChosen,
         username,
         new Date(),
         new Date(),
-        this.inkSelected[0],
-        this.inkSelected[1],
+        this.inksSelected[0],
+        this.inksSelected[1],
 
       );
 
@@ -139,6 +164,7 @@ export class DecksComponent {
         next: (response: any) => {
           console.log(response);
           this.getDecksFromBdd();
+          this.ToggleVisibilityFiltersModal();
         }, error: (e => {
           console.log(e);
         })
@@ -149,12 +175,36 @@ export class DecksComponent {
       console.log("username and/or deck are null")
     }
 
-
-
-
-
   }
 
+  //RECUPERATION DECKS BDD
 
+  public getDecksFromBdd(): void {
+    this.userDecks = [];
+    this.decksService.getDecksFromBdd().subscribe({
+      next: (response: Deck[]) => {
+        console.log(response);
+        this.userDecks = response;
+        console.log({
+          "userDecks": this.userDecks
+        })
+      }, error: (e => {
+        console.log(e)
+      })
+    })
+  }
+
+  //SUPPRESSION DECK BDD
+
+  public removeDeckFromBdd(deckId: number | null) {
+    this.decksService.removeDeckFromBdd(deckId).subscribe({
+      next: (response: JSON) => {
+        console.log(response);
+        this.getDecksFromBdd()
+      }, error: (e => {
+        console.log(e);
+      })
+    });
+  }
 
 }

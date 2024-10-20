@@ -3,6 +3,8 @@ import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CardsComponent } from './components/cards/cards.component';
+import { DeckComponent } from './components/deck/deck.component';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,8 @@ export class AppComponent {
 
   }
 
-  isLoginPage(): boolean {
-    return this.router.url === '/';
+  hideNavbar(): boolean {
+    return this.router.url === '/' || this.router.url === '/deck';
   }
 
 }

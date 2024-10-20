@@ -19,14 +19,18 @@
     </div>
 
     <div class="w-full">
-        <label for="decksName" class="block w-full text-blue-600 text-center text-2xl">Deck's name</label>
-        <input type="text" id="decksName" name="decksName" class="w-full bg-gray-100 rounded border border-gray-300"
-            [(ngModel)]="decksName">
+        <label for="deckNameChosen" class="block w-full text-blue-600 text-center text-2xl">Deck's name</label>
+        <input type="text" id="deckNameChosen" name="deckNameChosen"
+            class="w-full bg-gray-100 rounded border border-gray-300" [(ngModel)]="deckNameChosen">
     </div>
 
     <button
         class="w-full text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
         (click)="addDeckToBdd()">Create deck</button>
+
+    <P *ngIf="showErrorDeckNameChosenAlreadyUsed">This deck's name is already used !</P>
+    <P *ngIf="showErrorNoDeckNameChosen">You must chose a deck's name</P>
+    <P *ngIf="showErrorNoInkSelected">You must select at least one ink !</P>
 
 </div>
 
@@ -54,10 +58,16 @@
 
                 </div>
             </div>
-            <img [src]="'/assets/images/inks/' + deck.getFirstInk()" alt="" [id]="deck.getFirstInk()"
+            <img [src]="'/assets/images/inks/' + deck.getFirstInk()" alt=""
                 class="object-contain object-center max-w-full h-auto max-h-16">
-            <img [src]="'/assets/images/inks/' + deck.getSecondInk()" alt="" [id]="deck.getSecondInk()"
+            <img [src]="'/assets/images/inks/' + deck.getSecondInk()" alt=""
                 class="object-contain object-center max-w-full h-auto max-h-16">
+            <span
+                class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+                (click)="editDeck(deck.getDeckId()!)">edit</span>
+            <span
+                class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+                (click)="removeDeckFromBdd(deck.getDeckId())">delete</span>
         </div>
 
 
