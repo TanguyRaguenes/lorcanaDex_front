@@ -6,9 +6,10 @@
 <app-cards [cardTemplate]="cardTemplate"></app-cards>
 
 <ng-template #cardTemplate let-card>
-    <span
-        class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer">add</span>
-    <span
-        class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer">remove</span>
+    <span class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+        (click)="addCardToDeck(card.getUniqueId())">add</span>
+    <span class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
+        (click)="removeCardFromDeck(card.getUniqueId())">remove</span>
+    <span>{{ getCardNumberOfCopies(card.getUniqueId()) }}</span>
 
 </ng-template>
