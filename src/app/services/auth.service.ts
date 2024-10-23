@@ -36,7 +36,7 @@ export class AuthService {
       () => {
         this.renewToken();
       }
-      , 1000 * 60 * 1)
+      , 1000 * 60 * 25)
   }
 
   public renewToken(): void {

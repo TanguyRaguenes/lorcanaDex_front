@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { environment } from '../../environments/environment.development';
-import { HttpClient} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { map, Observable } from 'rxjs';
+import { Card } from '../models/Card';
 
 
 @Injectable({
@@ -33,20 +34,48 @@ export class CardsService {
 
   //Récupérer toutes les cartes de la BDD
 
-  public getDataFromApiBack(): Observable<any> {
+  public getAllCards(): Observable<Array<Card>> {
 
     const token = sessionStorage.getItem('token');
-    const headers = {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    };
 
-    console.log("getDataFromApiBack Authorization :", {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+
+    console.log("getAllCards Authorization :", {
       Authorization: `Bearer ${token}`
     });
 
-    const response = this.http.get(`${environment.apiGetCardsFromBDD}`, headers)
+    const response = this.http.get<Array<any>>(`${environment.apiGetCardsFromBDD}`, { headers }).pipe(
+      map(response => response.map(e => new Card(
+
+        e.Artist,
+        e.Set_Name,
+        e.Classifications,
+        e.Date_Added,
+        e.Set_Num,
+        e.Color,
+        e.Gamemode,
+        e.Franchise,
+        e.Image,
+        e.ImageSmall,
+        e.Cost,
+        e.Inkable,
+        e.Name,
+        e.Type,
+        e.Lore,
+        e.Rarity,
+        e.Flavor_Text,
+        e.Unique_ID,
+        e.Card_Num,
+        e.Body_Text,
+        e.Willpower,
+        e.Card_Variants,
+        e.Date_Modified,
+        e.Strength,
+        e.Set_ID
+
+      ))));
 
     return response;
   }

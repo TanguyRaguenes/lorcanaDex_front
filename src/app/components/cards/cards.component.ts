@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Card } from '../../models/Card';
 import { Filter } from '../../models/Filter';
@@ -16,8 +16,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './cards.component.scss'
 })
 export class CardsComponent {
-
-  @Input() cardTemplate!: TemplateRef<any>;
 
   public cardsStorage: Array<Card> = [];
   public cardsFilteredOnColor: Array<Card> = [];
@@ -44,61 +42,27 @@ export class CardsComponent {
 
 
   constructor(private readonly cardsService: CardsService) {
-    this.getDataFromApiBack();
+    this.getAllCards();
   }
 
 
   //Récupération à partir BDD de l'ensemble des cartes
 
-  public getDataFromApiBack(): void {
-    const data = this.cardsService.getDataFromApiBack().subscribe({
-      next: (response: any) => {
-        console.log("Réponse API back")
-        console.log(response);
-        this.cardsStorage = [];
-        response.forEach((element: any) => {
-          let card = new Card(
-            element.Artist,
-            element.Set_Name,
-            element.Classifications,
-            element.Date_Added,
-            element.Set_Num,
-            element.Color,
-            element.Gamemode,
-            element.Franchise,
-            element.Image,
-            element.ImageSmall,
-            element.Cost,
-            element.Inkable,
-            element.Name,
-            element.Type,
-            element.Lore,
-            element.Rarity,
-            element.Flavor_Text,
-            element.Unique_ID,
-            element.Card_Num,
-            element.Body_Text,
-            element.Willpower,
-            element.Card_Variants,
-            element.Date_Modified,
-            element.Strength,
-            element.Set_ID
-          );
-          this.cardsStorage.push(card);
-          this.cardsFiltered.push(card);
-        });
+  public getAllCards(): void {
+    const data = this.cardsService.getAllCards().subscribe({
+      next: (response: Array<Card>) => {
         console.log({
-          "cardsStorage": this.cardsStorage,
-          "length": this.cardsStorage.length
+          'response': response
         })
-
+        this.cardsStorage = [...response];
+        this.cardsFiltered = [...response];
         this.displayCards();
-      }
+
+      }, error: (e => {
+        console.error('Erreur lors de la récupération des cartes :', e);
+      })
     })
-
   }
-
-
 
   public displayCards(): void {
 
