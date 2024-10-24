@@ -3,29 +3,30 @@
 <p *ngIf="deckSelected">{{deckSelected.getDeckName()}}</p>
 
 <main>
-    <section class=" text-gray-600 body-font">
+    <section class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
 
-            <div class="flex flex-wrap justify-center">
+            <div class="flex flex-wrap justify-center gap-6">
 
-                <a class="p-2 w-1/3 md:w-1/4 lg:w-1/5 card" *ngFor="let card of cardsFiltered; let i = index">
+                <a class="p-4 w-full md:w-1/4 lg:w-1/5 card bg-white rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                    *ngFor="let card of cardsFiltered; let i = index">
 
-                    <span
-                        class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
-                        (click)="addCardToDeck(card.getUniqueId())">add</span>
+                    <div class="flex justify-between items-center mb-4">
+                        <span
+                            class="material-symbols-rounded text-4xl text-fuchsia-900 hover:text-fuchsia-700 transition-transform transform hover:scale-125 hover:cursor-pointer"
+                            (click)="addCardToDeck(card.getUniqueId())">add</span>
 
-                    <span
-                        class="material-symbols-rounded text-5xl text-fuchsia-900 mx-auto hover:scale-150 hover:cursor-pointer"
-                        (click)="removeCardFromDeck(card.getUniqueId())">remove</span>
+                        <span class="text-lg font-semibold text-gray-700">{{ getCardNumberOfCopies(card.getUniqueId())
+                            }}</span>
 
+                        <span
+                            class="material-symbols-rounded text-4xl text-fuchsia-900 hover:text-fuchsia-700 transition-transform transform hover:scale-125 hover:cursor-pointer"
+                            (click)="removeCardFromDeck(card.getUniqueId())">remove</span>
+                    </div>
 
-                    <span>{{ getCardNumberOfCopies(card.getUniqueId()) }}</span>
-
-                    <div class="w-11/12 mx-auto">
-                        <img alt="team"
-                            class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-150 hover:cursor-pointer"
+                    <div class="w-full mx-auto">
+                        <img alt="card image" class="rounded-lg object-contain object-center hover:cursor-pointer"
                             [src]="card.getImageSmall()" [attr.loading]="i > 12 ? 'lazy' : null">
-
                     </div>
 
                 </a>
@@ -35,17 +36,23 @@
     </section>
 
     <div id="deckListDiv" (click)="toggleShowDeckList()" class="w-full h-16 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 border-t-4  bottom-0 fixed text-fuchsia-50
-        hover:cursor-pointer hover:scale-125 transition-all duration-700 ease-in-out ">
-        <div *ngIf="showDeckList" class="w-full h-full flex flex-wrap justify-center ">
-            <a class="p-2 w-1/3 md:w-1/4 lg:w-1/5 card" *ngFor="let card of deckCardsArray; let i = index">
+        hover:cursor-pointer hover:scale-125 transition-all duration-700 ease-in-out overflow-y-auto">
+        <p class="text-center">show deck's card</p>
+        <div *ngIf="showDeckList" class="flex flex-wrap justify-center ">
 
-                <span>{{ getCardNumberOfCopies(card.getUniqueId()) }}</span>
+            <a class="p-4 m-4 w-full md:w-1/4 lg:w-1/5 card bg-white rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                *ngFor="let card of deckCardsArray; let i = index">
 
-                <div class="w-11/12 mx-auto">
-                    <img alt="team"
-                        class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-150 hover:cursor-pointer"
+                <div class="flex justify-between items-center">
+
+                    <span class="w-full text-center text-lg font-semibold text-gray-700">{{
+                        getCardNumberOfCopies(card.getUniqueId())}}</span>
+
+                </div>
+
+                <div class="w-full mx-auto">
+                    <img alt="card image" class="rounded-lg object-contain object-center hover:cursor-pointer"
                         [src]="card.getImageSmall()" [attr.loading]="i > 12 ? 'lazy' : null">
-
                 </div>
 
             </a>
