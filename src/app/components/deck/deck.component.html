@@ -2,6 +2,8 @@
     (click)="goBack()">arrow_back</span>
 <p *ngIf="deckSelected">{{deckSelected.getDeckName()}}</p>
 
+<app-filters></app-filters>
+
 <main>
     <section class="text-gray-600 body-font">
         <div class="container px-5 py-24 mx-auto">
@@ -41,7 +43,7 @@
         <div *ngIf="showDeckList" class="flex flex-wrap justify-center ">
 
             <a class="p-4 m-4 w-full md:w-1/4 lg:w-1/5 card bg-white rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-                *ngFor="let card of deckCardsArray; let i = index">
+                *ngFor="let card of cardsToDisplay; let i = index">
 
                 <div class="flex justify-between items-center">
 

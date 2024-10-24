@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Deck } from '../../models/Deck';
 import { DecksService } from '../../services/decks.service';
 import { Router } from '@angular/router';
+import { CardsService } from '../../services/cardsService';
 
 @Component({
   selector: 'app-decks',
@@ -16,8 +17,12 @@ export class DecksComponent {
 
 
   // ATTRIBUTS
-
-  protected inkImgNameArray: Array<string>;
+  private cardsService: CardsService;
+  private decksService: DecksService;
+  private router: Router;
+  
+  protected colors: Array<string>;
+  protected rarities: Array<string>;
 
   protected inksSelected: Array<string>;
 
@@ -31,12 +36,16 @@ export class DecksComponent {
 
   // CONSTRUCTEUR
 
-  constructor(private decksService: DecksService, private router: Router) {
+  constructor(cardsService: CardsService, decksService: DecksService, router: Router) {
+
+    this.cardsService = cardsService;
+    this.decksService = decksService;
+    this.router = router;
+    this.colors = [...this.cardsService.getColors()];
+    this.rarities = [...this.cardsService.getRarities()];
+
 
     this.inksSelected = [];
-    this.inkImgNameArray = [
-      "Amber.png", "Amethyst.png", "Emerald.png", "Ruby.png", "Sapphire.png", "Steel.png"
-    ];
     this.deckNameChosen = "";
     this.userDecks = [];
     this.showErrorDeckNameChosenAlreadyUsed = false;
