@@ -1,22 +1,27 @@
 <app-filters></app-filters>
+
+
 <main>
-  <section class=" text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
 
-      <div class="flex flex-wrap justify-center">
 
-        <a class="p-2 w-1/2 md:w-1/3 lg:w-1/4 card" *ngFor="let card of cardsToDisplay; let i = index">
+  <!-- AFFICHAGE CARTES -->
 
-          <div class="w-11/12 mx-auto">
-            <img alt="team"
-              class="rounded-lg object-contain object-center transition-all duration-300 hover:scale-150 hover:cursor-pointer"
-              [src]="card.getImageSmall()" [attr.loading]="i > 12 ? 'lazy' : null">
+  <section>
 
-          </div>
+    <div class="flex flex-wrap justify-center">
 
-        </a>
+      <div *ngFor="let card of cardsToDisplay; let i = index" class="p-2  w-1/2 md:w-1/3 lg:w-1/4">
+
+        <img alt="card"
+          class="rounded-lg object-contain object-center transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl"
+          [src]="card.getImageSmall()" [attr.loading]="i > 12 ? 'lazy' : null">
 
       </div>
+
     </div>
+
   </section>
+
+
+
 </main>

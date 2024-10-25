@@ -16,7 +16,7 @@ export class FiltersComponent {
   // ATTRIBUTS
   private cardsService: CardsService;
 
-  protected filterOnCardsName: string;
+  protected nameFilter: string;
   protected colors: Array<string>;
   protected rarities: Array<string>;
   protected filters: Array<Filter>;
@@ -25,7 +25,7 @@ export class FiltersComponent {
   // CONTRUCTEUR
   constructor(cardsService: CardsService) {
     this.cardsService = cardsService;
-    this.filterOnCardsName = "";
+    this.nameFilter = "";
     this.filters = [];
     this.colors = [...this.cardsService.getColors()]
     this.rarities = [...this.cardsService.getRarities()];
@@ -62,13 +62,32 @@ export class FiltersComponent {
     }
   }
 
-  public filterArray(): void {
-    console.log("filterArray")
-  }
 
-  public addNewFilter(id: string, key: string, value: string): void {
-    this.toggleGrayscale(id);
-    const filter = new Filter(key, value);
+  public addNewFilter(idImg: string | null, key: string, value: string): void {
+
+
+    idImg != null ? this.toggleGrayscale(idImg) : null;
+
+    let priority: number;
+
+    switch (key) {
+      case "color":
+        priority = 1;
+        break;
+      case "rarity":
+        priority = 2;
+        break;
+
+      case "name":
+        priority = 10;
+        break;
+
+      default:
+        priority = 10;
+        break;
+    }
+
+    const filter = new Filter(priority, key, value);
 
     if (this.filters.some(e => e.getValue() === filter.getValue())) {
       this.filters = this.filters.filter(e => e.getValue() != filter.getValue())
@@ -80,8 +99,26 @@ export class FiltersComponent {
       "filter": this.filters
     })
 
+  }
 
+
+  public filterCards(): void {
+
+    this.filters = this.filters.filter(e => e.getKey() != "name");
+
+    if (this.nameFilter != "" && this.nameFilter != null) {
+      this.addNewFilter(null, "name", this.nameFilter)
+    }
+
+    console.log("filterCards")
+    this.filters.sort((a, b) => a.getPriority() - b.getPriority())
+    this.cardsService.filterCards(this.filters)
+
+    this.toggleModal();
 
   }
+
+
+
 
 }

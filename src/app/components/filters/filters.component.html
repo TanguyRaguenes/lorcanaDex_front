@@ -19,7 +19,7 @@
         </div>
 
 
-        <!-- INKS -->
+        <!-- COLOR -->
 
         <div class="w-1/2 flex flex-wrap justify-center items-center mx-auto h-60">
 
@@ -31,7 +31,7 @@
 
         </div>
 
-        <!-- RARITIES -->
+        <!-- RARITY -->
 
         <div id="raritiesContainer" class="flex flex-wrap justify-center items-center w-1/2 mx-auto h-60">
 
@@ -43,15 +43,18 @@
 
         </div>
 
+
+        <!-- NAME -->
+
         <div class="w-full">
             <label for="filterOnCardsName" class="block w-full text-grey-600 text-center">Card's name</label>
             <input type="text" id="filterOnCardsName" name="filterOnCardsName"
-                class="w-full bg-gray-100 rounded border border-gray-300" [(ngModel)]="filterOnCardsName">
+                class="w-full bg-gray-100 rounded border border-gray-300" [(ngModel)]="nameFilter">
         </div>
 
         <button
             class="w-full text-white bg-gradient-to-r from-pink-400 to-yellow-400 border-0 py-3 px-10 focus:outline-none hover:from-pink-500 hover:to-yellow-500 rounded-lg text-xl shadow-lg transform transition-transform duration-200 ease-in-out hover:scale-105 active:scale-95 fixed bottom-0"
-            (click)="filterArray()">Filter</button>
+            (click)="filterCards()">Filter</button>
     </div>
 
 </header>

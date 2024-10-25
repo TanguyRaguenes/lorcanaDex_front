@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Deck } from '../../models/Deck';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ import { FiltersComponent } from '../filters/filters.component';
   templateUrl: './deck.component.html',
   styleUrl: './deck.component.scss'
 })
-export class DeckComponent {
+export class DeckComponent implements OnInit {
 
 
   // ATTRIBUTS
@@ -41,7 +41,8 @@ export class DeckComponent {
 
     this.router = router;
     this.cardsService = cardsService;
-    this.cardsToDisplay = [...this.cardsService.getFilteredCards()];
+    this.cardsToDisplay = [];
+
 
 
     this.showDeckList = false;
@@ -64,85 +65,102 @@ export class DeckComponent {
 
 
   }
+  ngOnInit(): void {
+    this.cardsService.getCardsToDisplay().subscribe({
+      next: (response: Array<Card>) => {
+        this.cardsToDisplay = [...response]
+      }, error: (e => {
+        console.log("ngOnInit error " + e)
+      })
+    });
+  }
 
+
+  // METHODES
+
+
+
+  // RETOUR A L'ECRAN DES DECKS
 
   public goBack() {
     this.router.navigate(["/decks"])
   }
 
 
-  // public addCardToDeck(uniqueId: string): void {
+  // AJOUTER UNE CARTE AU DECK
 
-  //   const cardFiltered: Card = this.cardsStorage.filter(e => e.getUniqueId() === uniqueId)[0];
-
-  //   const numberOfCopies: number = this.deckCardsMap.get(uniqueId) || 0;
+  public addCardToDeck(uniqueId: string): void {
 
 
-
-  //   if (numberOfCopies < 4 && this.deckColors.includes(cardFiltered.getColor() + ".png")) {
-  //     console.log("ajout")
-  //     this.deckCardsMap.set(uniqueId, numberOfCopies + 1);
-
-  //   } else {
-  //     console.log("pas d'ajout")
-  //   }
-
-  //   console.log(this.deckCardsMap);
-
-  // }
-
-  // public removeCardFromDeck(uniqueId: string): void {
-
-  //   let numberOfCopies: number = this.deckCardsMap.get(uniqueId) || 0;
-
-  //   if (numberOfCopies > 1) {
-  //     console.log("retranche")
-  //     this.deckCardsMap.set(uniqueId, numberOfCopies - 1);
-  //   } else {
-  //     this.deckCardsMap.delete(uniqueId);
-  //     console.log("suppression")
-  //   }
-
-  //   console.log(this.deckCardsMap);
-
-  // }
-
-  // public getCardNumberOfCopies(uniqueId: string): number {
-  //   return this.deckCardsMap.get(uniqueId) || 0;
-  // }
-
-  // public toggleShowDeckList() {
-
-  //   console.log("show");
-
-  //   const deckListDiv = document.getElementById("deckListDiv") as HTMLDivElement;
-
-  //   if (deckListDiv.classList.contains("h-16")) {
-  //     deckListDiv.classList.add("h-full");
-  //     deckListDiv.classList.remove("hover:scale-125")
-  //     deckListDiv.classList.remove("h-16");
-  //     this.updateDeckCardsArray()
-  //     this.showDeckList = true;
-
-  //   } else {
-  //     deckListDiv.classList.remove("h-full");
-  //     deckListDiv.classList.add("hover:scale-125")
-  //     deckListDiv.classList.add("h-16");
-  //     this.showDeckList = false;
-  //   }
+    const cardFiltered: Card = this.cardsService.getAllCards().filter(e => e.getUniqueId() === uniqueId)[0];
+    const numberOfCopies: number = this.getCardNumberOfCopies(uniqueId);
 
 
 
-  // }
+    if (numberOfCopies < 4) {
+      console.log("ajout")
+      this.deckCardsMap.set(uniqueId, numberOfCopies + 1);
 
-  // public updateDeckCardsArray() {
-  //   this.deckCardsArray = [];
-  //   this.deckCardsMap.forEach((value, key) => {
-  //     const card: Card | undefined = this.cardsStorage.find(e => e.getUniqueId() === key);
-  //     if (card) {
-  //       this.deckCardsArray.push(card);
-  //     }
-  //   })
-  // }
+    } else {
+      console.log("pas d'ajout")
+    }
+
+    console.log(this.deckCardsMap);
+
+  }
+
+  public removeCardFromDeck(uniqueId: string): void {
+
+    let numberOfCopies: number = this.getCardNumberOfCopies(uniqueId);
+
+    if (numberOfCopies > 1) {
+      console.log("retranche")
+      this.deckCardsMap.set(uniqueId, numberOfCopies - 1);
+    } else {
+      this.deckCardsMap.delete(uniqueId);
+      console.log("suppression")
+    }
+
+    console.log(this.deckCardsMap);
+
+  }
+
+  // RECUPERATION NB EXEMPLAIRES CARTE DANS DECK
+
+  public getCardNumberOfCopies(uniqueId: string): number {
+    return this.deckCardsMap.get(uniqueId) || 0;
+  }
+
+  public toggleShowDeckList() {
+
+    console.log("show");
+
+    const deckListDiv = document.getElementById("deckListDiv") as HTMLDivElement;
+
+    if (deckListDiv.classList.contains("h-16")) {
+      deckListDiv.classList.add("h-full");
+      deckListDiv.classList.remove("hover:scale-125")
+      deckListDiv.classList.remove("h-16");
+      this.updateDeckCardsArray()
+      this.showDeckList = true;
+
+    } else {
+      deckListDiv.classList.remove("h-full");
+      deckListDiv.classList.add("hover:scale-125")
+      deckListDiv.classList.add("h-16");
+      this.showDeckList = false;
+    }
+
+  }
+
+  public updateDeckCardsArray() {
+    this.deckCardsArray = [];
+    this.deckCardsMap.forEach((value, key) => {
+      const card: Card | undefined = this.cardsService.getAllCards().find(e => e.getUniqueId() === key);
+      if (card) {
+        this.deckCardsArray.push(card);
+      }
+    })
+  }
 
 }

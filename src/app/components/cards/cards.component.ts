@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Card } from '../../models/Card';
 import { CardsService } from '../../services/cardsService';
@@ -16,8 +16,6 @@ import { FiltersComponent } from '../filters/filters.component';
 })
 export class CardsComponent {
 
-
-
   // ATTRIBUTS
   private cardsService: CardsService;
 
@@ -25,9 +23,21 @@ export class CardsComponent {
 
   // CONSTRUCTEUR
   constructor(cardsService: CardsService) {
+
     this.cardsService = cardsService;
-    this.cardsToDisplay = [...this.cardsService.getFilteredCards()];
+    this.cardsToDisplay = [];
+
+    this.cardsService.getCardsToDisplay().subscribe({
+      next: (response: Array<Card>) => {
+        this.cardsToDisplay = [...response]
+      }, error: (e => {
+        console.log("ngOnInit error " + e)
+      })
+    });
+
+
   }
+
 
 }
 
