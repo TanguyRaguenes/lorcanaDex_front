@@ -1,0 +1,96 @@
+<section *ngIf="isModalVisible" class="z-50 w-full h-full mx-auto bg-white fixed top-0 overflow-y-auto">
+
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="w-10 h-10" (click)="toggleIsModalVisible()">
+        <path stroke-linecap=" round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+    </svg>
+
+    <div class="w-11/12 h-auto mx-auto">
+
+        <img *ngIf="cardToDisplay" alt="card" class="rounded-lg object-contain object-center"
+            [src]="cardToDisplay.getImage()">
+
+    </div>
+
+    <div *ngIf="cardToDisplay" class="w-11/12 mx-auto p-4 border rounded-lg shadow-lg bg-white">
+
+        <table class="w-full text-left">
+            <tbody>
+                <tr>
+                    <td class="font-semibold p-2">Card Number</td>
+                    <td class="p-2">{{ cardToDisplay.getCardNum() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Name</td>
+                    <td class="p-2">{{ cardToDisplay.getName() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Set Number</td>
+                    <td class="p-2">{{ cardToDisplay.getSetNum() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Set ID</td>
+                    <td class="p-2">{{ cardToDisplay.getSetId() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Set Name</td>
+                    <td class="p-2">{{ cardToDisplay.getLorcanaSetName() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Classifications</td>
+                    <td class="p-2">{{ cardToDisplay.getClassifications() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Rarity</td>
+                    <td class="p-2">{{ cardToDisplay.getRarity() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Type</td>
+                    <td class="p-2">{{ cardToDisplay.getType() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Color</td>
+                    <td class="p-2">{{ cardToDisplay.getColor() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Cost</td>
+                    <td class="p-2">{{ cardToDisplay.getCost() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Inkable</td>
+                    <td class="p-2">{{ cardToDisplay.isInkable() ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Lore</td>
+                    <td class="p-2">{{ cardToDisplay.getLore() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Willpower</td>
+                    <td class="p-2">{{ cardToDisplay.getWillpower() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Strength</td>
+                    <td class="p-2">{{ cardToDisplay.getStrength() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Body Text</td>
+                    <td class="p-2">{{ cardToDisplay.getBodyText() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Flavor Text</td>
+                    <td class="p-2">{{ cardToDisplay.getFlavorText() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Artist</td>
+                    <td class="p-2">{{ cardToDisplay.getArtist() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Card Variants</td>
+                    <td class="p-2">{{ cardToDisplay.getCardVariants() }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</section>

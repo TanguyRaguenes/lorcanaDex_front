@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Filter } from '../../models/Filter';
 import { FormsModule } from '@angular/forms';
 import { CardsService } from '../../services/cardsService';
@@ -11,7 +11,7 @@ import { CardsService } from '../../services/cardsService';
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.scss'
 })
-export class FiltersComponent {
+export class FiltersComponent implements OnInit {
 
   // ATTRIBUTS
   private cardsService: CardsService;
@@ -20,6 +20,8 @@ export class FiltersComponent {
   protected colors: Array<string>;
   protected rarities: Array<string>;
   protected filters: Array<Filter>;
+  protected isModalInitialized: boolean;
+  protected isModalVisible: boolean;
 
 
   // CONTRUCTEUR
@@ -29,22 +31,17 @@ export class FiltersComponent {
     this.filters = [];
     this.colors = [...this.cardsService.getColors()]
     this.rarities = [...this.cardsService.getRarities()];
+    this.isModalVisible = false;
+    this.isModalInitialized = false;
+  }
+  ngOnInit(): void {
+    this.isModalInitialized = true;
   }
 
   // METHODES
 
   public toggleModal(): void {
-
-    const modal = document.getElementById("modal") as HTMLDivElement;
-
-    if (modal.classList.contains("hidden")) {
-      modal.classList.remove("hidden")
-      modal.classList.add("block")
-    } else {
-      modal.classList.remove("block")
-      modal.classList.add("hidden")
-    }
-
+    this.isModalVisible = !this.isModalVisible;
   }
 
   public toggleGrayscale(id: string): void {

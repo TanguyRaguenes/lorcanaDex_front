@@ -4,20 +4,32 @@
 @tailwind utilities;
 
 
-h1,
-h2,
-h3 {
+// h1,
+// h2,
+// h3 {
 
-    font-family: "Satisfy", cursive;
-    font-weight: 400;
-    font-style: normal;
+//     font-family: "Satisfy", cursive;
+//     font-weight: 400;
+//     font-style: normal;
 
+// }
+
+// body {
+
+//     font-family: "Roboto", sans-serif;
+//     font-weight: 500;
+//     font-style: normal;
+
+// }
+
+.tw_btn {
+    @apply h-10 w-40 m-2 text-white bg-gradient-to-r from-purple-400 to-pink-400 shadow-lg border-2 border-purple-300 rounded-md hover:scale-105 hover:shadow-2xl hover:border-pink-300 hover:from-pink-400 hover:to-purple-400 transition-all duration-300 ease-in-out
 }
 
-body {
+.tw_input {
+    @apply h-10 text-center bg-white rounded-lg border border-purple-300 outline-none focus:ring-1 focus:ring-purple-500 shadow-inner
+}
 
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-
+.tw_svg {
+    @apply m-1 transform transition-all duration-200 hover:scale-125 hover:shadow-2xl h-8 w-8 hover:text-purple-700
 }

@@ -3,6 +3,7 @@ import { Deck } from '../models/Deck';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { Card } from '../models/Card';
 
 @Injectable({
   providedIn: 'root'
