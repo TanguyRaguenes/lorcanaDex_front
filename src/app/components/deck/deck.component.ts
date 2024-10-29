@@ -24,7 +24,7 @@ export class DeckComponent implements OnInit {
   // ATTRIBUTS
 
   protected deckSelected: Deck | null = null;
-  protected deckCardsMap: Map<String, number> = new Map();
+  protected deckCardsMap: Map<number, number> = new Map();
   protected deckCardsArray: Array<Card> = [];
   protected deckColors: Array<string | undefined> = [];
 
@@ -101,15 +101,15 @@ export class DeckComponent implements OnInit {
 
   // AJOUTER UNE CARTE AU DECK
 
-  protected addCardToDeck(uniqueId: string): void {
+  protected addCardToDeck(cardId: number): void {
 
 
     // const cardFiltered: Card = this.cardsService.getAllCards().filter(e => e.getUniqueId() === uniqueId)[0];
 
-    const numberOfCopies: number = this.getCardNumberOfCopies(uniqueId);
+    const numberOfCopies: number = this.getCardNumberOfCopies(cardId);
 
 
-    numberOfCopies < 4 ? this.deckCardsMap.set(uniqueId, numberOfCopies + 1) : null;
+    numberOfCopies < 4 ? this.deckCardsMap.set(cardId, numberOfCopies + 1) : null;
 
     console.log(this.deckCardsMap);
 
@@ -117,11 +117,11 @@ export class DeckComponent implements OnInit {
 
   //ENLEVER UNE CARTE AU DECK
 
-  protected removeCardFromDeck(uniqueId: string): void {
+  protected removeCardFromDeck(cardId: number): void {
 
-    let numberOfCopies: number = this.getCardNumberOfCopies(uniqueId);
+    let numberOfCopies: number = this.getCardNumberOfCopies(cardId);
 
-    numberOfCopies > 1 ? this.deckCardsMap.set(uniqueId, numberOfCopies - 1) : this.deckCardsMap.delete(uniqueId);
+    numberOfCopies > 1 ? this.deckCardsMap.set(cardId, numberOfCopies - 1) : this.deckCardsMap.delete(cardId);
 
     console.log(this.deckCardsMap);
 
@@ -129,8 +129,8 @@ export class DeckComponent implements OnInit {
 
   // RECUPERATION NB EXEMPLAIRES CARTE DANS DECK
 
-  protected getCardNumberOfCopies(uniqueId: string): number {
-    return this.deckCardsMap.get(uniqueId) || 0;
+  protected getCardNumberOfCopies(cardId: number): number {
+    return this.deckCardsMap.get(cardId) || 0;
   }
 
 
@@ -156,7 +156,7 @@ export class DeckComponent implements OnInit {
   protected updateDeckCardsArray() {
     this.deckCardsArray = [];
     this.deckCardsMap.forEach((value, key) => {
-      const card: Card | undefined = this.cardsService.getAllCards().find(e => e.getUniqueId() === key);
+      const card: Card | undefined = this.cardsService.getAllCards().find(e => e.getCardId() === key);
       if (card) {
         this.deckCardsArray.push(card);
       }
@@ -174,7 +174,7 @@ export class DeckComponent implements OnInit {
 
   protected saveDeckCardsInBdd() {
     this.updateDeckCardsArray();
-    this.deckService.saveDeckCardsInBdd(this.deckSelected?.getDeckId()!, this.deckCardsArray).subscribe({
+    this.deckService.saveDeckCardsInBdd(this.deckSelected?.getDeckId()!, this.deckCardsMap).subscribe({
       next: (response: any) => {
         console.log(response);
       }, error: (e => {

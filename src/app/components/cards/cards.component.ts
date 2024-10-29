@@ -31,6 +31,9 @@ export class CardsComponent {
 
     this.cardsService.getCardsToDisplay().subscribe({
       next: (response: Array<Card>) => {
+        console.log({
+          "Response": response
+        })
         this.cardsToDisplay = [...response]
       }, error: (e => {
         console.log("ngOnInit error " + e)

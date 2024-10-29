@@ -1,4 +1,5 @@
 export class Card {
+    private cardId: number;
     private artist: string;
     private lorcanaSetName: string;
     private classifications: string;
@@ -26,6 +27,7 @@ export class Card {
     private setId: string;
 
     constructor(
+        cardId: number,
         artist: string,
         lorcanaSetName: string,
         classifications: string,
@@ -52,6 +54,7 @@ export class Card {
         strength: number,
         setId: string
     ) {
+        this.cardId = cardId;
         this.artist = artist;
         this.lorcanaSetName = lorcanaSetName;
         this.classifications = classifications;
@@ -80,6 +83,11 @@ export class Card {
     }
 
     // Getters
+
+    public getCardId(): number {
+        return this.cardId;
+    }
+
     public getArtist(): string {
         return this.artist;
     }
@@ -181,6 +189,11 @@ export class Card {
     }
 
     // Setters
+
+    public setCardId(cardId: number): void {
+        this.cardId = cardId;
+    }
+
     public setArtist(artist: string): void {
         this.artist = artist;
     }
@@ -284,6 +297,7 @@ export class Card {
     // toString method
     public toString(): string {
         return `Card {
+            cardId: ${this.cardId},
             artist: ${this.artist},
             setName: ${this.lorcanaSetName},
             classifications: ${this.classifications},

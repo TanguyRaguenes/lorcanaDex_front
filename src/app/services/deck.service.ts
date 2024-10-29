@@ -20,12 +20,12 @@ export class DeckService {
 
 
 
-  public saveDeckCardsInBdd(deckId: number, cards: Array<Card>): Observable<any> {
+  public saveDeckCardsInBdd(deckId: number, cardsAndQuantity: Map<number, number>): Observable<any> {
 
     console.log({
       Methode: "saveDeckCardsInBdd",
       id: deckId,
-      cards: cards
+      cardsAndQuantity: cardsAndQuantity
     });
 
     const url: string = `${environment.serverSide_deckApiRest}/${deckId}`;
@@ -37,9 +37,11 @@ export class DeckService {
       Authorization: `Bearer ${token}`
     });
 
-    console.log(cards);
+    console.log(cardsAndQuantity);
 
-    const response = this.http.post(url, cards, { headers });
+    const cardsAndQuantityObject = Object.fromEntries(cardsAndQuantity);
+
+    const response = this.http.post(url, cardsAndQuantityObject, { headers });
 
     return response;
 
