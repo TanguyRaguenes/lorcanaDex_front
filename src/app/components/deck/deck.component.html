@@ -16,26 +16,28 @@
 
     <!-- AFFICHAGE CARTES -->
 
-    <div class="flex flex-wrap justify-center gap-4 mt-4">
+    <div class="w-full flex flex-wrap justify-center">
 
         <div *ngFor="let card of cardsToDisplay; let i = index"
-            class="z-10 w-1/4 md:w-1/5 card bg-white rounded-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl ">
+            class="z-10 w-5/12 md:w-1/4 lg:w-1/6 p-1 m-2 bg-white rounded-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl ">
 
             <div class="flex justify-between items-center mb-2">
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_svg" (click)="addCardToDeck(card.getCardId())">
+                <svg class="tw_svg h-10 w-10" (click)="addCardToDeck(card.getCardId())"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
 
 
-                <span class="text-xl font-Roboto font-semibold text-fuchsia-900">{{
+                <span class="text-xl font-Roboto">{{
                     getCardNumberOfCopies(card.getCardId())
                     }}</span>
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_svg" (click)="removeCardFromDeck(card.getCardId())">
+                <svg class="tw_svg h-10 w-10" (click)="removeCardFromDeck(card.getCardId())"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
@@ -43,16 +45,19 @@
             </div>
 
             <div class="w-full flex items-center justify-center mb-2">
-                <img alt="card" class="z-10 rounded-lg object-contain object-center hover:cursor-pointer"
+                <img alt="card" class="h-full w-full rounded-lg object-contain transform hover:cursor-pointer"
                     [src]="card.getImageSmall()" [attr.loading]="i > 100 ? 'lazy' : null"
                     (click)="showCardDetails(card)">
             </div>
 
         </div>
 
+        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed bottom-10" (click)="saveDeckCardsInBdd()">Save
+            deck</button>
+
     </div>
-    <div class="fixed bottom-0 w-full flex justify-center h10 bg-white rounded-t-xl">
-        <button class="tw_btn " (click)="saveDeckCardsInBdd()">Save deck</button>
-    </div>
+
+
+
 
 </section>

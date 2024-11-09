@@ -168,6 +168,10 @@ export class DecksComponent implements OnInit {
       console.log("username and/or deck are null")
     }
 
+    this.router.navigate(['/temporary']).then(() => {
+      this.router.navigate(['/decks']);
+    });
+
   }
 
   //RECUPERATION DECKS BDD

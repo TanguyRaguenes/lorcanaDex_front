@@ -10,6 +10,7 @@ import { FiltersComponent } from '../filters/filters.component';
 import { CardComponent } from '../card/card.component';
 import { DecksService } from '../../services/decks.service';
 import { DeckService } from '../../services/deck.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-deck',
@@ -73,6 +74,18 @@ export class DeckComponent implements OnInit {
 
     this.deckColors = [this.deckSelected?.getFirstInk(), this.deckSelected?.getSecondInk()];
     this.cardsService.setColors(this.deckColors);
+
+
+    this.deckService.getDeckCards(this.deckSelected?.getDeckId()!).subscribe({
+      next: (response: any) => {
+
+        this.deckCardsMap = response;
+        this.updateDeckCardsArray();
+        
+      }, error: (e => {
+        console.log("getDeckCards error : " + e)
+      })
+    })
     // console.log(this.deckColors);
 
 

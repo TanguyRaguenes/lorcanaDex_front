@@ -6,6 +6,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { DecksComponent } from './components/decks/decks.component';
 import { DeckComponent } from './components/deck/deck.component';
 import { AuthGuard } from './guards/auth.guard';
+import { TemporaryComponent } from './components/temporary/temporary.component';
 
 export const routes: Routes = [
 
@@ -14,6 +15,7 @@ export const routes: Routes = [
     { path: 'cards', component: CardsComponent, canActivate: [AuthGuard] },
     { path: 'deck', component: DeckComponent, canActivate: [AuthGuard] },
     { path: 'decks', component: DecksComponent, canActivate: [AuthGuard] },
+    { path: 'temporary', component: TemporaryComponent, canActivate: [AuthGuard] },
     // { path: 'card/:id', component: CardComponent },
 
 ];
