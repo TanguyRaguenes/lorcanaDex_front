@@ -2,12 +2,12 @@
 
     <div class="flex flex-row w-full justify-center">
         <!-- BOUTON RETOUR -->
-        <button *ngIf="!isDeckVisible" class="tw_btn mx-auto" (click)="goBack()">Go back</button>
+        <button *ngIf="!isDeckVisible" class="tw_btn w-1/2" (click)="goBack()">Go back</button>
         <!-- BOUTON AFFICHER DECK -->
-        <button *ngIf="!isDeckVisible" class="tw_btn mx-auto" (click)="showDeck()">Show deck</button>
+        <button *ngIf="!isDeckVisible" class="tw_btn w-1/2" (click)="showDeck()">Show deck</button>
 
-        <!-- BOUTON AFFICHER ALL -->
-        <button *ngIf="isDeckVisible" class="tw_btn mx-auto" (click)="showAll()">Show all cards</button>
+        <!-- BOUTON AFFICHER TOUTES LES CARTES -->
+        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 mx-auto" (click)="showAll()">Show all cards</button>
     </div>
 
     <app-filters *ngIf="!isDeckVisible"></app-filters>
@@ -19,7 +19,7 @@
     <div class="flex flex-wrap justify-center gap-4 mt-4">
 
         <div *ngFor="let card of cardsToDisplay; let i = index"
-            class="w-1/4 md:w-1/5 card bg-white rounded-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl ">
+            class="z-10 w-1/4 md:w-1/5 card bg-white rounded-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl ">
 
             <div class="flex justify-between items-center mb-2">
 
@@ -43,7 +43,7 @@
             </div>
 
             <div class="w-full flex items-center justify-center mb-2">
-                <img alt="card" class="rounded-lg object-contain object-center hover:cursor-pointer"
+                <img alt="card" class="z-10 rounded-lg object-contain object-center hover:cursor-pointer"
                     [src]="card.getImageSmall()" [attr.loading]="i > 100 ? 'lazy' : null"
                     (click)="showCardDetails(card)">
             </div>

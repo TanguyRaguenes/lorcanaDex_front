@@ -1,16 +1,16 @@
-<header class="z-40 h-20 bg-white fixed top-0 w-full shadow flex items-center justify-between p-1">
+<header class="z-50 h-20 bg-white fixed top-0 w-full shadow-xl rounded-b-sm flex items-center justify-between p-1">
 
     <img src="assets/images/logo.webp" alt="Logo" class="h-full rounded-full m-1 inline">
 
     <span class="text-4xl md:text-6xl font-Satisfy text-gray-900">LorcanaDex</span>
 
-    <svg *ngIf="!isModalOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-        stroke="currentColor" class="w-10 h-10" (click)="toggleMenu()">
+    <svg *ngIf="!isModalOpen" class="w-10 h-10 tw_svg" xmlns="http://www.w3.org/2000/svg" fill="none"
+        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" (click)="toggleMenu()">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
     </svg>
 
-    <svg *ngIf="isModalOpen" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-        stroke="currentColor" class="w-10 h-10" (click)="toggleMenu()">
+    <svg *ngIf="isModalOpen" class="w-10 h-10 tw_svg" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+        stroke-width="1.5" stroke="currentColor" (click)="toggleMenu()">
         <path stroke-linecap=" round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
     </svg>
 

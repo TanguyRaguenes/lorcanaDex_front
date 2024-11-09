@@ -72,6 +72,7 @@ export class DeckComponent implements OnInit {
     }
 
     this.deckColors = [this.deckSelected?.getFirstInk(), this.deckSelected?.getSecondInk()];
+    this.cardsService.setColors(this.deckColors);
     // console.log(this.deckColors);
 
 

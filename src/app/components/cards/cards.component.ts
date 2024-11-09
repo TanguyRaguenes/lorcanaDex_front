@@ -27,6 +27,7 @@ export class CardsComponent {
   constructor(cardsService: CardsService) {
 
     this.cardsService = cardsService;
+    this.cardsService.resetColors();
     this.cardsToDisplay = [];
 
     this.cardsService.getCardsToDisplay().subscribe({

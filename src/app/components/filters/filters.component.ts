@@ -51,12 +51,13 @@ export class FiltersComponent implements OnInit {
     if (img.classList.contains("grayscale")) {
       img.classList.remove("grayscale");
       img.classList.add("grayscale-0");
-      img.classList.add("scale-150");
+      img.classList.add("scale-125");
     } else {
       img.classList.add("grayscale");
       img.classList.remove("grayscale-0")
-      img.classList.remove("scale-150");
+      img.classList.remove("scale-125");
     }
+    
   }
 
 

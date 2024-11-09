@@ -1,27 +1,28 @@
-<section class="flex justify-center">
+<section class="w-full flex flex-col items-center">
 
 
     <!-- BOUTON FILTRER -->
-    <button class="tw_btn mx-auto" (click)="toggleModal()">Filter</button>
+    <button class="tw_btn fixed bottom-10 w-11/12" (click)="toggleModal()">Filter</button>
 
     <!-- MODAL -->
 
     <div *ngIf="isModalInitialized" [ngClass]="isModalVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-        class="z-50 fixed w-full h-full top-0 bg-purple-100 justify-center transform transition-all duration-500 ease-in-out">
+        class="tw_modal">
 
         <!-- BOUTON BACK -->
-        <button class="tw_btn fixed top-4" (click)="toggleModal()">Back</button>
+        <button class="tw_btn w-11/12" (click)="toggleModal()">Back</button>
 
 
         <!-- COLOR -->
 
         <div
-            class="mx-auto mt-20 flex flex-wrap justify-center items-center w-9/12 h-36 mb-4 border-2 border-gray-400 rounded-xl">
+            class="w-9/12 mx-auto flex flex-wrap flex-row justify-center items-center border-2 border-white rounded-xl">
 
-            <div *ngFor="let color of colors; let i = index" class="p-2 w-1/3 md:w-1/6 lg:w-1/6 flex justify-center"
+            <div *ngFor="let color of colors; let i = index"
+                class="p-3 w-1/3 h-20 md:h-24 lg:h-28 flex flex-col justify-center"
                 (click)="addNewFilter(color,'color',color)">
                 <img [id]=color [src]="'/assets/images/colors/' + color + '.png'" alt=""
-                    class="object-contain object-center max-w-full h-auto max-h-16 filter grayscale transition-all duration-300 hover:cursor-pointer">
+                    class="w-full h-full object-contain filter grayscale transition-all duration-300 hover:cursor-pointer">
             </div>
 
         </div>
@@ -29,12 +30,13 @@
         <!-- RARITY -->
 
         <div id="raritiesContainer"
-            class="mx-auto flex flex-wrap justify-center items-center w-9/12 h-36 mb-4 border-2 border-gray-400 rounded-xl">
+            class="mt-4 w-9/12 mx-auto flex flex-wrap flex-row justify-center items-center border-2 border-white rounded-xl">
 
-            <div *ngFor="let rarity of rarities; let i = index" class="p-2 w-1/3 md:w-1/6 lg:w-1/6 flex justify-center"
+            <div *ngFor="let rarity of rarities; let i = index"
+                class="p-3 w-1/3 h-20 md:h-24 lg:h-28 flex flex-col justify-center"
                 (click)="addNewFilter(rarity, 'rarity',rarity)">
                 <img [id]=rarity [src]="'/assets/images/rarities/' + rarity + '.png'" alt=""
-                    class="object-contain object-center max-w-full h-auto max-h-16 filter grayscale transition-all duration-300 hover:cursor-pointer">
+                    class="w-full h-full object-contain filter grayscale transition-all duration-300 hover:cursor-pointer">
             </div>
 
         </div>
@@ -42,7 +44,7 @@
 
         <!-- NAME -->
 
-        <div class="w-full">
+        <div class="mt-4 w-9/12">
             <label for="filterOnCardsName" class="block w-full text-grey-600 text-center">Card's name</label>
             <input type="text" id="filterOnCardsName" name="filterOnCardsName"
                 class="w-full bg-gray-100 rounded border border-gray-300" [(ngModel)]="nameFilter">
@@ -51,7 +53,8 @@
         <!-- BOUTON FILTRER -->
 
         <!-- BOUTON BACK -->
-        <button class="tw_btn fixed bottom-4" (click)="filterCards()">Filter</button>
+        <button class="tw_btn fixed bottom-10 w-11/12" (click)="filterCards()">Filter</button>
+
     </div>
 
 </section>

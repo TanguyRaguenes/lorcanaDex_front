@@ -21,7 +21,6 @@ export class CardsService {
   private colors: Array<string>;
   private rarities: Array<string>;
 
-
   private http: HttpClient;
 
   //CONSTRUCTEUR
@@ -33,8 +32,8 @@ export class CardsService {
 
     this.http = http;
 
-    this.colors = ["Amber", "Amethyst", "Emerald", "Ruby", "Sapphire", "Steel"];
-    this.rarities = ["Common", "Uncommon", "Rare", "Super Rare", "Legendary"];
+    this.colors = [];
+    this.rarities = [];
 
 
     this.fetchAllCards().subscribe({
@@ -63,6 +62,26 @@ export class CardsService {
 
   public getCardsToDisplay(): Observable<Array<Card>> {
     return this.cardsToDisplay.asObservable();
+  }
+
+  // SETTERS
+
+  public setColors(colors: Array<string | undefined>): void {
+
+    this.colors = colors.filter(c => c !== undefined);
+
+  }
+
+  public resetColors(): void {
+
+    this.colors = ["Amber", "Amethyst", "Emerald", "Ruby", "Sapphire", "Steel"];
+
+  }
+
+  public resetRarities(): void {
+
+    this.rarities = ["Common", "Uncommon", "Rare", "Super Rare", "Legendary"];
+
   }
 
   //METHODES

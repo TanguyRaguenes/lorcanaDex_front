@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Deck } from '../../models/Deck';
 import { DecksService } from '../../services/decks.service';
@@ -13,14 +13,14 @@ import { CardsService } from '../../services/cardsService';
   templateUrl: './decks.component.html',
   styleUrl: './decks.component.scss'
 })
-export class DecksComponent {
+export class DecksComponent implements OnInit {
 
 
   // ATTRIBUTS
   private cardsService: CardsService;
   private decksService: DecksService;
   private router: Router;
-  
+
   protected colors: Array<string>;
   protected rarities: Array<string>;
 
@@ -34,11 +34,15 @@ export class DecksComponent {
   protected showErrorNoDeckNameChosen: boolean;
   protected showErrorNoInkSelected: boolean;
 
+  protected isModalInitialized: boolean;
+  protected isModalVisible: boolean;
+
   // CONSTRUCTEUR
 
   constructor(cardsService: CardsService, decksService: DecksService, router: Router) {
 
     this.cardsService = cardsService;
+    this.cardsService.resetColors();
     this.decksService = decksService;
     this.router = router;
     this.colors = [...this.cardsService.getColors()];
@@ -53,11 +57,26 @@ export class DecksComponent {
     this.showErrorNoInkSelected = false;
     this.getDecksFromBdd();
 
+    this.isModalVisible = false;
+    this.isModalInitialized = false;
+
+  }
+
+  ngOnInit(): void {
+    this.isModalInitialized = true;
   }
 
   //METHODES :
 
+
+  // AFFICHAGE MODAL
+
+  public toggleModal(): void {
+    this.isModalVisible = !this.isModalVisible;
+  }
+
   // EDITER LE DECK
+
 
   public editDeck(deckId: number) {
 
@@ -70,60 +89,25 @@ export class DecksComponent {
 
   }
 
-  // AFFICHAGE MODAL
+  // AFFICHAGE + AJOUT AU TABLEAU -> INKS 
 
-  public ToggleVisibilityFiltersModal() {
+  public toggleGrayscale(id: string): void {
 
-    const filtersModal = document.getElementById("filtersModal") as HTMLDivElement;
+    const img = document.getElementById(id) as HTMLImageElement;
 
-    if (filtersModal.classList.contains("hidden")) {
-
-      filtersModal.classList.remove("hidden");
-      filtersModal.classList.add("block");
-
+    if (img.classList.contains("grayscale") && this.inksSelected.length < 2) {
+      img.classList.remove("grayscale");
+      img.classList.add("grayscale-0");
+      img.classList.add("scale-125");
+      this.inksSelected.push(id);
     } else {
-
-      filtersModal.classList.remove("block");
-      filtersModal.classList.add("hidden");
-
-    }
-
-  }
-
-  // AFFICHAGE INKS
-
-  public toggleDisplay(element: HTMLImageElement): void {
-
-    console.log(element.id)
-
-
-    if (element.classList.contains("grayscale") && this.inksSelected.length < 2) {
-      element.classList.remove("grayscale");
-      element.classList.add("grayscale-0");
-      element.classList.add("scale-150");
-      this.inksSelected.push(element.id);
-    } else {
-
-
-      element.classList.contains("grayscale") ? null : this.inksSelected = this.inksSelected.filter(e => e != element.id);
-
-      element.classList.add("grayscale");
-      element.classList.remove("grayscale-0")
-      element.classList.remove("scale-150");
-
+      img.classList.add("grayscale");
+      img.classList.remove("grayscale-0")
+      img.classList.remove("scale-125");
+      this.inksSelected = this.inksSelected.filter(e => e != id);
     }
 
     console.log(this.inksSelected)
-
-  }
-
-  public addNewFilter(eventTarget: EventTarget | null) {
-
-    if (eventTarget instanceof HTMLImageElement) {
-
-      this.toggleDisplay(eventTarget);
-
-    }
 
   }
 
@@ -173,7 +157,7 @@ export class DecksComponent {
         next: (response: any) => {
           console.log(response);
           this.getDecksFromBdd();
-          this.ToggleVisibilityFiltersModal();
+          this.toggleModal();
         }, error: (e => {
           console.log(e);
         })
