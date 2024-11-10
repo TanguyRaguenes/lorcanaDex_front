@@ -5,6 +5,8 @@ import { Deck } from '../../models/Deck';
 import { DecksService } from '../../services/decks.service';
 import { Router } from '@angular/router';
 import { CardsService } from '../../services/cardsService';
+import { FlashMessageComponent } from '../flash-message/flash-message.component';
+import { FlashMessageService } from '../../services/flash-message.service';
 
 @Component({
   selector: 'app-decks',
@@ -19,6 +21,7 @@ export class DecksComponent implements OnInit {
   // ATTRIBUTS
   private cardsService: CardsService;
   private decksService: DecksService;
+  private flashMessageService: FlashMessageService;
   private router: Router;
 
   protected colors: Array<string>;
@@ -39,11 +42,12 @@ export class DecksComponent implements OnInit {
 
   // CONSTRUCTEUR
 
-  constructor(cardsService: CardsService, decksService: DecksService, router: Router) {
+  constructor(cardsService: CardsService, decksService: DecksService, router: Router, flashMessageService: FlashMessageService) {
 
     this.cardsService = cardsService;
     this.cardsService.resetColors();
     this.decksService = decksService;
+    this.flashMessageService = flashMessageService;
     this.router = router;
     this.colors = [...this.cardsService.getColors()];
     this.rarities = [...this.cardsService.getRarities()];
@@ -122,17 +126,20 @@ export class DecksComponent implements OnInit {
     const deckExists = this.userDecks.some((e: Deck) => e.getDeckName() === this.deckNameChosen);
 
     if (deckExists) {
-      this.showErrorDeckNameChosenAlreadyUsed = true;
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("This deck name has already been chosen.")
       return;
     }
 
     if (this.inksSelected.length < 1) {
-      this.showErrorNoInkSelected = true;
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("You must select at least one ink.")
       return;
     }
 
     if (this.deckNameChosen === "") {
-      this.showErrorNoDeckNameChosen = true;
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("You need to choose a name for your deck.")
       return;
     }
 
@@ -158,7 +165,12 @@ export class DecksComponent implements OnInit {
           console.log(response);
           this.getDecksFromBdd();
           this.toggleModal();
+          this.flashMessageService.setMessageType("success")
+          this.flashMessageService.setMessageText("The creation of the deck is a success.")
         }, error: (e => {
+          this.flashMessageService.setMessageType("error")
+          this.flashMessageService.setMessageText("Error creating deck.")
+          console.log("Error addDeckToBdd : " + e)
           console.log(e);
         })
 

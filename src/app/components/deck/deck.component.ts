@@ -11,6 +11,7 @@ import { CardComponent } from '../card/card.component';
 import { DecksService } from '../../services/decks.service';
 import { DeckService } from '../../services/deck.service';
 import { map } from 'rxjs';
+import { FlashMessageService } from '../../services/flash-message.service';
 
 @Component({
   selector: 'app-deck',
@@ -39,6 +40,7 @@ export class DeckComponent implements OnInit {
   private router: Router;
   private cardsService: CardsService;
   private deckService: DeckService;
+  private flashMessageService: FlashMessageService;
 
   protected showDeckList: boolean;
 
@@ -47,7 +49,9 @@ export class DeckComponent implements OnInit {
 
   // CONSTRUCTEUR
 
-  constructor(router: Router, cardsService: CardsService, deckService: DeckService) {
+  constructor(router: Router, cardsService: CardsService, deckService: DeckService, flashMessageService: FlashMessageService) {
+
+    this.flashMessageService = flashMessageService;
 
     this.isDeckVisible = false;
     this.router = router;
@@ -81,7 +85,7 @@ export class DeckComponent implements OnInit {
 
         this.deckCardsMap = response;
         this.updateDeckCardsArray();
-        
+
       }, error: (e => {
         console.log("getDeckCards error : " + e)
       })
@@ -122,10 +126,38 @@ export class DeckComponent implements OnInit {
 
     const numberOfCopies: number = this.getCardNumberOfCopies(cardId);
 
+    if (this.getDeckNumberOfCards() < 60) {
 
-    numberOfCopies < 4 ? this.deckCardsMap.set(cardId, numberOfCopies + 1) : null;
+      if (numberOfCopies < 4) {
+        this.deckCardsMap.set(cardId, numberOfCopies + 1)
+      } else {
+        this.flashMessageService.setMessageType("information")
+        this.flashMessageService.setMessageText("You can only have 4 copies of a card.")
+      }
+
+    } else {
+
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("You can only have 60 cards in your deck.")
+
+    }
+
+
 
     console.log(this.deckCardsMap);
+
+  }
+
+  protected getDeckNumberOfCards(): number {
+
+    let nbOfCards: number = 0;
+
+    for (const [key, value] of this.deckCardsMap) {
+      nbOfCards += value;
+    }
+
+    console.log("nbOfCards : " + nbOfCards);
+    return nbOfCards;
 
   }
 
@@ -134,6 +166,11 @@ export class DeckComponent implements OnInit {
   protected removeCardFromDeck(cardId: number): void {
 
     let numberOfCopies: number = this.getCardNumberOfCopies(cardId);
+
+    if (numberOfCopies == 0) {
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("You have zero copies of this card in your deck.")
+    }
 
     numberOfCopies > 1 ? this.deckCardsMap.set(cardId, numberOfCopies - 1) : this.deckCardsMap.delete(cardId);
 
@@ -191,8 +228,12 @@ export class DeckComponent implements OnInit {
     this.deckService.saveDeckCardsInBdd(this.deckSelected?.getDeckId()!, this.deckCardsMap).subscribe({
       next: (response: any) => {
         console.log(response);
+        this.flashMessageService.setMessageType("success")
+        this.flashMessageService.setMessageText("The backup is a success")
       }, error: (e => {
-        console.log("Erreur lors de la sauvegarde des cartes du deck : " + e)
+        this.flashMessageService.setMessageType("error")
+        this.flashMessageService.setMessageText("Error saving deck cards")
+        console.log("Error saveDeckCardsInBdd : " + e)
       })
     })
 
