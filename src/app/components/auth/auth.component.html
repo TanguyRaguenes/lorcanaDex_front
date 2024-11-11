@@ -1,45 +1,42 @@
-<section class="w-full h-full flex flex-row justify-center">
+<section class="w-full h-full flex flex-col items-center">
 
-    <div class="hidden md:flex md:flex-col md:items-center md:justify-center md:w-11/12 ">
+    <h1 class="tw_h1">
+        Authentication
+    </h1>
 
-        <div class="w-11/12">
-            <img class="object-cover" src="assets/images/wizardTower.png" alt="">
+    <h2 class="mb-5 text-lg md:text-2xl lg:text-4xl font-semibold font-Satisfy text-center text-purple-900">Enter
+        the enchanted world of <br>
+        deck creation</h2>
+
+    <!-- FORMULAIRE -->
+
+    <form (ngSubmit)=" submit()" #loginForm="ngForm" class="pt-4 pb-4 w-11/12 flex flex-col items-center text-center">
+
+        <div class="w-11/12 h-20 mb-4">
+            <label for="email" class="text-lg md:text-2xl lg:text-4xl text-purple-800">Email</label>
+            <input type="email" id="email" name="email" [(ngModel)]="username" class="w-full tw_input" required>
         </div>
 
+        <div class="w-11/12 h-20 mb-4 position: relative">
+            <label for="password" class="text-lg md:text-2xl lg:text-4xl text-purple-800">Password</label>
+            <input [type]="showPassword ? 'text' : 'password'" id="password" name="password" [(ngModel)]="password"
+                class="w-full tw_input">
+            <svg (click)="toggleShowPassword()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="h-4 w-4 tw_svg absolute right-1 top-10 md:top-11 lg:top-12">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
 
-    </div>
-
-
-    <div class="w-11/12 md:w1/2">
-
-        <h2 class="mb-5 text-4xl font-semibold font-Satisfy text-center text-purple-900">LorcanaDex</h2>
-
-        <div class="w-20 h-20 mx-auto m-4">
-            <img class="object-cover w-full h-full rounded-full" src="assets/images/logo.webp" alt="">
         </div>
 
-        <h2 class="mb-5  text-center font-Satisfy ">Enter the enchanted world of
-            deck creation !</h2>
+        <button class="tw_btn w-11/12" type="submit" [disabled]="loginForm.invalid">Login</button>
 
-        <!-- FORMULAIRE -->
+        <a href="registration" class="tw_btn w-11/12 text-center hover:cursor-pointer">Registration</a>
 
-        <form (ngSubmit)=" submit()" #loginForm="ngForm"
-            class="p-4 flex flex-col items-center bg-purple-200 shadow-2xl rounded-xl">
+    </form>
 
-            <div class="w-full h-20 mb-4">
-                <label for="email" class="text-sm text-purple-800">Email</label>
-                <input type="email" id="email" name="email" [(ngModel)]="username" class="w-full tw_input">
-            </div>
-
-            <div class="w-full h-20 mb-4">
-                <label for="password" class="text-sm text-purple-800">Password</label>
-                <input type="password" id="password" name="password" [(ngModel)]="password" class="w-full tw_input">
-            </div>
-
-            <button class="tw_btn w-11/12" type="submit" [disabled]="loginForm.invalid">Submit</button>
-
-        </form>
-    </div>
 
 
 

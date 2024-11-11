@@ -37,12 +37,12 @@ export class FlashMessageService {
 
   protected startTimer() {
 
-    console.log("flashMessage visible")
     this.isVisible.next(true);
 
     setTimeout(() => {
-      console.log("flashMessage hidden")
+
       this.isVisible.next(false);
-    }, 3000)
+
+    }, 2000)
   }
 }

@@ -16,15 +16,11 @@ import { FlashMessageComponent } from './components/flash-message/flash-message.
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
   title = 'lorcanaDex_front';
 
-  constructor(private readonly router: Router) {
+  constructor() {
 
-  }
-
-  hideNavbar(): boolean {
-    return this.router.url === '/';
-    // return this.router.url === '/' || this.router.url === '/deck';
   }
 
 }

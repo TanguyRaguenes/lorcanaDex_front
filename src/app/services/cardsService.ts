@@ -84,6 +84,10 @@ export class CardsService {
 
   }
 
+  public resetCardsToDisplay(): void {
+    this.cardsToDisplay.next(this.allcards);
+  }
+
   //METHODES
 
   //Récupérer toutes les cartes de la BDD

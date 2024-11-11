@@ -46,6 +46,7 @@ export class DecksComponent implements OnInit {
 
     this.cardsService = cardsService;
     this.cardsService.resetColors();
+    this.cardsService.resetCardsToDisplay();
     this.decksService = decksService;
     this.flashMessageService = flashMessageService;
     this.router = router;

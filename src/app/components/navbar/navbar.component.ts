@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -12,18 +12,27 @@ import { CommonModule } from '@angular/common';
 })
 export class NavbarComponent implements OnInit {
 
+  // ATTRIBUTS
+
   protected isModalInitialized: boolean;
   protected isModalOpen: boolean;
+  private authService: AuthService
+  private router: Router;
 
-  constructor(private authService: AuthService) {
-    this.isModalOpen = false;
-    this.isModalInitialized = false;
+  // CONSTRUCTEUR
+
+  constructor(authService: AuthService, router: Router) {
+    this.authService = authService,
+      this.router = router,
+      this.isModalOpen = false,
+      this.isModalInitialized = false
   }
+
+  // METHODES
+
   ngOnInit(): void {
     this.isModalInitialized = true;
   }
-
-
 
   public logout() {
     this.authService.logout();
@@ -31,6 +40,10 @@ export class NavbarComponent implements OnInit {
 
   public toggleMenu() {
     this.isModalOpen = !this.isModalOpen;
+  }
+
+  hideMenu(): boolean {
+    return this.router.url === '/' || this.router.url === '/registration';
   }
 
 

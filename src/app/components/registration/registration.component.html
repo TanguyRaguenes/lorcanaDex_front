@@ -1,0 +1,73 @@
+<section class="w-full h-full flex flex-col items-center ">
+
+    <h1 class="tw_h1">
+        Registration
+    </h1>
+
+    <!-- FORMULAIRE -->
+
+    <form (ngSubmit)=" submit()" #registrationForm="ngForm"
+        class="pt-4 pb-4 w-11/12 flex flex-col items-center text-center">
+
+        <!-- IllumineerName -->
+
+        <div class="w-11/12 h-20 mb-4">
+            <label for="illumineerName" class="text-lg md:text-2xl lg:text-4xl text-purple-800">Illumineer's
+                name</label>
+            <input type="text" id="illumineerName" name="illumineerName" [(ngModel)]="illumineerName"
+                class="w-full tw_input">
+        </div>
+
+        <!-- EMAIL -->
+
+        <div class="w-11/12 h-20 mb-4">
+            <label for="email" class="text-lg md:text-2xl lg:text-4xl text-purple-800">Email</label>
+            <input type="email" id="email" name="email" [(ngModel)]="username" class="w-full tw_input">
+
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="w-11/12 h-20 mb-4 position: relative">
+            <label for="password" class="text-lg md:text-2xl lg:text-4xl text-purple-800">Password</label>
+            <input [type]="showPassword ? 'text' : 'password'" id="password" name="password" [(ngModel)]="password"
+                class="w-full tw_input">
+            <svg (click)="toggleShowPassword()" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor"
+                class="h-4 w-4 tw_svg absolute right-1 top-10 md:top-11 lg:top-12">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+
+        <div class="w-11/12 h-20 mb-4 position: relative">
+            <label for="confirmPassword" class="text-lg md:text-2xl lg:text-4xl text-purple-800">Confirm
+                password</label>
+            <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" name="confirmPassword"
+                [(ngModel)]="confirmPassword" class="w-full tw_input">
+                
+            <svg (click)="toggleShowConfirmPassword()" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                class="h-4 w-4 tw_svg absolute right-1 top-10 md:top-11 lg:top-12">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+
+        </div>
+
+        <!-- SUBMIT BTN -->
+
+        <button class="tw_btn w-11/12" type="submit" [disabled]="registrationForm.invalid">Register</button>
+
+        <!-- BACK LINK -->
+
+        <a href="/" class="tw_btn w-11/12 text-center hover:cursor-pointer">Back</a>
+
+    </form>
+
+</section>

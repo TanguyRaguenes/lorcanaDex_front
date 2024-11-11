@@ -3,15 +3,30 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { Router } from '@angular/router';
+import { FlashMessageService } from './flash-message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private renewTokenTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  // ATTRIBUTS
+
+  private renewTokenTimer: any;
+  private flashMessageService: FlashMessageService;
+  private http: HttpClient;
+  private router: Router
+
+  // CONSTRUCTEUR
+
+  constructor(http: HttpClient, router: Router, flashMessageService: FlashMessageService) {
+    this.flashMessageService = flashMessageService;
+    this.http = http;
+    this.router = router;
+  }
+
+  // METHODES
 
 
   // AUTHENTIFICATION
@@ -30,6 +45,8 @@ export class AuthService {
   }
 
 
+  // LANCER TIMER POUR RENOUVELER TOKEN
+
   public triggerRenewTokenTimer(): void {
     console.log("triggerRenewTokenTimer")
     this.renewTokenTimer = setTimeout(
@@ -39,6 +56,8 @@ export class AuthService {
       , 1000 * 60 * 25)
   }
 
+  // RENOUVELER LE TOKEN
+
   public renewToken(): void {
 
 
@@ -46,7 +65,7 @@ export class AuthService {
     const username: string | null = sessionStorage.getItem("username");
 
     if (!token || !username) {
-      console.warn("Token et/ou username manquant. Le renouvellement ne peut pas être effectué.");
+      console.warn("Token and/or username missing. Renewal cannot be performed.");
       return;
     }
 
@@ -63,20 +82,23 @@ export class AuthService {
 
     this.http.post<any>(url, body, { headers }).subscribe({
       next: (response: any) => {
-        console.log('Token renouvelé avec succès.');
+        console.log('Token renewed successfully.');
         console.log(response);
         sessionStorage.setItem('token', response.token);
         this.triggerRenewTokenTimer();
 
       }, error: (e => {
-        console.error("Erreur lors du renouvellement du token", e);
-        alert("Votre session a expiré. Veuillez vous reconnecter.");
-        this.router.navigate(['/']);
+        console.error("Error when renewing token : ", e);
+        this.flashMessageService.setMessageType("error")
+        this.flashMessageService.setMessageText("Error when renewing token.")
+        this.logout();
 
       })
     })
 
   }
+
+  // ANNULER TIMER POUR RENOUVELER TOKEN
 
   public clearRenewTokenTimer() {
     if (this.renewTokenTimer) {
@@ -85,11 +107,20 @@ export class AuthService {
 
   }
 
+  // DECONNECTER UTILISATEUR
+
   public logout(): void {
+
     console.log("logout")
+
     this.clearRenewTokenTimer();
+
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('username');
+
     this.router.navigate(['/'])
+
+    this.flashMessageService.setMessageType("success")
+    this.flashMessageService.setMessageText("Logout successful.")
   }
 }
