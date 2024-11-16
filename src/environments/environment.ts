@@ -1,11 +1,11 @@
 export const environment = {
 
     production: true,
-    apiGetCardsFromBDD: 'http://localhost:8080/get-cards',
-    apiBulkCards: 'http://localhost:8080/bulk-data',
-    serverSide_decksApiRest: 'http://localhost:8080/decks',
-    serverSide_deckApiRest: 'http://localhost:8080/deck',
-    serveSide_authApiRest: 'http://localhost:8080/auth',
-    serveSide_registrationApiRest: 'http://localhost:8080/registration'
+    apiGetCardsFromBDD: 'https://lorcanadexback-production.up.railway.app/get-cards',
+    apiBulkCards: 'https://lorcanadexback-production.up.railway.app/localhost:8080/bulk-data',
+    serverSide_decksApiRest: 'https://lorcanadexback-production.up.railway.app/localhost:8080/decks',
+    serverSide_deckApiRest: 'https://lorcanadexback-production.up.railway.app/deck',
+    serveSide_authApiRest: 'https://lorcanadexback-production.up.railway.app/auth',
+    serveSide_registrationApiRest: 'https://lorcanadexback-production.up.railway.app/registration'
 
 };
