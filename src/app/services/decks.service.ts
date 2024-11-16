@@ -52,7 +52,8 @@ export class DecksService {
     };
 
     console.log("getDecksFromBdd Authorization :", {
-      headers: headers.headers.Authorization
+      Authorization: headers.headers.Authorization,
+      username: headers.headers.username
     });
 
     const response = this.http.get<any[]>(`${environment.serverSide_decksApiRest}`, headers).pipe(
