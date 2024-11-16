@@ -46,14 +46,12 @@ export class DecksService {
 
     const headers = {
       headers: {
-        Authorization: `Bearer ${token}`,
-        username: username || '',
+        Authorization: `Bearer ${token}`
       }
     };
 
     console.log("getDecksFromBdd Authorization :", {
-      Authorization: headers.headers.Authorization,
-      username: headers.headers.username
+      Authorization: headers.headers.Authorization
     });
 
     const response = this.http.get<any[]>(`${environment.serverSide_decksApiRest}`, headers).pipe(
