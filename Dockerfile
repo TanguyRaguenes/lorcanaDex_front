@@ -8,5 +8,5 @@ RUN npm run build --prod
 
 # Étape 2 : Servir les fichiers avec Caddy
 FROM caddy:2
-COPY --from=build /app/dist/lorcana-dex-front /srv
+COPY --from=build /app/dist/lorcana-dex-front/browser /srv
 COPY Caddyfile /etc/caddy/Caddyfile

@@ -5,7 +5,7 @@
 
 :80 {
   # Définit la racine des fichiers statiques (utilisez un chemin relatif ou Unix-like)
-  root * ./dist/lorcana-dex-front
+  root * ./dist/lorcana-dex-front/browser
 
   # Active le serveur de fichiers
   file_server
