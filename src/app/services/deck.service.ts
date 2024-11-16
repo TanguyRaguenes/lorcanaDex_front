@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Card } from '../models/Card';
 import { Observable, map, tap } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
