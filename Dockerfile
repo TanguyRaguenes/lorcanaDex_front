@@ -1,4 +1,4 @@
-# Étape 1 : Construire l'application Angular
+# Étape 1 : Builder l'application Angular
 FROM node:18 AS build
 WORKDIR /app
 COPY package*.json ./
@@ -8,5 +8,5 @@ RUN npm run build --prod
 
 # Étape 2 : Servir les fichiers avec Caddy
 FROM caddy:2
-COPY --from=build /app/dist/lorcanaDex /srv
+COPY --from=build /app/dist/lorcana-dex-front /srv
 COPY Caddyfile /etc/caddy/Caddyfile
