@@ -5,7 +5,7 @@
 
 :80 {
   # Définit la racine des fichiers statiques (utilisez un chemin relatif ou Unix-like)
-  root * /srv/browser
+  root * /srv
 
   # Active le serveur de fichiers
   file_server
