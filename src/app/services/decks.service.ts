@@ -42,16 +42,20 @@ export class DecksService {
     const token = sessionStorage.getItem('token');
     const username = sessionStorage.getItem('username')
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      username: username || '',
-    });
+
+
+    const headers = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        username: username || '',
+      }
+    };
 
     console.log("getDecksFromBdd Authorization :", {
-      "headers": headers
+      headers: headers.headers.Authorization
     });
 
-    const response = this.http.get<any[]>(`${environment.serverSide_decksApiRest}`, { headers }).pipe(
+    const response = this.http.get<any[]>(`${environment.serverSide_decksApiRest}`, headers).pipe(
       map(response => response.map(e => new Deck(
         e.deckId,
         e.deckName,
