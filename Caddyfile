@@ -1,0 +1,18 @@
+{
+  # Active l'HTTPS automatique
+  auto_https on
+}
+
+:80 {
+  # Définit la racine des fichiers statiques (utilisez un chemin relatif ou Unix-like)
+  root * ./dist/lorcana-dex-front
+
+  # Active le serveur de fichiers
+  file_server
+
+  # Redirige les requêtes 404 vers index.html pour les routes Angular
+  try_files {path} /index.html
+
+  # Active la compression pour les réponses
+  encode gzip zstd
+}
