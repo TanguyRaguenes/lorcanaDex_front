@@ -31,6 +31,10 @@ export class FiltersComponent implements OnInit {
     this.filters = [];
     this.colors = [...this.cardsService.getColors()]
     this.rarities = [...this.cardsService.getRarities()];
+    console.log({
+      colors: this.colors,
+      rarities: this.rarities
+    });
     this.isModalVisible = false;
     this.isModalInitialized = false;
   }
@@ -57,7 +61,7 @@ export class FiltersComponent implements OnInit {
       img.classList.remove("grayscale-0")
       img.classList.remove("scale-125");
     }
-    
+
   }
 
 

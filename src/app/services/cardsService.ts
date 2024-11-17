@@ -27,13 +27,15 @@ export class CardsService {
 
   constructor(http: HttpClient) {
 
-    this.allcards = [];
-
-
     this.http = http;
 
+
+    this.allcards = [];
     this.colors = [];
     this.rarities = [];
+
+    this.resetColors();
+    this.resetRarities();
 
 
     this.fetchAllCards().subscribe({
