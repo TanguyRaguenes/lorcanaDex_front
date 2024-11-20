@@ -6,8 +6,6 @@ export const environment = {
 
 
 
-
-
     serverside_cardsApiRest: 'https://lorcanadexback-production.up.railway.app/cards',
     serverSide_decksApiRest: 'https://lorcanadexback-production.up.railway.app/decks',
     serverSide_deckApiRest: 'https://lorcanadexback-production.up.railway.app/deck',
