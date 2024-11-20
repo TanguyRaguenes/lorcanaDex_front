@@ -14,101 +14,97 @@
     </div>
 
     <!-- Détails de la carte -->
-    <div *ngIf="cardToDisplay" class="w-11/12 mx-auto p-4 border rounded-lg shadow-lg bg-white">
+    <div *ngIf="cardToDisplay" class="w-11/12 mx-auto p-4 border rounded-lg shadow-lg bg-white mt-4">
 
         <table class="w-full text-left">
             <tbody>
                 <tr>
-                    <td class="font-semibold p-2">Card ID</td>
-                    <td class="p-2">{{ cardToDisplay.getCardIdApi() }}</td>
+                    <td class="tw_td_label">Price standard ($)</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getPrices().getUsd() || 'unavailable' }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Name</td>
-                    <td class="p-2">{{ cardToDisplay.getName() }}</td>
+                    <td class="tw_td_label">Price foil ($)</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getPrices().getUsdFoil() || 'unavailable' }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Version</td>
-                    <td class="p-2">{{ cardToDisplay.getVersion() }}</td>
+                    <td class="tw_td_label">Name</td>
+                    <td class="p-2 border-b-2">{{ cardToDisplay.getName() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Layout</td>
-                    <td class="p-2">{{ cardToDisplay.getLayout() }}</td>
+                    <td class="tw_td_label">Version</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getVersion() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Release Date</td>
-                    <td class="p-2">{{ cardToDisplay.getReleasedAt() | date }}</td>
+                    <td class="tw_td_label">Layout</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getLayout() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Cost</td>
-                    <td class="p-2">{{ cardToDisplay.getCost() }}</td>
+                    <td class="tw_td_label">Release Date</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getReleasedAt() | date }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Inkwell</td>
-                    <td class="p-2">{{ cardToDisplay.getInkwell() ? 'Yes' : 'No' }}</td>
+                    <td class="tw_td_label">Cost</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getCost() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Ink</td>
-                    <td class="p-2">{{ cardToDisplay.getInk() }}</td>
+                    <td class="tw_td_label">Inkwell</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getInkwell() ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Type</td>
-                    <td class="p-2">{{ cardToDisplay.getType().join(', ') }}</td>
+                    <td class="tw_td_label">Ink</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getInk() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Classifications</td>
-                    <td class="p-2">{{ cardToDisplay.getClassifications().join(', ') }}</td>
+                    <td class="tw_td_label">Type</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getType().join(', ') }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Rarity</td>
-                    <td class="p-2">{{ cardToDisplay.getRarity() }}</td>
+                    <td class="tw_td_label">Classifications</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getClassifications().join(', ') }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Strength</td>
-                    <td class="p-2">{{ cardToDisplay.getStrength() }}</td>
+                    <td class="tw_td_label">Rarity</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getRarity() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Willpower</td>
-                    <td class="p-2">{{ cardToDisplay.getWillpower() }}</td>
+                    <td class="tw_td_label">Strength</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getStrength() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Lore</td>
-                    <td class="p-2">{{ cardToDisplay.getLore() }}</td>
+                    <td class="tw_td_label">Willpower</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getWillpower() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Flavor Text</td>
-                    <td class="p-2">{{ cardToDisplay.getFlavorText() }}</td>
+                    <td class="tw_td_label">Lore</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getLore() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Illustrators</td>
-                    <td class="p-2">{{ cardToDisplay.getIllustrators().join(', ') }}</td>
+                    <td class="tw_td_label">Flavor Text</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getFlavorText() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Collector Number</td>
-                    <td class="p-2">{{ cardToDisplay.getCollectorNumber() }}</td>
+                    <td class="tw_td_label">Illustrators</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getIllustrators().join(', ') }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Language</td>
-                    <td class="p-2">{{ cardToDisplay.getLang() }}</td>
+                    <td class="tw_td_label">Collector Number</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getCollectorNumber() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Set Name</td>
-                    <td class="p-2">{{ cardToDisplay.getSet().getName() }}</td>
+                    <td class="tw_td_label">Language</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getLang() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Set Code</td>
-                    <td class="p-2">{{ cardToDisplay.getSet().getCode() }}</td>
+                    <td class="tw_td_label">Set Name</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getSet().getName() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Set Release Date</td>
-                    <td class="p-2">{{ cardToDisplay.getSet().getReleasedAt() | date }}</td>
+                    <td class="tw_td_label">Set Code</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getSet().getCode() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Price (USD)</td>
-                    <td class="p-2">{{ cardToDisplay.getPrices().getUsd() || 'N/A' }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold p-2">Price (USD Foil)</td>
-                    <td class="p-2">{{ cardToDisplay.getPrices().getUsdFoil() || 'N/A' }}</td>
+                    <td class="tw_td_label">Set Release Date</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getSet().getReleasedAt() | date }}</td>
                 </tr>
             </tbody>
         </table>

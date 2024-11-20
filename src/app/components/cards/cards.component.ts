@@ -52,6 +52,22 @@ export class CardsComponent {
   }
 
 
+  showPrices(cardId: string) {
+    console.log({
+      cardId: cardId
+    })
+
+    const priceContainer = document.getElementById(cardId) as HTMLElement
+
+    console.log(priceContainer)
+
+    priceContainer.classList.remove("hidden")
+    setTimeout(() => {
+      priceContainer.classList.add("hidden")
+    }, 2000)
+  }
+
+
 }
 
 

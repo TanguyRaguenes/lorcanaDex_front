@@ -41,3 +41,11 @@
 .tw_h1 {
     @apply w-11/12 text-3xl md:text-4xl lg:text-5xl text-center mb-4 font-Roboto font-semibold
 }
+
+.tw_td_label {
+    @apply font-semibold p-2 border-b-2
+}
+
+.tw_td_value {
+    @apply p-2 border-b-2
+}
