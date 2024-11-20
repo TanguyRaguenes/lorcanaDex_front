@@ -34,11 +34,11 @@ export class CardsComponent {
     this.cardsService.getCardsToDisplay().subscribe({
       next: (response: Array<CardApiLorcast>) => {
         console.log({
-          "Response": response
+          "cards_request_cards": response
         })
         this.cardsToDisplay = [...response]
       }, error: (e => {
-        console.log("ngOnInit error " + e)
+        console.log("getCardsToDisplay() error " + e)
       })
     });
 

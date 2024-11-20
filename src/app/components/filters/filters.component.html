@@ -51,6 +51,15 @@
             </select>
           </div> -->
 
+        <div class="mt-4 w-9/12">
+            <select (change)="OnChangeSelectSet($event)">
+                <option value="all">all</option>
+                <option *ngFor="let set of sets; let i = index" [value]="set.getName()">
+                    {{ set.getName() }}
+                </option>
+            </select>
+        </div>
+
 
         <!-- NAME -->
 

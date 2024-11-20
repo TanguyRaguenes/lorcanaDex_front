@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { booleanAttribute, Component, OnInit } from '@angular/core';
 import { Filter } from '../../models/Filter';
 import { FormsModule } from '@angular/forms';
 import { CardsService } from '../../services/cardsService';
@@ -94,7 +94,9 @@ export class FiltersComponent implements OnInit {
       case "rarity":
         priority = 2;
         break;
-
+      case "set":
+        priority = 3;
+        break;
       case "name":
         priority = 10;
         break;
@@ -106,14 +108,25 @@ export class FiltersComponent implements OnInit {
 
     const filter = new Filter(priority, key, value);
 
+    let AllowedToPush: boolean = true;
+
+    if (filter.getKey() == "set") {
+      this.filters = this.filters.filter(e => e.getKey() != "set")
+
+      filter.getValue() === "all" ? AllowedToPush = false : null;
+    }
+
     if (this.filters.some(e => e.getValue() === filter.getValue())) {
       this.filters = this.filters.filter(e => e.getValue() != filter.getValue())
     } else {
-      this.filters.push(filter);
+      if (AllowedToPush) {
+        this.filters.push(filter);
+      }
+
     }
 
     console.log({
-      "filter": this.filters
+      "filters": this.filters
     })
 
   }
@@ -132,6 +145,17 @@ export class FiltersComponent implements OnInit {
     this.cardsService.filterCards(this.filters)
 
     this.toggleModal();
+
+  }
+
+  OnChangeSelectSet(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const selectedValue = target.value;
+    console.log(selectedValue);
+
+    if (selectedValue !== null) {
+      this.addNewFilter(null, "set", selectedValue);
+    }
 
   }
 

@@ -253,6 +253,9 @@ export class CardsService {
         case "name":
           filteredCards = filteredCards.filter(e => this.normalizeString(e.getName()).includes(this.normalizeString(filter.getValue())))
           break;
+        case "set":
+          filteredCards = filteredCards.filter(e => this.normalizeString(e.getSet().getName()).includes(this.normalizeString(filter.getValue())))
+          break;
 
         default:
           break;
