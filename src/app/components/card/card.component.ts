@@ -27,10 +27,10 @@ export class CardComponent {
     // console.log({
     //   "cardToDisplay : ": this.cardToDisplay
     // })
-    this.toggleIsModalVisible();
+    this.toggleModal();
   }
 
-  protected toggleIsModalVisible() {
+  protected toggleModal() {
     this.isModalVisible = !this.isModalVisible;
   }
 

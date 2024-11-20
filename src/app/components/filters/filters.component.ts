@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Filter } from '../../models/Filter';
 import { FormsModule } from '@angular/forms';
 import { CardsService } from '../../services/cardsService';
+import { SetApiLorcast } from '../../models/SetApiLorcast';
 
 @Component({
   selector: 'app-filters',
@@ -22,6 +23,7 @@ export class FiltersComponent implements OnInit {
   protected filters: Array<Filter>;
   protected isModalInitialized: boolean;
   protected isModalVisible: boolean;
+  protected sets: Array<SetApiLorcast> = [];
 
 
   // CONTRUCTEUR
@@ -37,6 +39,19 @@ export class FiltersComponent implements OnInit {
     });
     this.isModalVisible = false;
     this.isModalInitialized = false;
+
+    this.cardsService.getSets().subscribe({
+      next: (response: Array<SetApiLorcast>) => {
+        response.forEach(e => {
+          console.log({
+            set: e.getName()
+          })
+        })
+        this.sets = [...response]
+      }, error: (e => {
+        console.log("getSets error " + e)
+      })
+    });
   }
   ngOnInit(): void {
     this.isModalInitialized = true;

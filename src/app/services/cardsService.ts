@@ -6,6 +6,7 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Card } from '../models/Card';
 import { Filter } from '../models/Filter';
 import { CardApiLorcast } from '../models/CardApiLorcast';
+import { SetApiLorcast } from '../models/SetApiLorcast';
 
 
 @Injectable({
@@ -17,6 +18,7 @@ export class CardsService {
 
   protected allcards: Array<CardApiLorcast>;
   private cardsToDisplay: BehaviorSubject<Array<CardApiLorcast>> = new BehaviorSubject<Array<CardApiLorcast>>([]);
+  private sets: BehaviorSubject<Array<SetApiLorcast>> = new BehaviorSubject<Array<SetApiLorcast>>([]);
 
 
   private colors: Array<string>;
@@ -54,13 +56,24 @@ export class CardsService {
         this.allcards = [...response];
         this.cardsToDisplay.next(this.allcards);
 
-        console.log("MARCHE !!!")
         console.log({
           response: response
         })
       }, error: (e => {
-        console.log("ERREUR !!!")
+
         throw new Error(`getCards : ${e}`)
+      })
+    })
+
+
+    this.getSets().subscribe({
+      next: (response: Array<SetApiLorcast>) => {
+        this.sets.next(response)
+        console.log({
+          sets: this.sets
+        })
+      }, error: (e => {
+        throw new Error(`getSets : ${e}`)
       })
     })
 
@@ -170,10 +183,30 @@ export class CardsService {
       Authorization: `Bearer ${token}`
     });
 
-    const response = this.http.get<Array<any>>(`${environment.serverside_cardsApiRest}/get`, { headers }).pipe(
+    const response = this.http.get<Array<any>>(`${environment.serverside_cardsApiRest}/getCards`, { headers }).pipe(
       map(response => response.map(data => new CardApiLorcast(data))));
 
     return response;
+  }
+
+  public getSets(): Observable<Array<SetApiLorcast>> {
+
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+
+    console.log("getAllCards Authorization :", {
+      Authorization: `Bearer ${token}`
+    });
+
+    const response = this.http.get<Array<any>>(`${environment.serverside_cardsApiRest}/getSets`, { headers }).pipe(
+      map(response => response.map(data => new SetApiLorcast(data.setIdBdd, data.setIdApi, data.name, data.code, data.releasedAt, data.prereleasedAt))));
+
+    return response;
+
+
   }
 
 
