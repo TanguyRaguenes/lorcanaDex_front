@@ -13,7 +13,7 @@
 
       <img *ngIf="card?.getImageUris()?.getDigital()?.getSmall() !== null" alt="card"
         class="z-10 h-full w-full rounded-lg object-contain transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl"
-        [src]="card?.getImageUris()?.getDigital()?.getNormal()" [attr.loading]="i > 100 ? 'lazy' : null"
+        [src]="card?.getImageUris()?.getDigital()?.getSmall()" [attr.loading]="i > 100 ? 'lazy' : null"
         (click)="showCardDetails(card)">
 
       <svg *ngIf="card?.getPrices()?.getUsd() !== null || card?.getPrices()?.getUsdFoil()!==null"
