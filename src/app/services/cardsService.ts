@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Card } from '../models/Card';
 import { Filter } from '../models/Filter';
+import { CardApiLorcast } from '../models/CardApiLorcast';
 
 
 @Injectable({
@@ -14,8 +15,8 @@ export class CardsService {
 
   //ATTRIBUTS
 
-  protected allcards: Array<Card>;
-  private cardsToDisplay: BehaviorSubject<Array<Card>> = new BehaviorSubject<Array<Card>>([]);
+  protected allcards: Array<CardApiLorcast>;
+  private cardsToDisplay: BehaviorSubject<Array<CardApiLorcast>> = new BehaviorSubject<Array<CardApiLorcast>>([]);
 
 
   private colors: Array<string>;
@@ -38,14 +39,30 @@ export class CardsService {
     this.resetRarities();
 
 
-    this.fetchAllCards().subscribe({
-      next: (response: Array<Card>) => {
+    // this.fetchAllCards().subscribe({
+    //   next: (response: Array<Card>) => {
+    //     this.allcards = [...response];
+    //     this.cardsToDisplay.next(this.allcards);
+    //   }, error: (e => {
+    //     throw new Error(`fetchAllCards : ${e}`)
+    //   })
+    // })
+
+    this.getCards().subscribe({
+      next: (response: Array<CardApiLorcast>) => {
+
         this.allcards = [...response];
         this.cardsToDisplay.next(this.allcards);
+
+        console.log("HEY !!!!!")
+        console.log({
+          response: response
+        })
       }, error: (e => {
-        throw new Error(`fetchAllCards : ${e}`)
+        throw new Error(`getCards : ${e}`)
       })
     })
+
   }
 
   // GETTERS
@@ -58,11 +75,11 @@ export class CardsService {
     return this.rarities;
   }
 
-  public getAllCards(): Array<Card> {
+  public getAllCards(): Array<CardApiLorcast> {
     return this.allcards;
   }
 
-  public getCardsToDisplay(): Observable<Array<Card>> {
+  public getCardsToDisplay(): Observable<Array<CardApiLorcast>> {
     return this.cardsToDisplay.asObservable();
   }
 
@@ -140,6 +157,24 @@ export class CardsService {
     return response;
   }
 
+  public getCards(): Observable<Array<CardApiLorcast>> {
+
+    const token = sessionStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    })
+
+    console.log("getAllCards Authorization :", {
+      Authorization: `Bearer ${token}`
+    });
+
+    const response = this.http.get<Array<any>>(`${environment.serverside_cardsApiRest}/get`, { headers }).pipe(
+      map(response => response.map(data => new CardApiLorcast(data))));
+
+    return response;
+  }
+
 
   //Bulk l'api et stocker dans la BDD
 
@@ -165,7 +200,7 @@ export class CardsService {
 
   public filterCards(filters: Array<Filter>) {
 
-    let filteredCards: Array<Card> = [];
+    let filteredCards: Array<CardApiLorcast> = [];
     !filters.some(e => e.getPriority() === 1) ? filteredCards = [...this.allcards] : null;
 
     filters.forEach(filter => {
@@ -175,7 +210,7 @@ export class CardsService {
       switch (filter.getKey()) {
 
         case "color":
-          filteredCards = [...filteredCards, ...this.allcards.filter(e => e.getColor() === filter.getValue())]
+          filteredCards = [...filteredCards, ...this.allcards.filter(e => e.getInk() === filter.getValue())]
 
           break;
         case "rarity":

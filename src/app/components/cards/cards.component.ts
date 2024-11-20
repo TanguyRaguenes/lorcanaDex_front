@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FiltersComponent } from '../filters/filters.component';
 import { CardComponent } from '../card/card.component';
+import { CardApiLorcast } from '../../models/CardApiLorcast';
 
 @Component({
   selector: 'app-cards',
@@ -19,7 +20,7 @@ export class CardsComponent {
 
   // ATTRIBUTS
   private cardsService: CardsService;
-  protected cardsToDisplay: Array<Card>;
+  protected cardsToDisplay: Array<CardApiLorcast>;
 
   @ViewChild(CardComponent) cardComponent!: CardComponent;
 
@@ -31,7 +32,7 @@ export class CardsComponent {
     this.cardsToDisplay = [];
 
     this.cardsService.getCardsToDisplay().subscribe({
-      next: (response: Array<Card>) => {
+      next: (response: Array<CardApiLorcast>) => {
         console.log({
           "Response": response
         })
@@ -46,7 +47,7 @@ export class CardsComponent {
 
   // AFFICHAGE DETAILS CARTE
 
-  showCardDetails(card: Card) {
+  showCardDetails(card: CardApiLorcast) {
     this.cardComponent.setCardToDisplay(card);
   }
 

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Deck } from '../../models/Deck';
@@ -24,6 +24,8 @@ export class DecksComponent implements OnInit {
   private flashMessageService: FlashMessageService;
   private router: Router;
 
+  private viewportScroller: ViewportScroller;
+
   protected colors: Array<string>;
   protected rarities: Array<string>;
 
@@ -42,7 +44,7 @@ export class DecksComponent implements OnInit {
 
   // CONSTRUCTEUR
 
-  constructor(cardsService: CardsService, decksService: DecksService, router: Router, flashMessageService: FlashMessageService) {
+  constructor(cardsService: CardsService, decksService: DecksService, router: Router, flashMessageService: FlashMessageService, viewportScroller: ViewportScroller) {
 
     this.cardsService = cardsService;
     this.cardsService.resetColors();
@@ -64,6 +66,9 @@ export class DecksComponent implements OnInit {
 
     this.isModalVisible = false;
     this.isModalInitialized = false;
+
+    this.viewportScroller = viewportScroller;
+    this.viewportScroller.scrollToPosition([0, 0]);
 
   }
 

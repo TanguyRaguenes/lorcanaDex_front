@@ -1,92 +1,114 @@
-<section *ngIf="isModalVisible" class="z-40 w-full h-full mx-auto bg-white fixed top-0 overflow-y-auto">
+<section *ngIf="isModalVisible" class="z-40 w-full h-full mx-auto bg-white fixed top-0 overflow-y-auto pb-20">
 
+    <!-- Bouton pour fermer la modal -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-        class="w-10 h-10" (click)="toggleIsModalVisible()">
-        <path stroke-linecap=" round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        class="w-10 h-10 cursor-pointer" (click)="toggleIsModalVisible()">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
     </svg>
 
+    <!-- Affichage de l'image principale de la carte -->
     <div class="w-11/12 h-auto mx-auto">
-
-        <img *ngIf="cardToDisplay" alt="card" class="rounded-lg object-contain object-center"
-            [src]="cardToDisplay.getImage()">
-
+        <img *ngIf="cardToDisplay?.getImageUris()?.getDigital()?.getLarge()" alt="card"
+            class="rounded-lg object-contain object-center"
+            [src]="cardToDisplay?.getImageUris()?.getDigital()?.getLarge()">
     </div>
 
+    <!-- Détails de la carte -->
     <div *ngIf="cardToDisplay" class="w-11/12 mx-auto p-4 border rounded-lg shadow-lg bg-white">
 
         <table class="w-full text-left">
             <tbody>
                 <tr>
-                    <td class="font-semibold p-2">Card Number</td>
-                    <td class="p-2">{{ cardToDisplay.getCardNum() }}</td>
+                    <td class="font-semibold p-2">Card ID</td>
+                    <td class="p-2">{{ cardToDisplay.getCardIdApi() }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold p-2">Name</td>
                     <td class="p-2">{{ cardToDisplay.getName() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Set Number</td>
-                    <td class="p-2">{{ cardToDisplay.getSetNum() }}</td>
+                    <td class="font-semibold p-2">Version</td>
+                    <td class="p-2">{{ cardToDisplay.getVersion() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Set ID</td>
-                    <td class="p-2">{{ cardToDisplay.getSetId() }}</td>
+                    <td class="font-semibold p-2">Layout</td>
+                    <td class="p-2">{{ cardToDisplay.getLayout() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Set Name</td>
-                    <td class="p-2">{{ cardToDisplay.getLorcanaSetName() }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold p-2">Classifications</td>
-                    <td class="p-2">{{ cardToDisplay.getClassifications() }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold p-2">Rarity</td>
-                    <td class="p-2">{{ cardToDisplay.getRarity() }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold p-2">Type</td>
-                    <td class="p-2">{{ cardToDisplay.getType() }}</td>
-                </tr>
-                <tr>
-                    <td class="font-semibold p-2">Color</td>
-                    <td class="p-2">{{ cardToDisplay.getColor() }}</td>
+                    <td class="font-semibold p-2">Release Date</td>
+                    <td class="p-2">{{ cardToDisplay.getReleasedAt() | date }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold p-2">Cost</td>
                     <td class="p-2">{{ cardToDisplay.getCost() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Inkable</td>
-                    <td class="p-2">{{ cardToDisplay.isInkable() ? 'Yes' : 'No' }}</td>
+                    <td class="font-semibold p-2">Inkwell</td>
+                    <td class="p-2">{{ cardToDisplay.getInkwell() ? 'Yes' : 'No' }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Lore</td>
-                    <td class="p-2">{{ cardToDisplay.getLore() }}</td>
+                    <td class="font-semibold p-2">Ink</td>
+                    <td class="p-2">{{ cardToDisplay.getInk() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Willpower</td>
-                    <td class="p-2">{{ cardToDisplay.getWillpower() }}</td>
+                    <td class="font-semibold p-2">Type</td>
+                    <td class="p-2">{{ cardToDisplay.getType().join(', ') }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Classifications</td>
+                    <td class="p-2">{{ cardToDisplay.getClassifications().join(', ') }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Rarity</td>
+                    <td class="p-2">{{ cardToDisplay.getRarity() }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold p-2">Strength</td>
                     <td class="p-2">{{ cardToDisplay.getStrength() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Body Text</td>
-                    <td class="p-2">{{ cardToDisplay.getBodyText() }}</td>
+                    <td class="font-semibold p-2">Willpower</td>
+                    <td class="p-2">{{ cardToDisplay.getWillpower() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Lore</td>
+                    <td class="p-2">{{ cardToDisplay.getLore() }}</td>
                 </tr>
                 <tr>
                     <td class="font-semibold p-2">Flavor Text</td>
                     <td class="p-2">{{ cardToDisplay.getFlavorText() }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Artist</td>
-                    <td class="p-2">{{ cardToDisplay.getArtist() }}</td>
+                    <td class="font-semibold p-2">Illustrators</td>
+                    <td class="p-2">{{ cardToDisplay.getIllustrators().join(', ') }}</td>
                 </tr>
                 <tr>
-                    <td class="font-semibold p-2">Card Variants</td>
-                    <td class="p-2">{{ cardToDisplay.getCardVariants() }}</td>
+                    <td class="font-semibold p-2">Collector Number</td>
+                    <td class="p-2">{{ cardToDisplay.getCollectorNumber() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Language</td>
+                    <td class="p-2">{{ cardToDisplay.getLang() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Set Name</td>
+                    <td class="p-2">{{ cardToDisplay.getSet().getName() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Set Code</td>
+                    <td class="p-2">{{ cardToDisplay.getSet().getCode() }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Set Release Date</td>
+                    <td class="p-2">{{ cardToDisplay.getSet().getReleasedAt() | date }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Price (USD)</td>
+                    <td class="p-2">{{ cardToDisplay.getPrices().getUsd() || 'N/A' }}</td>
+                </tr>
+                <tr>
+                    <td class="font-semibold p-2">Price (USD Foil)</td>
+                    <td class="p-2">{{ cardToDisplay.getPrices().getUsdFoil() || 'N/A' }}</td>
                 </tr>
             </tbody>
         </table>

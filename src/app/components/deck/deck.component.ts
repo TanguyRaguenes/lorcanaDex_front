@@ -12,6 +12,7 @@ import { DecksService } from '../../services/decks.service';
 import { DeckService } from '../../services/deck.service';
 import { map } from 'rxjs';
 import { FlashMessageService } from '../../services/flash-message.service';
+import { CardApiLorcast } from '../../models/CardApiLorcast';
 
 @Component({
   selector: 'app-deck',
@@ -27,12 +28,12 @@ export class DeckComponent implements OnInit {
 
   protected deckSelected: Deck | null = null;
   protected deckCardsMap: Map<number, number> = new Map();
-  protected deckCardsArray: Array<Card> = [];
+  protected deckCardsArray: Array<CardApiLorcast> = [];
   protected deckColors: Array<string | undefined> = [];
 
 
-  protected cardsPool: Array<Card>;
-  protected cardsToDisplay: Array<Card>;
+  protected cardsPool: Array<CardApiLorcast>;
+  protected cardsToDisplay: Array<CardApiLorcast>;
 
   protected isDeckVisible: boolean;
 
@@ -96,8 +97,8 @@ export class DeckComponent implements OnInit {
   }
   ngOnInit(): void {
     this.cardsService.getCardsToDisplay().subscribe({
-      next: (response: Array<Card>) => {
-        this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getColor()))];
+      next: (response: Array<CardApiLorcast>) => {
+        this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getInk()))];
         this.cardsToDisplay = [...this.cardsPool];
       }, error: (e => {
         console.log("ngOnInit error " + e)
@@ -207,7 +208,7 @@ export class DeckComponent implements OnInit {
   protected updateDeckCardsArray() {
     this.deckCardsArray = [];
     this.deckCardsMap.forEach((value, key) => {
-      const card: Card | undefined = this.cardsService.getAllCards().find(e => e.getCardId() === key);
+      const card: CardApiLorcast | undefined = this.cardsService.getAllCards().find(e => e.getCardIdBdd() === key);
       if (card) {
         this.deckCardsArray.push(card);
       }
@@ -216,7 +217,7 @@ export class DeckComponent implements OnInit {
 
   // AFFICHAGE DETAILS CARTE
 
-  showCardDetails(card: Card) {
+  showCardDetails(card: CardApiLorcast) {
     this.cardComponent.setCardToDisplay(card);
   }
 

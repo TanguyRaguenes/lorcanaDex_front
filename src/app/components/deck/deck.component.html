@@ -23,7 +23,7 @@
 
             <div class="flex justify-between items-center mb-2">
 
-                <svg class="tw_svg h-10 w-10" (click)="addCardToDeck(card.getCardId())"
+                <svg class="tw_svg h-10 w-10" (click)="addCardToDeck(card.getCardIdBdd())"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -32,10 +32,10 @@
 
 
                 <span class="text-xl font-Roboto">{{
-                    getCardNumberOfCopies(card.getCardId())
+                    getCardNumberOfCopies(card.getCardIdBdd())
                     }}</span>
 
-                <svg class="tw_svg h-10 w-10" (click)="removeCardFromDeck(card.getCardId())"
+                <svg class="tw_svg h-10 w-10" (click)="removeCardFromDeck(card.getCardIdBdd())"
                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -45,8 +45,9 @@
             </div>
 
             <div class="w-full flex items-center justify-center mb-2">
-                <img alt="card" class="h-full w-full rounded-lg object-contain transform hover:cursor-pointer"
-                    [src]="card.getImageSmall()" [attr.loading]="i > 100 ? 'lazy' : null"
+                <img *ngIf="card?.getImageUris()?.getDigital()?.getSmall() !== null" alt="card"
+                    class="h-full w-full rounded-lg object-contain transform hover:cursor-pointer"
+                    [src]="card?.getImageUris()?.getDigital()?.getSmall()" [attr.loading]="i > 100 ? 'lazy' : null"
                     (click)="showCardDetails(card)">
             </div>
 
