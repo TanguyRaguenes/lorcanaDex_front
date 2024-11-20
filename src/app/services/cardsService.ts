@@ -54,11 +54,12 @@ export class CardsService {
         this.allcards = [...response];
         this.cardsToDisplay.next(this.allcards);
 
-        console.log("HEY !!!!!")
+        console.log("MARCHE !!!")
         console.log({
           response: response
         })
       }, error: (e => {
+        console.log("ERREUR !!!")
         throw new Error(`getCards : ${e}`)
       })
     })
