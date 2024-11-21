@@ -1,11 +1,13 @@
-<header class="z-40 h-20 bg-white fixed top-0 w-full shadow-xl rounded-b-sm flex items-center justify-between p-1">
+<header class="z-40 h-20 bg-white sticky top-0 w-full shadow-xl rounded-b-sm flex items-center justify-around">
 
-    <img src="assets/images/logo.webp" alt="Logo" class="h-full rounded-full m-1 inline">
+    <a class="h-5/6 hover:scale-105" routerLink="home"><img src="assets/images/logo.webp" alt="Logo"
+            class="h-full object-center rounded-full"></a>
 
-    <span class="text-4xl md:text-6xl font-Satisfy text-gray-900">LorcanaDex</span>
+    <a class="text-4xl md:text-6xl font-Satisfy text-gray-900 hover:cursor-pointer hover:scale-105 hover:text-purple-700"
+        routerLink="home">LorcanaDex</a>
 
 
-    <svg *ngIf="!isModalOpen" [ngClass]="{'opacity-0 pointer-events-none':hideMenu()}" class="w-10 h-10 tw_svg"
+    <svg *ngIf="!isModalOpen" [ngClass]="{'opacity-0 pointer-events-none':hideMenu()}" class="w-14 h-14 tw_svg"
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         (click)="toggleMenu()">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />

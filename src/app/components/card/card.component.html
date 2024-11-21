@@ -1,17 +1,11 @@
-<section *ngIf="isModalVisible" class="z-40 w-full h-full mx-auto bg-white fixed top-0 overflow-y-auto pb-20">
+<section *ngIf="isModalVisible"
+    class="z-40 w-full h-full bg-white fixed top-0 overflow-y-auto flex flex-col items-center">
 
-    <!-- Bouton pour fermer la modal -->
-    <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-        class="w-10 h-10 cursor-pointer tw_svg" (click)="toggleIsModal()">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-    </svg> -->
-
-    <button class="tw_btn w-11/12 mx-auto" (click)="toggleModal()">Back</button>
 
     <!-- Affichage de l'image principale de la carte -->
-    <div class="w-11/12 h-auto mx-auto">
+    <div class="w-11/12 mt-10">
         <img *ngIf="cardToDisplay?.getImageUris()?.getDigital()?.getLarge()" alt="card"
-            class="rounded-lg object-contain object-center"
+            class="rounded-lg object-contain object-center mx-auto"
             [src]="cardToDisplay?.getImageUris()?.getDigital()?.getLarge()">
     </div>
 
@@ -112,5 +106,7 @@
         </table>
 
     </div>
+
+    <button class="tw_btn w-11/12 mx-auto fixed bottom-10" (click)="toggleModal()">Back</button>
 
 </section>

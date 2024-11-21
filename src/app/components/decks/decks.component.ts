@@ -1,5 +1,5 @@
 import { CommonModule, ViewportScroller } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Deck } from '../../models/Deck';
 import { DecksService } from '../../services/decks.service';
@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CardsService } from '../../services/cardsService';
 import { FlashMessageComponent } from '../flash-message/flash-message.component';
 import { FlashMessageService } from '../../services/flash-message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-decks',
@@ -15,65 +16,90 @@ import { FlashMessageService } from '../../services/flash-message.service';
   templateUrl: './decks.component.html',
   styleUrl: './decks.component.scss'
 })
-export class DecksComponent implements OnInit {
+export class DecksComponent implements OnInit, OnDestroy {
 
 
   // ATTRIBUTS
+
+  // Classes utilitaires
+  private subscription = new Subscription();
+
+  // Services custom
   private cardsService: CardsService;
-  private decksService: DecksService;
   private flashMessageService: FlashMessageService;
+  private decksService: DecksService;
+
+  // Services Angular
   private router: Router;
 
-  private viewportScroller: ViewportScroller;
-
+  // Variables
+  protected userDecks: Array<Deck>;
   protected colors: Array<string>;
   protected rarities: Array<string>;
-
   protected inksSelected: Array<string>;
-
   protected deckNameChosen: string;
-
-  protected userDecks: Array<Deck>;
-
   protected showErrorDeckNameChosenAlreadyUsed: boolean;
   protected showErrorNoDeckNameChosen: boolean;
   protected showErrorNoInkSelected: boolean;
-
   protected isModalInitialized: boolean;
   protected isModalVisible: boolean;
 
+
+
   // CONSTRUCTEUR
 
-  constructor(cardsService: CardsService, decksService: DecksService, router: Router, flashMessageService: FlashMessageService, viewportScroller: ViewportScroller) {
+  constructor(cardsService: CardsService, decksService: DecksService, router: Router, flashMessageService: FlashMessageService) {
 
     this.cardsService = cardsService;
-    this.cardsService.resetColors();
-    this.cardsService.resetCardsToDisplay();
     this.decksService = decksService;
     this.flashMessageService = flashMessageService;
     this.router = router;
-    this.colors = [...this.cardsService.getColors()];
-    this.rarities = [...this.cardsService.getRarities()];
 
-
-    this.inksSelected = [];
     this.deckNameChosen = "";
     this.userDecks = [];
+    this.colors = [];
+    this.rarities = [];
+    this.inksSelected = [];
     this.showErrorDeckNameChosenAlreadyUsed = false;
     this.showErrorNoDeckNameChosen = false;
     this.showErrorNoInkSelected = false;
-    this.getDecksFromBdd();
-
     this.isModalVisible = false;
     this.isModalInitialized = false;
-
-    this.viewportScroller = viewportScroller;
-    this.viewportScroller.scrollToPosition([0, 0]);
 
   }
 
   ngOnInit(): void {
+
     this.isModalInitialized = true;
+
+    this.cardsService.resetColors();
+    this.colors = [...this.cardsService.getColors()];
+    this.cardsService.resetCardsToDisplay();
+    this.rarities = [...this.cardsService.getRarities()];
+
+
+    // ABONNEMENTS
+
+    this.subscription.add(
+      this.decksService.getUserDecks().subscribe({
+        next: (decks) => {
+          this.userDecks = decks;
+          console.log('Decks mis à jour :', this.userDecks);
+        },
+        error: (err) => {
+          console.error('Error getUserDecks :', err);
+          this.flashMessageService.setMessageType('error');
+          this.flashMessageService.setMessageText('Error getUserDecks.');
+        }
+      })
+    );
+
+    this.decksService.updateUserDecks();
+
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   //METHODES :
@@ -85,8 +111,8 @@ export class DecksComponent implements OnInit {
     this.isModalVisible = !this.isModalVisible;
   }
 
+  
   // EDITER LE DECK
-
 
   public editDeck(deckId: number) {
 
@@ -166,11 +192,15 @@ export class DecksComponent implements OnInit {
 
       );
 
-      this.decksService.addDeckToBdd(deck).subscribe({
+      this.decksService.addUserDeck(deck).subscribe({
         next: (response: any) => {
           console.log(response);
-          this.getDecksFromBdd();
           this.toggleModal();
+          this.decksService.updateUserDecks();
+          this.router.navigate(['/temporary']).then(() => {
+            this.router.navigate(['/decks']);
+          });
+
           this.flashMessageService.setMessageType("success")
           this.flashMessageService.setMessageText("The creation of the deck is a success.")
         }, error: (e => {
@@ -186,36 +216,20 @@ export class DecksComponent implements OnInit {
       console.log("username and/or deck are null")
     }
 
-    this.router.navigate(['/temporary']).then(() => {
-      this.router.navigate(['/decks']);
-    });
-
-  }
-
-  //RECUPERATION DECKS BDD
-
-  public getDecksFromBdd(): void {
-    this.userDecks = [];
-    this.decksService.getDecksFromBdd().subscribe({
-      next: (response: Deck[]) => {
-        console.log(response);
-        this.userDecks = response;
-        console.log({
-          "userDecks": this.userDecks
-        })
-      }, error: (e => {
-        console.log(e)
-      })
-    })
   }
 
   //SUPPRESSION DECK BDD
 
-  public removeDeckFromBdd(deckId: number | null) {
-    this.decksService.removeDeckFromBdd(deckId).subscribe({
+  public removeUserDeck(deckId: number | null) {
+
+    this.decksService.removeUserDeck(deckId).subscribe({
       next: (response: JSON) => {
+        this.decksService.updateUserDecks();
         console.log(response);
-        this.getDecksFromBdd()
+        this.router.navigate(['/temporary']).then(() => {
+          this.router.navigate(['/decks']);
+        });
+
       }, error: (e => {
         console.log(e);
       })

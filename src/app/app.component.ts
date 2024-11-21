@@ -7,6 +7,7 @@ import { CardsComponent } from './components/cards/cards.component';
 import { DeckComponent } from './components/deck/deck.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FlashMessageComponent } from './components/flash-message/flash-message.component';
+import { FlashMessageService } from './services/flash-message.service';
 
 @Component({
   selector: 'app-root',

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FlashMessageService } from '../../services/flash-message.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -10,27 +10,32 @@ import { CommonModule } from '@angular/common';
   templateUrl: './flash-message.component.html',
   styleUrl: './flash-message.component.scss'
 })
-export class FlashMessageComponent {
+export class FlashMessageComponent implements OnInit, OnDestroy {
 
 
   protected flashMessageService: FlashMessageService;
 
   protected isVisible: boolean;
-
-  // success, error, information
   protected messageType: String;
   protected messageText: String;
 
   private subscription: Subscription = new Subscription();
 
   constructor(flashMessageService: FlashMessageService) {
+
+    this.flashMessageService = flashMessageService;
+
     this.isVisible = false;
     this.messageType = "";
     this.messageText = "";
-    this.flashMessageService = flashMessageService;
+
+
+
+  }
+  ngOnInit(): void {
 
     this.subscription.add(
-      flashMessageService.getMessageType().subscribe({
+      this.flashMessageService.getMessageType().subscribe({
         next: (response => {
           this.messageType = response;
         }), error: (e => {
@@ -41,7 +46,7 @@ export class FlashMessageComponent {
     )
 
     this.subscription.add(
-      flashMessageService.getMessageText().subscribe({
+      this.flashMessageService.getMessageText().subscribe({
         next: (response => {
           this.messageText = response;
         }), error: (e => {
@@ -51,7 +56,7 @@ export class FlashMessageComponent {
     )
 
     this.subscription.add(
-      flashMessageService.getIsVisible().subscribe({
+      this.flashMessageService.getIsVisible().subscribe({
         next: (response => {
           this.isVisible = response;
         }), error: (e => {
@@ -60,22 +65,23 @@ export class FlashMessageComponent {
       })
 
     )
-
   }
 
-  public setMessageType(messageType: String) {
-    this.messageType = messageType;
-  }
+  // public setMessageType(messageType: String) {
+  //   this.messageType = messageType;
+  // }
 
-  public setMessageText(messageText: String) {
-    this.messageText = messageText;
-  }
+  // public setMessageText(messageText: String) {
+  //   this.messageText = messageText;
+  // }
 
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
 
-
+  public hide() {
+    this.isVisible = false;
+  }
 
 }
