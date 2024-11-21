@@ -111,7 +111,7 @@ export class DecksComponent implements OnInit, OnDestroy {
     this.isModalVisible = !this.isModalVisible;
   }
 
-  
+
   // EDITER LE DECK
 
   public editDeck(deckId: number) {
@@ -197,12 +197,11 @@ export class DecksComponent implements OnInit, OnDestroy {
           console.log(response);
           this.toggleModal();
           this.decksService.updateUserDecks();
+          this.flashMessageService.setMessageType("success")
+          this.flashMessageService.setMessageText("The creation of the deck is a success.")
           this.router.navigate(['/temporary']).then(() => {
             this.router.navigate(['/decks']);
           });
-
-          this.flashMessageService.setMessageType("success")
-          this.flashMessageService.setMessageText("The creation of the deck is a success.")
         }, error: (e => {
           this.flashMessageService.setMessageType("error")
           this.flashMessageService.setMessageText("Error creating deck.")
@@ -226,11 +225,16 @@ export class DecksComponent implements OnInit, OnDestroy {
       next: (response: JSON) => {
         this.decksService.updateUserDecks();
         console.log(response);
+        this.flashMessageService.setMessageType("success")
+        this.flashMessageService.setMessageText("The deletion of the deck was successful.")
         this.router.navigate(['/temporary']).then(() => {
           this.router.navigate(['/decks']);
         });
 
       }, error: (e => {
+        this.flashMessageService.setMessageType("error")
+        this.flashMessageService.setMessageText("Error deleting deck.")
+        console.log("Error removeUserDeck : " + e)
         console.log(e);
       })
     });
