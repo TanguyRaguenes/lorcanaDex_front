@@ -25,11 +25,12 @@
         class="w-full absolute top-full left-0 bg-white transition-all duration-200 ease-in-out">
 
         <nav class="flex flex-col text-center font-Roboto">
-            <a class="border border-gray-300 py-4 hover:bg-purple-400" routerLink="home" (click)="toggleMenu()">Home</a>
-            <a class="border border-gray-300 py-4 hover:bg-purple-400" routerLink="cards"
-                (click)="toggleMenu()">Cards</a>
-            <a class="border border-gray-300 py-4 hover:bg-purple-400" routerLink="decks"
-                (click)="toggleMenu()">Decks</a>
+            <a *ngIf="!isCurrentRoute('home')" class="border border-gray-300 py-4 hover:bg-purple-400" routerLink="home"
+                (click)="toggleMenu()">Home</a>
+            <a *ngIf="!isCurrentRoute('cards')" class="border border-gray-300 py-4 hover:bg-purple-400"
+                routerLink="cards" (click)="toggleMenu()">Cards</a>
+            <a *ngIf="!isCurrentRoute('decks')" class="border border-gray-300 py-4 hover:bg-purple-400"
+                routerLink="decks" (click)="toggleMenu()">Decks</a>
             <p class="border border-gray-300 py-4 hover:bg-purple-400 cursor-pointer" (click)="toggleMenu(); logout()">
                 Log out</p>
         </nav>

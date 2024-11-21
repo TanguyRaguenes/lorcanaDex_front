@@ -2,12 +2,13 @@
 
     <div class="flex flex-row w-full justify-center">
         <!-- BOUTON RETOUR -->
-        <button *ngIf="!isDeckVisible" class="tw_btn w-1/2" (click)="goBack()">Go back</button>
+        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed left-0 top-20" (click)="goBack()">Go back</button>
         <!-- BOUTON AFFICHER DECK -->
-        <button *ngIf="!isDeckVisible" class="tw_btn w-1/2" (click)="showDeck()">Show deck</button>
+        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed right-0 top-20" (click)="showDeck()">Show deck</button>
 
         <!-- BOUTON AFFICHER TOUTES LES CARTES -->
-        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 mx-auto" (click)="showAll()">Show all cards</button>
+        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed top-20" (click)="showAll()">Show all
+            cards</button>
     </div>
 
     <app-filters *ngIf="!isDeckVisible"></app-filters>
@@ -16,7 +17,7 @@
 
     <!-- AFFICHAGE CARTES -->
 
-    <div class="w-full flex flex-wrap justify-center">
+    <div class="mt-12 w-full flex flex-wrap justify-center">
 
         <div *ngFor="let card of cardsToDisplay; let i = index"
             class="z-10 w-5/12 md:w-1/4 lg:w-1/6 p-1 m-2 bg-white rounded-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl ">

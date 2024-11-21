@@ -43,7 +43,11 @@ export class NavbarComponent implements OnInit {
   }
 
   hideMenu(): boolean {
-    return this.router.url === '/' || this.router.url === '/registration';
+    return this.router.url === '/' || this.router.url === '/registration' || this.router.url === '/deck';
+  }
+
+  isCurrentRoute(route: string): boolean {
+    return this.router.url === `/${route}`;
   }
 
 
