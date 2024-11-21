@@ -1,4 +1,4 @@
-<section class="w-full h-full flex flex-col items-center">
+<section class="flex flex-col items-center">
 
 
     <!-- BOUTON FILTRER -->
@@ -7,7 +7,7 @@
     <!-- MODAL -->
 
     <div *ngIf="isModalInitialized" [ngClass]="isModalVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-        class="tw_modal">
+        class="tw_modal overflow-y-auto pb-40">
 
         <!-- BOUTON BACK -->
         <button class="tw_btn w-11/12" (click)="toggleModal()">Back</button>
