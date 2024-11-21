@@ -44,8 +44,10 @@
         <!-- SET -->
 
 
-        <select (change)="OnChangeSelectSet($event)"
-            class="mt-4 p-3 w-9/12 text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+        <label for="filterOnSet" class="mt-4 block w-full text-grey-600 text-center">Set's name</label>
+        <select id="filterOnCardsName" (change)="OnChangeSelectSet($event)"
+            class="p-3 w-9/12 text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+
             <option value="all">all</option>
             <option *ngFor="let set of sets; let i = index" [value]="set.getName()">
                 {{ set.getName() }}
