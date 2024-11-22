@@ -31,6 +31,8 @@
                 routerLink="cards" (click)="toggleMenu()">Cards</a>
             <a *ngIf="!isCurrentRoute('decks')" class="border border-gray-300 py-4 hover:bg-purple-400"
                 routerLink="decks" (click)="toggleMenu()">Decks</a>
+            <a *ngIf="!isCurrentRoute('counter')" class="border border-gray-300 py-4 hover:bg-purple-400"
+                routerLink="counter" (click)="toggleMenu()">Counter</a>
             <p class="border border-gray-300 py-4 hover:bg-purple-400 cursor-pointer" (click)="toggleMenu(); logout()">
                 Log out</p>
         </nav>

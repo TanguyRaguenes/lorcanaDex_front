@@ -31,7 +31,7 @@ p {
 }
 
 .tw_svg {
-    @apply transform transition-all duration-200 hover:shadow-2xl hover:scale-105 hover:text-purple-700 hover:cursor-pointer
+    @apply transform transition-all duration-200 hover:shadow-2xl hover:scale-105 hover:text-fuchsia-400 hover:cursor-pointer
 }
 
 .tw_modal {
@@ -48,4 +48,8 @@ p {
 
 .tw_td_value {
     @apply p-2 border-b-2
+}
+
+.tw_counter {
+    @apply border border-white rounded-lg
 }

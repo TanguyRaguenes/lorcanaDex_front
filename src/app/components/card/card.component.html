@@ -13,94 +13,116 @@
 
         <table class="w-full text-left">
             <tbody>
-                <tr>
-                    <td class="tw_td_label">Price standard ($)</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getPrices().getUsd() || 'unavailable' }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Price foil ($)</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getPrices().getUsdFoil() || 'unavailable' }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Name</td>
-                    <td class="p-2 border-b-2">{{ cardToDisplay.getName() }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Version</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getVersion() }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Layout</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getLayout() }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Release Date</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getReleasedAt() | date }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Cost</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getCost() }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Inkwell</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getInkwell() ? 'Yes' : 'No' }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Ink</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getInk() }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Type</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getType().join(', ') }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Classifications</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getClassifications().join(', ') }}</td>
-                </tr>
-                <tr>
+
+
+                <tr *ngIf="cardToDisplay.getRarity()!==''">
                     <td class="tw_td_label">Rarity</td>
                     <td class="tw_td_value">{{ cardToDisplay.getRarity() }}</td>
                 </tr>
-                <tr>
-                    <td class="tw_td_label">Strength</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getStrength() }}</td>
+
+                <tr *ngIf="cardToDisplay.getPrices().getUsd()!==null">
+                    <td class="tw_td_label text-yellow-600">Price std ($)</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getPrices().getUsd() || 'unavailable' }}</td>
                 </tr>
-                <tr>
-                    <td class="tw_td_label">Willpower</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getWillpower() }}</td>
+                <tr *ngIf="cardToDisplay.getPrices().getUsdFoil()!==null">
+                    <td class="tw_td_label text-yellow-600">Price foil ($)</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getPrices().getUsdFoil() || 'unavailable' }}</td>
                 </tr>
-                <tr>
-                    <td class="tw_td_label">Lore</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getLore() }}</td>
+
+                <tr *ngIf="cardToDisplay.getCollectorNumber()!==''">
+                    <td class="tw_td_label">Collector Nb</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getCollectorNumber() }}</td>
                 </tr>
-                <tr>
-                    <td class="tw_td_label">Flavor Text</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getFlavorText() }}</td>
+
+                <tr *ngIf="cardToDisplay.getReleasedAt()!==null">
+                    <td class="tw_td_label">Release Date</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getReleasedAt() | date }}</td>
                 </tr>
-                <tr>
+
+
+                <tr *ngIf="cardToDisplay.getIllustrators().length > 0">
                     <td class="tw_td_label">Illustrators</td>
                     <td class="tw_td_value">{{ cardToDisplay.getIllustrators().join(', ') }}</td>
                 </tr>
-                <tr>
-                    <td class="tw_td_label">Collector Number</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getCollectorNumber() }}</td>
-                </tr>
-                <tr>
-                    <td class="tw_td_label">Language</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getLang() }}</td>
-                </tr>
-                <tr>
+
+                <tr *ngIf="cardToDisplay.getSet().getName()!==''">
                     <td class="tw_td_label">Set Name</td>
                     <td class="tw_td_value">{{ cardToDisplay.getSet().getName() }}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="cardToDisplay.getSet().getCode() !==''">
                     <td class="tw_td_label">Set Code</td>
                     <td class="tw_td_value">{{ cardToDisplay.getSet().getCode() }}</td>
                 </tr>
-                <tr>
-                    <td class="tw_td_label">Set Release Date</td>
-                    <td class="tw_td_value">{{ cardToDisplay.getSet().getReleasedAt() | date }}</td>
+
+
+                <tr *ngIf="cardToDisplay.getName()!==''">
+                    <td class="tw_td_label">Name</td>
+                    <td class="p-2 border-b-2">{{ cardToDisplay.getName() }}</td>
                 </tr>
+                <tr *ngIf="cardToDisplay.getVersion()!==''">
+                    <td class="tw_td_label">Version</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getVersion() }}</td>
+                </tr>
+
+                <tr *ngIf="cardToDisplay.getFlavorText()!==null">
+                    <td class="tw_td_label">Flavor Text</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getFlavorText() }}</td>
+                </tr>
+
+                <tr *ngIf="cardToDisplay.getType().length > 0">
+                    <td class="tw_td_label">Type</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getType().join(', ') }}</td>
+                </tr>
+                <tr *ngIf="cardToDisplay.getClassifications().length > 0">
+                    <td class="tw_td_label">Classifications</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getClassifications().join(', ') }}</td>
+                </tr>
+
+
+
+
+                <!-- <tr *ngIf="cardToDisplay.getLayout() !==null">
+                    <td class="tw_td_label">Layout</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getLayout() }}</td>
+                </tr> -->
+
+                <tr *ngIf="cardToDisplay.getInk()!==''">
+                    <td class="tw_td_label">Ink</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getInk() }}</td>
+                </tr>
+
+                <tr *ngIf="cardToDisplay.getInkwell()!==null">
+                    <td class="tw_td_label">Inkwell</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getInkwell() ? 'Yes' : 'No' }}</td>
+                </tr>
+
+                <tr *ngIf="cardToDisplay.getCost()!==null">
+                    <td class="tw_td_label">Cost</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getCost() }}</td>
+                </tr>
+
+
+                <tr *ngIf="cardToDisplay.getStrength()!==null">
+                    <td class="tw_td_label">Strength</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getStrength() }}</td>
+                </tr>
+                <tr *ngIf="cardToDisplay.getWillpower() !==null">
+                    <td class="tw_td_label">Willpower</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getWillpower() }}</td>
+                </tr>
+
+                <tr *ngIf="cardToDisplay.getLore()!==null">
+                    <td class="tw_td_label">Lore</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getLore() }}</td>
+                </tr>
+
+
+
+                <!-- <tr *ngIf="cardToDisplay.getLang()!==''">
+                    <td class="tw_td_label">Language</td>
+                    <td class="tw_td_value">{{ cardToDisplay.getLang() }}</td>
+                </tr> -->
+
             </tbody>
         </table>
 
