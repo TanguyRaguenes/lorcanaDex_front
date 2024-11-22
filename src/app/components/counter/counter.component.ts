@@ -17,6 +17,7 @@ export class CounterComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription;
   protected nbPlayers: number;
   protected playersLore: Array<number>;
+  private interval: any;
 
 
   public constructor(counterService: CounterService) {
@@ -70,8 +71,26 @@ export class CounterComponent implements OnInit, OnDestroy {
     this.counterService.setPlayersLore(playerId, this.playersLore[playerId] + 1)
   }
 
+  startIncrease(index: number): void {
+    this.increasePlayerLore(index);
+    this.interval = setInterval(() => this.increasePlayerLore(index), 100);
+  }
+
+  stopIncrease(): void {
+    clearInterval(this.interval);
+  }
+
   public decreasePlayerLore(playerId: number) {
     this.counterService.setPlayersLore(playerId, this.playersLore[playerId] - 1)
+  }
+
+  startDecrease(index: number): void {
+    this.decreasePlayerLore(index);
+    this.interval = setInterval(() => this.decreasePlayerLore(index), 100);
+  }
+
+  stopDecrease(): void {
+    clearInterval(this.interval);
   }
 
   public getNbPlayersArray(): Array<number> {
