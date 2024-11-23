@@ -73,7 +73,7 @@ export class CounterComponent implements OnInit, OnDestroy {
 
   startIncrease(index: number): void {
     this.increasePlayerLore(index);
-    this.interval = setInterval(() => this.increasePlayerLore(index), 100);
+    this.interval = setInterval(() => this.increasePlayerLore(index), 150);
   }
 
   stopIncrease(): void {
@@ -86,7 +86,7 @@ export class CounterComponent implements OnInit, OnDestroy {
 
   startDecrease(index: number): void {
     this.decreasePlayerLore(index);
-    this.interval = setInterval(() => this.decreasePlayerLore(index), 100);
+    this.interval = setInterval(() => this.decreasePlayerLore(index), 150);
   }
 
   stopDecrease(): void {
