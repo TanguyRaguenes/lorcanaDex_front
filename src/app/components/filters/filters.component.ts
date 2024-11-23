@@ -54,7 +54,15 @@ export class FiltersComponent implements OnInit {
     });
   }
   ngOnInit(): void {
+
     this.isModalInitialized = true;
+
+    window.addEventListener('popstate', (event) => {
+
+      history.pushState(null, '', window.location.href);
+      this.isModalVisible = false;
+
+    });
   }
 
   // METHODES
