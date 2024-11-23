@@ -52,7 +52,7 @@ export class DecksService {
       error: (err) => {
         console.error('Error updateUserDecks  :', err);
         this.flashMessageService.setMessageType('error');
-        this.flashMessageService.setMessageText('Error updateUserDecks');
+        this.flashMessageService.setMessageText('Error updateUserDecks', true);
       }
     });
   }

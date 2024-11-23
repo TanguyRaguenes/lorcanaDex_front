@@ -16,45 +16,30 @@ export class CardsService {
 
   //ATTRIBUTS
 
-  protected allcards: Array<CardApiLorcast>;
+  protected cardsAll: Array<CardApiLorcast> = [];
+
   private cardsToDisplay: BehaviorSubject<Array<CardApiLorcast>> = new BehaviorSubject<Array<CardApiLorcast>>([]);
   private sets: BehaviorSubject<Array<SetApiLorcast>> = new BehaviorSubject<Array<SetApiLorcast>>([]);
 
-
-  private colors: Array<string>;
-  private rarities: Array<string>;
-
-  private http: HttpClient;
+  private colors: Array<string> = [];
+  private rarities: Array<string> = [];
 
   //CONSTRUCTEUR
 
-  constructor(http: HttpClient) {
-
-    this.http = http;
-
-
-    this.allcards = [];
-    this.colors = [];
-    this.rarities = [];
+  constructor(private http: HttpClient) {
 
     this.resetColors();
     this.resetRarities();
 
 
-    // this.fetchAllCards().subscribe({
-    //   next: (response: Array<Card>) => {
-    //     this.allcards = [...response];
-    //     this.cardsToDisplay.next(this.allcards);
-    //   }, error: (e => {
-    //     throw new Error(`fetchAllCards : ${e}`)
-    //   })
-    // })
+
+
 
     this.getCards().subscribe({
       next: (response: Array<CardApiLorcast>) => {
 
-        this.allcards = [...response];
-        this.cardsToDisplay.next(this.allcards);
+        this.cardsAll = [...response];
+        this.cardsToDisplay.next(this.cardsAll);
 
         console.log({
           response: response
@@ -64,7 +49,6 @@ export class CardsService {
         throw new Error(`getCards : ${e}`)
       })
     })
-
 
     this.getSets().subscribe({
       next: (response: Array<SetApiLorcast>) => {
@@ -76,6 +60,10 @@ export class CardsService {
         throw new Error(`getSets : ${e}`)
       })
     })
+
+
+
+
 
   }
 
@@ -89,12 +77,12 @@ export class CardsService {
     return this.rarities;
   }
 
-  public getAllCards(): Array<CardApiLorcast> {
-    return this.allcards;
+  public getCardsAll(): Array<CardApiLorcast> {
+    return this.cardsAll;
   }
 
   public getCardsToDisplay(): Observable<Array<CardApiLorcast>> {
-    return this.cardsToDisplay.asObservable();
+    return this.cardsToDisplay;
   }
 
   // SETTERS
@@ -118,14 +106,14 @@ export class CardsService {
   }
 
   public resetCardsToDisplay(): void {
-    this.cardsToDisplay.next(this.allcards);
+    this.cardsToDisplay.next(this.cardsAll);
   }
 
   //METHODES
 
   //Récupérer toutes les cartes de la BDD
 
-  public fetchAllCards(): Observable<Array<Card>> {
+  public fetchcardsAll(): Observable<Array<Card>> {
 
     const token = sessionStorage.getItem('token');
 
@@ -133,7 +121,7 @@ export class CardsService {
       Authorization: `Bearer ${token}`
     })
 
-    console.log("getAllCards Authorization :", {
+    console.log("getcardsAll Authorization :", {
       Authorization: `Bearer ${token}`
     });
 
@@ -179,7 +167,7 @@ export class CardsService {
       Authorization: `Bearer ${token}`
     })
 
-    console.log("getAllCards Authorization :", {
+    console.log("getcardsAll Authorization :", {
       Authorization: `Bearer ${token}`
     });
 
@@ -197,7 +185,7 @@ export class CardsService {
       Authorization: `Bearer ${token}`
     })
 
-    console.log("getAllCards Authorization :", {
+    console.log("getcardsAll Authorization :", {
       Authorization: `Bearer ${token}`
     });
 
@@ -235,7 +223,7 @@ export class CardsService {
   public filterCards(filters: Array<Filter>) {
 
     let filteredCards: Array<CardApiLorcast> = [];
-    !filters.some(e => e.getPriority() === 1) ? filteredCards = [...this.allcards] : null;
+    !filters.some(e => e.getPriority() === 1) ? filteredCards = [...this.cardsAll] : null;
 
     filters.forEach(filter => {
 
@@ -244,7 +232,7 @@ export class CardsService {
       switch (filter.getKey()) {
 
         case "color":
-          filteredCards = [...filteredCards, ...this.allcards.filter(e => e.getInk() === filter.getValue())]
+          filteredCards = [...filteredCards, ...this.cardsAll.filter(e => e.getInk() === filter.getValue())]
 
           break;
         case "rarity":

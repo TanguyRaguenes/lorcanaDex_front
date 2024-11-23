@@ -42,11 +42,11 @@ export class FiltersComponent implements OnInit {
 
     this.cardsService.getSets().subscribe({
       next: (response: Array<SetApiLorcast>) => {
-        response.forEach(e => {
-          console.log({
-            set: e.getName()
-          })
-        })
+        // response.forEach(e => {
+        //   console.log({
+        //     set: e.getName()
+        //   })
+        // })
         this.sets = [...response]
       }, error: (e => {
         console.log("getSets error " + e)

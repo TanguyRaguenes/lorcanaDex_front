@@ -89,7 +89,7 @@ export class DecksComponent implements OnInit, OnDestroy {
         error: (err) => {
           console.error('Error getUserDecks :', err);
           this.flashMessageService.setMessageType('error');
-          this.flashMessageService.setMessageText('Error getUserDecks.');
+          this.flashMessageService.setMessageText('Error getUserDecks.', true);
         }
       })
     );
@@ -159,19 +159,19 @@ export class DecksComponent implements OnInit, OnDestroy {
 
     if (deckExists) {
       this.flashMessageService.setMessageType("information")
-      this.flashMessageService.setMessageText("This deck name has already been chosen.")
+      this.flashMessageService.setMessageText("This deck name has already been chosen.", true)
       return;
     }
 
     if (this.inksSelected.length < 1) {
       this.flashMessageService.setMessageType("information")
-      this.flashMessageService.setMessageText("You must select at least one ink.")
+      this.flashMessageService.setMessageText("You must select at least one ink.", true)
       return;
     }
 
     if (this.deckNameChosen === "") {
       this.flashMessageService.setMessageType("information")
-      this.flashMessageService.setMessageText("You need to choose a name for your deck.")
+      this.flashMessageService.setMessageText("You need to choose a name for your deck.", true)
       return;
     }
 
@@ -198,13 +198,13 @@ export class DecksComponent implements OnInit, OnDestroy {
           this.toggleModal();
           this.decksService.updateUserDecks();
           this.flashMessageService.setMessageType("success")
-          this.flashMessageService.setMessageText("The creation of the deck is a success.")
+          this.flashMessageService.setMessageText("The creation of the deck is a success.", true)
           this.router.navigate(['/temporary']).then(() => {
             this.router.navigate(['/decks']);
           });
         }, error: (e => {
           this.flashMessageService.setMessageType("error")
-          this.flashMessageService.setMessageText("Error creating deck.")
+          this.flashMessageService.setMessageText("Error creating deck.", true)
           console.log("Error addDeckToBdd : " + e)
           console.log(e);
         })
@@ -226,14 +226,14 @@ export class DecksComponent implements OnInit, OnDestroy {
         this.decksService.updateUserDecks();
         console.log(response);
         this.flashMessageService.setMessageType("success")
-        this.flashMessageService.setMessageText("The deletion of the deck was successful.")
+        this.flashMessageService.setMessageText("The deletion of the deck was successful.", true)
         this.router.navigate(['/temporary']).then(() => {
           this.router.navigate(['/decks']);
         });
 
       }, error: (e => {
         this.flashMessageService.setMessageType("error")
-        this.flashMessageService.setMessageText("Error deleting deck.")
+        this.flashMessageService.setMessageText("Error deleting deck.", true)
         console.log("Error removeUserDeck : " + e)
         console.log(e);
       })

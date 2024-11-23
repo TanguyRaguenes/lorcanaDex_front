@@ -22,9 +22,14 @@ export class FlashMessageService {
     return this.messageType.asObservable();
   }
 
-  public setMessageText(messageText: string) {
+  public setMessageText(messageText: string, triggerTimer: boolean) {
     this.messageText.next(messageText);
-    this.startTimer();
+    this.isVisible.next(true);
+
+    if (triggerTimer) {
+      this.startTimer();
+    }
+
   }
 
   public getMessageText(): Observable<string> {
@@ -36,8 +41,6 @@ export class FlashMessageService {
   }
 
   protected startTimer() {
-
-    this.isVisible.next(true);
 
     setTimeout(() => {
 

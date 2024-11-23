@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { FlashMessageService } from './flash-message.service';
@@ -13,7 +13,10 @@ export class AuthService {
 
   // ATTRIBUTS
 
-  private renewTokenTimer: any;
+  private timerToken: any;
+  private timerInactivityWarning: any;
+  private timerInactivityLogout: any;
+
   private flashMessageService: FlashMessageService;
   private http: HttpClient;
   private router: Router
@@ -24,42 +27,91 @@ export class AuthService {
     this.flashMessageService = flashMessageService;
     this.http = http;
     this.router = router;
+    this.startTracking();
+
   }
 
   // METHODES
 
 
+  // GESTION INACTIVITE
+
+  private startTracking() {
+    ['mousemove', 'keydown', 'click', 'touchstart', 'scroll'].forEach(event => {
+      window.addEventListener(event, () => this.resetTimerInactivity());
+    });
+  }
+
+  private startTimerInactivity() {
+
+    this.timerInactivityWarning = setTimeout(() => {
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText(`${new Date().toLocaleString()} : You’ll be logged out in 3 minutes if inactive. Stay active to remain logged in.`, false)
+    }, 1000 * 60 * 7)
+
+    this.timerInactivityLogout = setTimeout(() => {
+      // console.log("Utilisateur inactif")
+      this.logout();
+    }, 1000 * 60 * 10)
+  }
+
+  private resetTimerInactivity() {
+    // console.log("reset timer inactivity")
+    clearTimeout(this.timerInactivityWarning);
+    clearTimeout(this.timerInactivityLogout);
+    this.startTimerInactivity()
+  }
+
   // AUTHENTIFICATION
 
-  public login(username: string, password: string): Observable<any> {
+  public login(username: string, password: string): void {
 
     const body = {
       "username": username,
       "password": password
     }
 
-    const response = this.http.post<any>(environment.serveSide_authApiRest + "/authentificate", body)
-
-    return response;
+    this.http.post<{ token: string; username: string }>(environment.serveSide_authApiRest + "/authentificate", body).subscribe({
+      next: (response: { token: string; username: string }) => {
+        sessionStorage.setItem('token', response.token);
+        sessionStorage.setItem('username', response.username);
+        this.startTimerToken();
+        this.router.navigate(['/home']);
+        this.flashMessageService.setMessageType("success")
+        this.flashMessageService.setMessageText("Connection successful.", true)
+      }, error: (e => {
+        console.log("login error : " + e);
+        this.flashMessageService.setMessageType("error")
+        this.flashMessageService.setMessageText("The email and password combination is invalid.", true)
+      })
+    })
 
   }
 
 
   // LANCER TIMER POUR RENOUVELER TOKEN
 
-  public triggerRenewTokenTimer(): void {
-    console.log("triggerRenewTokenTimer")
-    this.renewTokenTimer = setTimeout(
+  public startTimerToken(): void {
+
+    console.log("Start timer token")
+
+    this.timerToken = setTimeout(
       () => {
+
+        console.log("End timer token")
+
         this.renewToken();
+        this.logout();
+
+
       }
       , 1000 * 60 * 25)
+
   }
 
   // RENOUVELER LE TOKEN
 
   public renewToken(): void {
-
 
     const token: string | null = sessionStorage.getItem("token");
     const username: string | null = sessionStorage.getItem("username");
@@ -80,17 +132,21 @@ export class AuthService {
     }
 
 
-    this.http.post<any>(url, body, { headers }).subscribe({
-      next: (response: any) => {
-        console.log('Token renewed successfully.');
-        console.log(response);
+    this.http.post<{ token: string }>(url, body, { headers }).subscribe({
+      next: (response: { token: string }) => {
+
+        console.log({
+          'Token renewed successfully': response
+        });
+
         sessionStorage.setItem('token', response.token);
-        this.triggerRenewTokenTimer();
+
+        this.startTimerToken();
 
       }, error: (e => {
         console.error("Error when renewing token : ", e);
-        this.flashMessageService.setMessageType("error")
-        this.flashMessageService.setMessageText("Error when renewing token.")
+        // this.flashMessageService.setMessageType("error")
+        // this.flashMessageService.setMessageText("Error when renewing token.")
         this.logout();
 
       })
@@ -100,9 +156,9 @@ export class AuthService {
 
   // ANNULER TIMER POUR RENOUVELER TOKEN
 
-  public clearRenewTokenTimer() {
-    if (this.renewTokenTimer) {
-      clearTimeout(this.renewTokenTimer);
+  public clearTimerToken() {
+    if (this.timerToken) {
+      clearTimeout(this.timerToken);
     }
 
   }
@@ -113,7 +169,9 @@ export class AuthService {
 
     console.log("logout")
 
-    this.clearRenewTokenTimer();
+    clearTimeout(this.timerToken);
+    clearTimeout(this.timerInactivityWarning);
+    clearTimeout(this.timerInactivityLogout);
 
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('username');
@@ -121,6 +179,6 @@ export class AuthService {
     this.router.navigate(['/'])
 
     this.flashMessageService.setMessageType("success")
-    this.flashMessageService.setMessageText("Logout successful.")
+    this.flashMessageService.setMessageText("Logout successful.", true)
   }
 }

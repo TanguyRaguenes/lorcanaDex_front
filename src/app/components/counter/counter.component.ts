@@ -16,7 +16,7 @@ export class CounterComponent implements OnInit, OnDestroy {
 
   private counterService: CounterService;
   private router: Router;
-  private subscription: Subscription = new Subscription;
+  private subscription: Subscription = new Subscription();
   protected nbPlayers: number;
   protected playersLore: Array<number>;
   protected gameHasWinner: boolean;

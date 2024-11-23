@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { Card } from '../../models/Card';
 import { CardsService } from '../../services/cardsService';
@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { FiltersComponent } from '../filters/filters.component';
 import { CardComponent } from '../card/card.component';
 import { CardApiLorcast } from '../../models/CardApiLorcast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cards',
@@ -16,33 +17,39 @@ import { CardApiLorcast } from '../../models/CardApiLorcast';
   templateUrl: './cards.component.html',
   styleUrl: './cards.component.scss'
 })
-export class CardsComponent {
+export class CardsComponent implements OnInit, OnDestroy {
 
   // ATTRIBUTS
-  private cardsService: CardsService;
-  protected cardsToDisplay: Array<CardApiLorcast>;
+  protected cardsToDisplay: Array<CardApiLorcast> = [];
+  private subscription: Subscription = new Subscription();
 
   @ViewChild(CardComponent) cardComponent!: CardComponent;
 
   // CONSTRUCTEUR
-  constructor(cardsService: CardsService) {
+  constructor(private cardsService: CardsService) { };
 
-    this.cardsService = cardsService;
+  ngOnInit(): void {
+
     this.cardsService.resetColors();
-    this.cardsToDisplay = [];
 
-    this.cardsService.getCardsToDisplay().subscribe({
-      next: (response: Array<CardApiLorcast>) => {
-        console.log({
-          "cards_request_cards": response
+    this.subscription.add(
+      this.cardsService.getCardsToDisplay().subscribe({
+        next: (response: Array<CardApiLorcast>) => {
+          console.log({
+            "cards_request_cards": response
+          })
+          this.cardsToDisplay = [...response]
+        }, error: (e => {
+          console.log("getCardsToDisplay() error " + e)
         })
-        this.cardsToDisplay = [...response]
-      }, error: (e => {
-        console.log("getCardsToDisplay() error " + e)
       })
-    });
+    );
 
 
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   // AFFICHAGE DETAILS CARTE

@@ -133,13 +133,13 @@ export class DeckComponent implements OnInit {
         this.deckCardsMap.set(cardId, numberOfCopies + 1)
       } else {
         this.flashMessageService.setMessageType("information")
-        this.flashMessageService.setMessageText("You can only have 4 copies of a card.")
+        this.flashMessageService.setMessageText("You can only have 4 copies of a card.", true)
       }
 
     } else {
 
       this.flashMessageService.setMessageType("information")
-      this.flashMessageService.setMessageText("You can only have 60 cards in your deck.")
+      this.flashMessageService.setMessageText("You can only have 60 cards in your deck.", true)
 
     }
 
@@ -170,7 +170,7 @@ export class DeckComponent implements OnInit {
 
     if (numberOfCopies == 0) {
       this.flashMessageService.setMessageType("information")
-      this.flashMessageService.setMessageText("You have zero copies of this card in your deck.")
+      this.flashMessageService.setMessageText("You have zero copies of this card in your deck.", true)
     }
 
     numberOfCopies > 1 ? this.deckCardsMap.set(cardId, numberOfCopies - 1) : this.deckCardsMap.delete(cardId);
@@ -208,7 +208,7 @@ export class DeckComponent implements OnInit {
   protected updateDeckCardsArray() {
     this.deckCardsArray = [];
     this.deckCardsMap.forEach((value, key) => {
-      const card: CardApiLorcast | undefined = this.cardsService.getAllCards().find(e => e.getCardIdBdd() === key);
+      const card: CardApiLorcast | undefined = this.cardsService.getCardsAll().find(e => e.getCardIdBdd() === key);
       if (card) {
         this.deckCardsArray.push(card);
       }
@@ -230,10 +230,10 @@ export class DeckComponent implements OnInit {
       next: (response: any) => {
         console.log(response);
         this.flashMessageService.setMessageType("success")
-        this.flashMessageService.setMessageText("The backup is a success")
+        this.flashMessageService.setMessageText("The backup is a success", true)
       }, error: (e => {
         this.flashMessageService.setMessageType("error")
-        this.flashMessageService.setMessageText("Error saving deck cards")
+        this.flashMessageService.setMessageText("Error saving deck cards", true)
         console.log("Error saveDeckCardsInBdd : " + e)
       })
     })

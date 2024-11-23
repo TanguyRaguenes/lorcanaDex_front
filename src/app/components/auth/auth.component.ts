@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FlashMessageService } from '../../services/flash-message.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -40,31 +41,7 @@ export class AuthComponent {
 
   public submit(): void {
 
-    this.authService.login(this.username, this.password).subscribe({
-      next: (response: any) => {
-
-        console.log(response);
-        if (response.token != null && response.username != null) {
-          sessionStorage.setItem('token', response.token);
-          sessionStorage.setItem('username', response.username);
-
-          this.authService.triggerRenewTokenTimer();
-
-          this.router.navigate(['/home']);
-          this.flashMessageService.setMessageType("success")
-          this.flashMessageService.setMessageText("Connection successful.")
-        } else {
-          this.flashMessageService.setMessageType("error")
-          this.flashMessageService.setMessageText("The email and password combination is invalid.")
-        }
-
-
-      }, error: (e => {
-        console.warn("Error when connecting : ", e);
-        this.flashMessageService.setMessageType("error")
-        this.flashMessageService.setMessageText("Error when connecting.")
-      })
-    });
+    this.authService.login(this.username, this.password);
 
   }
 
