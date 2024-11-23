@@ -58,16 +58,20 @@ export class FiltersComponent implements OnInit {
     this.isModalInitialized = true;
 
     window.addEventListener('popstate', (event) => {
-
-      history.pushState(null, '', window.location.href);
-      this.isModalVisible = false;
-
+      if (this.isModalVisible) {
+        this.isModalVisible = false;
+        console.log('Modal fermé via le bouton Retour.');
+      }
     });
   }
 
   // METHODES
 
   public toggleModal(): void {
+    if (!this.isModalVisible) {
+      // Ajouter une entrée dans l'historique pour activer "Retour"
+      history.pushState({ modal: true }, '', window.location.href);
+    }
     this.isModalVisible = !this.isModalVisible;
   }
 
