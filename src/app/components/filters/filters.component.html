@@ -85,6 +85,111 @@
                 [(ngModel)]="typeFilter">
         </div>
 
+        <!-- COST -->
+
+        <label for="filterOnCardsCost" class="mt-4 block w-full text-grey-600 text-center">Card's cost</label>
+        <div class="w-9/12 flex flex-row justify-between">
+
+            <select (change)="OnChangeSelectOperator($event,'cost')"
+                class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+
+                <option *ngFor="let operator of operators; let i = index" [value]="operator">
+                    {{ operator }}
+                </option>
+            </select>
+
+            <select (change)="OnChangeSelectOption($event,'cost')"
+                class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+                <option value="all">all</option>
+                <option *ngFor="let value of values; let i = index" [value]="value">
+                    {{ value }}
+                </option>
+            </select>
+
+
+        </div>
+
+        <!-- STRENGTH -->
+
+
+        <label for="filterOnCardsStrength" class="mt-4 block w-full text-grey-600 text-center">Card's strength</label>
+        <div class="w-9/12 flex flex-row justify-between">
+
+            <select (change)="OnChangeSelectOperator($event,'strength')"
+                class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+
+                <option *ngFor="let operator of operators; let i = index" [value]="operator">
+                    {{ operator }}
+                </option>
+            </select>
+
+            <select (change)="OnChangeSelectOption($event,'strength')"
+                class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+                <option value="all">all</option>
+                <option *ngFor="let value of values; let i = index" [value]="value">
+                    {{ value }}
+                </option>
+            </select>
+
+
+        </div>
+
+
+
+        <!-- WILLPOWER -->
+
+
+        <label for="filterOnCardsWillpower" class="mt-4 block w-full text-grey-600 text-center">Card's willpower</label>
+        <div class="w-9/12 flex flex-row justify-between">
+
+            <select (change)="OnChangeSelectOperator($event,'willpower')"
+                class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+
+                <option *ngFor="let operator of operators; let i = index" [value]="operator">
+                    {{ operator }}
+                </option>
+            </select>
+
+            <select (change)="OnChangeSelectOption($event,'willpower')"
+                class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+                <option value="all">all</option>
+                <option *ngFor="let value of values; let i = index" [value]="value">
+                    {{ value }}
+                </option>
+            </select>
+
+
+        </div>
+
+
+
+        <!-- LORE -->
+
+
+        <label for="filterOnCardsLore" class="mt-4 block w-full text-grey-600 text-center">Card's lore</label>
+        <div class="w-9/12 flex flex-row justify-between">
+
+            <select (change)="OnChangeSelectOperator($event,'lore')"
+                class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+
+                <option *ngFor="let operator of operators; let i = index" [value]="operator">
+                    {{ operator }}
+                </option>
+            </select>
+
+            <select (change)="OnChangeSelectOption($event,'lore')"
+                class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
+                <option value="all">all</option>
+                <option *ngFor="let value of values; let i = index" [value]="value">
+                    {{ value }}
+                </option>
+            </select>
+
+
+        </div>
+
+
+
         <!-- BOUTON FILTRER -->
 
         <button class="tw_btn fixed bottom-10 w-11/12" (click)="filterCards()">Filter</button>

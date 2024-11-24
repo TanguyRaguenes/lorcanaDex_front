@@ -2,11 +2,13 @@ export class Filter {
     private priority: number;
     private key: string;
     private value: string;
+    private operator: string;
 
-    constructor(priority: number, key: string, value: string) {
+    constructor(priority: number, key: string, value: string, operator: string) {
         this.priority = priority;
         this.key = key;
         this.value = value;
+        this.operator = operator;
     }
 
     public getPriority(): number {
@@ -18,6 +20,9 @@ export class Filter {
     public getValue(): string {
         return this.value;
     }
+    public getOperator(): string {
+        return this.operator;
+    }
     public setPriority(priority: number): void {
         this.priority = priority;
     }
@@ -26,5 +31,8 @@ export class Filter {
     }
     public setValue(value: string): void {
         this.value = value;
+    }
+    public setOperator(operator: string): void {
+        this.operator = operator;
     }
 }

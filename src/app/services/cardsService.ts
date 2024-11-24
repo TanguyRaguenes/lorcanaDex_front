@@ -225,18 +225,94 @@ export class CardsService {
 
       console.log(filter);
 
+      let value: number = 0;
+      let operator: string = "";
+
       switch (filter.getKey()) {
 
         case "color":
           filteredCards = [...filteredCards, ...this.cardsAll.filter(e => e.getInk() === filter.getValue())]
-
           break;
+
         case "rarity":
           filteredCards = filteredCards.filter(e => e.getRarity() === filter.getValue())
           break;
 
         case "set":
           filteredCards = filteredCards.filter(e => this.normalizeString(e.getSet().getName()).includes(this.normalizeString(filter.getValue())))
+          break;
+
+        case "type":
+          filteredCards = filteredCards.filter(e =>
+            e.getType().some(type =>
+              this.normalizeString(type).includes(this.normalizeString(filter.getValue()))
+            )
+          );
+          break;
+
+        case "cost":
+          value = parseInt(filter.getValue());
+          operator = filter.getOperator();
+
+          if (operator === "=") {
+            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) == value);
+          } else if (operator === ">") {
+            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) > value);
+          } else if (operator === "<") {
+            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) < value);
+          } else if (operator === ">=") {
+            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) >= value);
+          } else if (operator === "<=") {
+            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) <= value);
+          }
+          break;
+        case "strength":
+          value = parseInt(filter.getValue());
+          operator = filter.getOperator();
+
+          if (operator === "=") {
+            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) == value);
+          } else if (operator === ">") {
+            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) > value);
+          } else if (operator === "<") {
+            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) < value);
+          } else if (operator === ">=") {
+            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) >= value);
+          } else if (operator === "<=") {
+            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) <= value);
+          }
+          break;
+        case "willpower":
+          value = parseInt(filter.getValue());
+          operator = filter.getOperator();
+
+          if (operator === "=") {
+            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) == value);
+          } else if (operator === ">") {
+            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) > value);
+          } else if (operator === "<") {
+            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) < value);
+          } else if (operator === ">=") {
+            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) >= value);
+          } else if (operator === "<=") {
+            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) <= value);
+          }
+          break;
+        case "lore":
+          value = parseInt(filter.getValue());
+          operator = filter.getOperator();
+
+          if (operator === "=") {
+            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) == value);
+          } else if (operator === ">") {
+            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) > value);
+          } else if (operator === "<") {
+            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) < value);
+          } else if (operator === ">=") {
+            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) >= value);
+          } else if (operator === "<=") {
+            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) <= value);
+          }
           break;
 
         case "text":
@@ -248,13 +324,7 @@ export class CardsService {
           });
           break;
 
-        case "type":
-          filteredCards = filteredCards.filter(e =>
-            e.getType().some(type =>
-              this.normalizeString(type).includes(this.normalizeString(filter.getValue()))
-            )
-          );
-          break;
+
 
         case "name":
           filteredCards = filteredCards.filter(e => this.normalizeString(e.getName()).includes(this.normalizeString(filter.getValue())))

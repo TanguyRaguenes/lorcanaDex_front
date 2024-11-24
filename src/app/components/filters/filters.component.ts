@@ -20,6 +20,12 @@ export class FiltersComponent implements OnInit, OnDestroy {
   protected nameFilter: string = "";
   protected textFilter: string = "";
   protected typeFilter: string = "";
+
+  protected costFilter: number = 0;
+  protected strengthFilter: number = 0;
+  protected willpowerFilter: number = 0;
+  protected loreFilter: number = 0;
+
   protected colors: Array<string>;
   protected rarities: Array<string>;
   protected filters: Array<Filter> = [];
@@ -27,6 +33,18 @@ export class FiltersComponent implements OnInit, OnDestroy {
   protected sets: Array<SetApiLorcast> = [];
   private subscription: Subscription = new Subscription();
 
+  protected operators: Array<string> = ['=', '>=', '<=', '>', '<']
+  protected values: Array<String> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+  private selectedCostOperator: string = "="
+  private selectedStrengthOperator: string = "="
+  private selectedWillpowerOperator: string = "="
+  private selectedLoreOperator: string = "="
+
+  private selectedCostOption: string = "="
+  private selectedStrengthOption: string = "="
+  private selectedWillpowerOption: string = "="
+  private selectedLoreOption: string = "="
 
   // CONTRUCTEUR
   constructor(private cardsService: CardsService) {
@@ -57,6 +75,37 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   // METHODES
 
+
+  protected OnChangeSelectOperator(event: Event, filter: string): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedValue = target.value;
+    console.log(selectedValue);
+
+    (this as any)[`selected${filter.charAt(0).toUpperCase() + filter.slice(1, filter.length)}Operator`] = selectedValue
+
+    this.filters = this.filters.filter(e => e.getKey() != filter);
+
+    if ((this as any)[`selected${filter.charAt(0).toUpperCase() + filter.slice(1, filter.length)}Option`] !== "all") {
+      this.addNewFilter(null, filter, (this as any)[`selected${filter.charAt(0).toUpperCase() + filter.slice(1, filter.length)}Option`], selectedValue);
+    }
+
+  }
+
+  protected OnChangeSelectOption(event: Event, filter: string): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedValue = target.value;
+    console.log(selectedValue);
+
+    (this as any)[`selected${filter.charAt(0).toUpperCase() + filter.slice(1, filter.length)}Option`] = selectedValue
+
+    this.filters = this.filters.filter(e => e.getKey() != filter);
+
+    if (selectedValue !== "all") {
+      this.addNewFilter(null, filter, selectedValue, (this as any)[`selected${filter.charAt(0).toUpperCase() + filter.slice(1, filter.length)}Operator`]);
+    }
+  }
+
+
   public toggleModal(): void {
     this.isModalVisible = !this.isModalVisible;
   }
@@ -80,7 +129,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   // AJOUT D'UN FILTRE AU TABLEAU DES FILTRES
 
-  public addNewFilter(idImg: string | null, key: string, value: string): void {
+  public addNewFilter(idImg: string | null, key: string, value: string, operator: string): void {
 
 
     idImg != null ? this.toggleGrayscale(idImg) : null;
@@ -97,9 +146,19 @@ export class FiltersComponent implements OnInit, OnDestroy {
       case "set":
         priority = 3;
         break;
-
-
       case "type":
+        priority = 4;
+        break;
+      case "cost":
+        priority = 5;
+        break;
+      case "strength":
+        priority = 6;
+        break;
+      case "willpower":
+        priority = 7;
+        break;
+      case "lore":
         priority = 8;
         break;
       case "text":
@@ -114,7 +173,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
         break;
     }
 
-    const filter = new Filter(priority, key, value);
+    const filter = new Filter(priority, key, value, operator);
 
     let AllowedToPush: boolean = true;
 
@@ -143,21 +202,23 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public filterCards(): void {
 
     this.filters = this.filters.filter(e => e.getKey() != "name");
-
-    if (this.nameFilter != "" && this.nameFilter != null) {
-      this.addNewFilter(null, "name", this.nameFilter)
-    }
-
     this.filters = this.filters.filter(e => e.getKey() != "text");
-
-    if (this.textFilter != "" && this.textFilter != null) {
-      this.addNewFilter(null, "text", this.textFilter)
-    }
-
     this.filters = this.filters.filter(e => e.getKey() != "type");
 
+    if (this.nameFilter != "" && this.nameFilter != null) {
+      this.addNewFilter(null, "name", this.nameFilter, '')
+    }
+
+
+
+    if (this.textFilter != "" && this.textFilter != null) {
+      this.addNewFilter(null, "text", this.textFilter, '')
+    }
+
+
+
     if (this.typeFilter != "" && this.typeFilter != null) {
-      this.addNewFilter(null, "type", this.typeFilter)
+      this.addNewFilter(null, "type", this.typeFilter, '')
     }
 
     console.log("filterCards")
@@ -174,7 +235,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     console.log(selectedValue);
 
     if (selectedValue !== null) {
-      this.addNewFilter(null, "set", selectedValue);
+      this.addNewFilter(null, "set", selectedValue, '');
     }
 
   }
