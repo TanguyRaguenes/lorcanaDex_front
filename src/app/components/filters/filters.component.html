@@ -6,8 +6,10 @@
 
     <!-- MODAL -->
 
-    <div *ngIf="isModalInitialized" [ngClass]="isModalVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-        class="tw_modal pb-10 ">
+    <div [ngClass]="{'opacity-100 pointer-events-auto':isModalVisible }"
+        class="tw_modal pb-10 opacity-0 pointer-events-none">
+
+        <!-- [ngClass]="isModalVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'" -->
 
         <!-- BOUTON BACK -->
         <button class="tw_btn fixed top-20 w-11/12" (click)="toggleModal()">Back</button>
@@ -63,6 +65,24 @@
             <input type="text" id="filterOnCardsName" name="filterOnCardsName"
                 class="h-12 text-center w-full bg-gray-100 border-2 border-fuchsia-300 rounded-lg"
                 [(ngModel)]="nameFilter">
+        </div>
+
+        <!-- EFFECT -->
+
+        <div class="mt-4 w-9/12">
+            <label for="filterOnCardsText" class="block w-full text-grey-600 text-center">Card's effect</label>
+            <input type="text" id="filterOnCardsText" name="filterOnCardsText"
+                class="h-12 text-center w-full bg-gray-100 border-2 border-fuchsia-300 rounded-lg"
+                [(ngModel)]="textFilter">
+        </div>
+
+        <!-- TYPE -->
+
+        <div class="mt-4 w-9/12">
+            <label for="filterOnCardsType" class="block w-full text-grey-600 text-center">Card's type</label>
+            <input type="text" id="filterOnCardsType" name="filterOnCardsType"
+                class="h-12 text-center w-full bg-gray-100 border-2 border-fuchsia-300 rounded-lg"
+                [(ngModel)]="typeFilter">
         </div>
 
         <!-- BOUTON FILTRER -->

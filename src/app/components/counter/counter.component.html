@@ -1,11 +1,11 @@
 <section class="mt-20 flex flex-col items-center ">
 
-    <div id="playersContainer" class="w-full h-[75vh]  grid gap-1 p-1 relative"
+    <div id="playersContainer" class="w-full h-[75vh]  flex flex-col items-center grid gap-1 p-1 relative"
         [ngClass]="{'grid-cols-1 grid-rows-1':nbPlayers ===1,'grid-cols-1 grid-rows-2':nbPlayers == 2,'grid-cols-2 grid-rows-2':nbPlayers >= 3}">
 
 
         <!-- PLAYER 1 -->
-        <div class="tw_counter">
+        <div class="tw_counter bg-blue-500">
 
             <div *ngIf="nbPlayers==1" class="tw_counter_playerName_container justify-center">
                 <p class="tw_counter_playerName">Player 1</p>
@@ -14,7 +14,7 @@
             <div class="tw_counter_btn_container " [ngClass]="{'-rotate-180':nbPlayers>1}">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startDecrease(0)"
+                    stroke="currentColor" class="tw_counter_btn bg-blue-600" (pointerdown)="startDecrease(0,$event)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -22,7 +22,7 @@
                 <p class="tw_counter_lore">{{ playersLore[0] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startIncrease(0)"
+                    stroke="currentColor" class="tw_counter_btn bg-blue-600" (pointerdown)="startIncrease(0,$event)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -37,7 +37,7 @@
         </div>
 
         <!-- PLAYER 2 -->
-        <div *ngIf="nbPlayers >= 2" class="tw_counter">
+        <div *ngIf="nbPlayers >= 2" class="tw_counter bg-yellow-500">
 
             <div *ngIf="nbPlayers<3" class="tw_counter_playerName_container"
                 [ngClass]="{'justify-center ':nbPlayers<3,'justify-end':nbPlayers>=3}">
@@ -47,7 +47,7 @@
             <div class="tw_counter_btn_container" [ngClass]="{'-rotate-180':nbPlayers>=3}">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startDecrease(1)"
+                    stroke="currentColor" class="tw_counter_btn bg-yellow-600" (pointerdown)="startDecrease(1,$event)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -55,7 +55,7 @@
                 <p class="tw_counter_lore">{{ playersLore[1] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startIncrease(1)"
+                    stroke="currentColor" class="tw_counter_btn bg-yellow-600" (pointerdown)="startIncrease(1,$event)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -71,7 +71,7 @@
         </div>
 
         <!-- PLAYER 3 -->
-        <div *ngIf="nbPlayers >= 3" class="tw_counter">
+        <div *ngIf="nbPlayers >= 3" class="tw_counter bg-green-500">
 
             <div class="tw_counter_playerName_container"
                 [ngClass]="{'justify-center ':nbPlayers<3,'justify-end':nbPlayers>=3}">
@@ -81,7 +81,7 @@
             <div class="tw_counter_btn_container">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startDecrease(2)"
+                    stroke="currentColor" class="tw_counter_btn bg-green-600" (pointerdown)="startDecrease(2,$event)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -89,7 +89,7 @@
                 <p class="tw_counter_lore">{{ playersLore[2] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startIncrease(2)"
+                    stroke="currentColor" class="tw_counter_btn bg-green-600" (pointerdown)="startIncrease(2,$event)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -98,7 +98,7 @@
         </div>
 
         <!-- PLAYER 4 -->
-        <div *ngIf="nbPlayers >= 4" class="tw_counter">
+        <div *ngIf="nbPlayers >= 4" class="tw_counter bg-red-500">
 
             <div class="tw_counter_playerName_container"
                 [ngClass]="{'justify-center ':nbPlayers<3,'justify-start':nbPlayers>=3}">
@@ -108,7 +108,7 @@
             <div class="tw_counter_btn_container">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startDecrease(3)"
+                    stroke="currentColor" class="tw_counter_btn bg-red-600" (pointerdown)="startDecrease(3,$event)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -116,7 +116,7 @@
                 <p class="tw_counter_lore">{{ playersLore[3] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn" (pointerdown)="startIncrease(3)"
+                    stroke="currentColor" class="tw_counter_btn bg-red-600" (pointerdown)="startIncrease(3,$event)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -126,7 +126,7 @@
 
         <svg *ngIf="nbPlayers>1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor"
-            class="h-10 w-10 absolute  text-white left-2 bg-purple-300 border-2 border-white rounded-full p-1 transform transition-all duration-200 hover:shadow-2xl hover:scale-105 hover:text-black hover:cursor-pointer"
+            class="h-10 w-10 absolute  text-black left-2 bg-white border-2 border-black rounded-full p-1 transform transition-all duration-200 hover:shadow-2xl hover:scale-105 hover:text-black hover:cursor-pointer"
             [ngClass]="{'top-1/2 -translate-y-1/2':nbPlayers > 1,'top-2':nbPlayers==1}" (click)="removeAPlayer()">
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
@@ -134,17 +134,17 @@
 
         <svg *ngIf="nbPlayers<4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
             stroke="currentColor"
-            class="h-10 w-10 absolute right-2 text-white bg-purple-300 border-2 border-white rounded-full p-1 transform transition-all duration-200 hover:shadow-2xl hover:scale-105 hover:text-black hover:cursor-pointer"
+            class="h-10 w-10 absolute right-2 text-black bg-white border-2 border-black rounded-full p-1 transform transition-all duration-200 hover:shadow-2xl hover:scale-105 hover:text-black hover:cursor-pointer"
             [ngClass]="{'top-1/2 -translate-y-1/2':nbPlayers > 1,'top-2':nbPlayers==1}" (click)="addAPlayer()">
             <path stroke-linecap="round" stroke-linejoin="round"
                 d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
         </svg>
 
 
-        <div *ngIf="gameHasWinner" class="absolute w-full h-full bg-black">
+        <div *ngIf="gameHasWinner" class="absolute w-full h-full rounded-xl overflow-hidden">
 
             <img src="assets/images/victory.avif" alt="Image victory"
-                class="h-full w-full object-cover hover:cursor-pointer" (click)="reset()">
+                class="h-full w-full object-cover hover:cursor-pointer ">
 
         </div>
 

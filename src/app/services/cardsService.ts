@@ -31,10 +31,6 @@ export class CardsService {
     this.resetColors();
     this.resetRarities();
 
-
-
-
-
     this.getCards().subscribe({
       next: (response: Array<CardApiLorcast>) => {
 
@@ -238,12 +234,32 @@ export class CardsService {
         case "rarity":
           filteredCards = filteredCards.filter(e => e.getRarity() === filter.getValue())
           break;
-        case "name":
-          filteredCards = filteredCards.filter(e => this.normalizeString(e.getName()).includes(this.normalizeString(filter.getValue())))
-          break;
+
         case "set":
           filteredCards = filteredCards.filter(e => this.normalizeString(e.getSet().getName()).includes(this.normalizeString(filter.getValue())))
           break;
+
+        case "text":
+          filteredCards = filteredCards.filter(e => {
+            const cardText = e.getText();
+            return cardText
+              ? this.normalizeString(cardText).includes(this.normalizeString(filter.getValue()))
+              : false;
+          });
+          break;
+
+        case "type":
+          filteredCards = filteredCards.filter(e =>
+            e.getType().some(type =>
+              this.normalizeString(type).includes(this.normalizeString(filter.getValue()))
+            )
+          );
+          break;
+
+        case "name":
+          filteredCards = filteredCards.filter(e => this.normalizeString(e.getName()).includes(this.normalizeString(filter.getValue())))
+          break;
+
 
         default:
           break;

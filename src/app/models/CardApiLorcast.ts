@@ -178,7 +178,17 @@ export class CardApiLorcast {
     }
 
     public getText(): string | null {
-        return this.text;
+        if (this.text !== null) {
+            let text = this.text.replace(/\n/g, '<br><br>');
+            text = text.replace(/\{I\}/g, '<span class="material-symbols-rounded align-middle text-base">hexagon</span>')
+            text = text.replace(/\{E}/g, '<span class="material-symbols-rounded align-middle text-base">rotate_90_degrees_cw</span>')
+            text = text.replace(/\{S}/g, '<span class="material-symbols-rounded align-middle text-base">brightness_empty</span>')
+            text = text.replace(/\{L}/g, '<span class="material-symbols-rounded align-middle text-base">change_history</span>')
+            return text;
+        } else {
+            return null;
+        }
+
     }
 
     public setText(value: string | null): void {

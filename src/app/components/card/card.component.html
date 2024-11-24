@@ -64,6 +64,11 @@
                     <td class="tw_td_value">{{ cardToDisplay.getVersion() }}</td>
                 </tr>
 
+                <tr *ngIf="cardToDisplay.getText()!==''">
+                    <td class="tw_td_label">Text</td>
+                    <td class="tw_td_value" [innerHTML]="cardToDisplay.getText()"></td>
+                </tr>
+
                 <tr *ngIf="cardToDisplay.getFlavorText()!==null">
                     <td class="tw_td_label">Flavor Text</td>
                     <td class="tw_td_value">{{ cardToDisplay.getFlavorText() }}</td>

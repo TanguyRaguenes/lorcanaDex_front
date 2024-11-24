@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, OnInit } from '@angular/core';
+import { booleanAttribute, Component, OnDestroy, OnInit } from '@angular/core';
 import { Filter } from '../../models/Filter';
 import { FormsModule } from '@angular/forms';
 import { CardsService } from '../../services/cardsService';
 import { SetApiLorcast } from '../../models/SetApiLorcast';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-filters',
@@ -12,66 +13,51 @@ import { SetApiLorcast } from '../../models/SetApiLorcast';
   templateUrl: './filters.component.html',
   styleUrl: './filters.component.scss'
 })
-export class FiltersComponent implements OnInit {
+export class FiltersComponent implements OnInit, OnDestroy {
 
   // ATTRIBUTS
-  private cardsService: CardsService;
 
-  protected nameFilter: string;
+  protected nameFilter: string = "";
+  protected textFilter: string = "";
+  protected typeFilter: string = "";
   protected colors: Array<string>;
   protected rarities: Array<string>;
-  protected filters: Array<Filter>;
-  protected isModalInitialized: boolean;
-  protected isModalVisible: boolean;
+  protected filters: Array<Filter> = [];
+  protected isModalVisible: boolean = false;
   protected sets: Array<SetApiLorcast> = [];
+  private subscription: Subscription = new Subscription();
 
 
   // CONTRUCTEUR
-  constructor(cardsService: CardsService) {
-    this.cardsService = cardsService;
-    this.nameFilter = "";
-    this.filters = [];
+  constructor(private cardsService: CardsService) {
+
     this.colors = [...this.cardsService.getColors()]
     this.rarities = [...this.cardsService.getRarities()];
-    console.log({
-      colors: this.colors,
-      rarities: this.rarities
-    });
-    this.isModalVisible = false;
-    this.isModalInitialized = false;
 
-    this.cardsService.getSets().subscribe({
-      next: (response: Array<SetApiLorcast>) => {
-        // response.forEach(e => {
-        //   console.log({
-        //     set: e.getName()
-        //   })
-        // })
-        this.sets = [...response]
-      }, error: (e => {
-        console.log("getSets error " + e)
-      })
-    });
   }
+
   ngOnInit(): void {
 
-    this.isModalInitialized = true;
+    this.subscription.add(
+      this.cardsService.getSets().subscribe({
+        next: (response: Array<SetApiLorcast>) => {
 
-    window.addEventListener('popstate', (event) => {
-      if (this.isModalVisible) {
-        this.isModalVisible = false;
-        console.log('Modal fermé via le bouton Retour.');
-      }
-    });
+          this.sets = [...response]
+        }, error: (e => {
+          console.log("getSets error " + e)
+        })
+      })
+    );
+
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   // METHODES
 
   public toggleModal(): void {
-    if (!this.isModalVisible) {
-      // Ajouter une entrée dans l'historique pour activer "Retour"
-      history.pushState({ modal: true }, '', window.location.href);
-    }
     this.isModalVisible = !this.isModalVisible;
   }
 
@@ -92,6 +78,8 @@ export class FiltersComponent implements OnInit {
   }
 
 
+  // AJOUT D'UN FILTRE AU TABLEAU DES FILTRES
+
   public addNewFilter(idImg: string | null, key: string, value: string): void {
 
 
@@ -108,6 +96,14 @@ export class FiltersComponent implements OnInit {
         break;
       case "set":
         priority = 3;
+        break;
+
+
+      case "type":
+        priority = 8;
+        break;
+      case "text":
+        priority = 9;
         break;
       case "name":
         priority = 10;
@@ -150,6 +146,18 @@ export class FiltersComponent implements OnInit {
 
     if (this.nameFilter != "" && this.nameFilter != null) {
       this.addNewFilter(null, "name", this.nameFilter)
+    }
+
+    this.filters = this.filters.filter(e => e.getKey() != "text");
+
+    if (this.textFilter != "" && this.textFilter != null) {
+      this.addNewFilter(null, "text", this.textFilter)
+    }
+
+    this.filters = this.filters.filter(e => e.getKey() != "type");
+
+    if (this.typeFilter != "" && this.typeFilter != null) {
+      this.addNewFilter(null, "type", this.typeFilter)
     }
 
     console.log("filterCards")

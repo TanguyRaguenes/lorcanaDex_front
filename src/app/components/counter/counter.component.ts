@@ -79,7 +79,8 @@ export class CounterComponent implements OnInit, OnDestroy {
     this.counterService.setPlayersLore(playerId, this.playersLore[playerId] + 1)
   }
 
-  startIncrease(index: number): void {
+  startIncrease(index: number, event: PointerEvent): void {
+    event.preventDefault();
     this.increasePlayerLore(index);
     this.interval = setInterval(() => this.increasePlayerLore(index), 150);
   }
@@ -92,7 +93,8 @@ export class CounterComponent implements OnInit, OnDestroy {
     this.counterService.setPlayersLore(playerId, this.playersLore[playerId] - 1)
   }
 
-  startDecrease(index: number): void {
+  startDecrease(index: number, event: PointerEvent): void {
+    event.preventDefault();
     this.decreasePlayerLore(index);
     this.interval = setInterval(() => this.decreasePlayerLore(index), 150);
   }
