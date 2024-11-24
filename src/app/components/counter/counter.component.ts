@@ -33,6 +33,11 @@ export class CounterComponent implements OnInit, OnDestroy {
   private intervalIncreasePlayer4: any;
   private intervalDecreasePlayer4: any;
 
+  protected player1Pressed: boolean = false;
+  protected player2Pressed: boolean = false;
+  protected player3Pressed: boolean = false;
+  protected player4Pressed: boolean = false;
+
 
   public constructor(private counterService: CounterService, private router: Router) {
   }
@@ -140,13 +145,16 @@ export class CounterComponent implements OnInit, OnDestroy {
   }
 
   startIncreasePlayer1Lore(): void {
-
-    this.increasePlayer1Lore();
-    this.intervalIncreasePlayer1 = setInterval(() => this.increasePlayer1Lore(), 150);
+    if (!this.player1Pressed) {
+      this.player1Pressed = true;
+      this.increasePlayer1Lore();
+      this.intervalIncreasePlayer1 = setInterval(() => this.increasePlayer1Lore(), 150);
+    }
   }
 
   stopIncreasePlayer1Lore(): void {
     clearInterval(this.intervalIncreasePlayer1);
+    this.player1Pressed = false;
   }
 
   public decreasePlayer1Lore() {
@@ -154,99 +162,121 @@ export class CounterComponent implements OnInit, OnDestroy {
   }
 
   startDecreasePlayer1Lore(): void {
-    this.decreasePlayer1Lore();
-    this.intervalDecreasePlayer1 = setInterval(() => this.decreasePlayer1Lore(), 150);
+    if (!this.player1Pressed) {
+      this.player1Pressed = true;
+      this.decreasePlayer1Lore();
+      this.intervalDecreasePlayer1 = setInterval(() => this.decreasePlayer1Lore(), 150);
+    }
   }
 
   stopDecreasePlayer1Lore(): void {
     clearInterval(this.intervalDecreasePlayer1);
+    this.player2Pressed = true;
   }
 
   // PLAYER 2
-
   public increasePlayer2Lore() {
-    this.counterService.setPlayer2Lore(this.player2Lore + 1)
+    this.counterService.setPlayer2Lore(this.player2Lore + 1);
   }
 
   startIncreasePlayer2Lore(): void {
-
-    this.increasePlayer2Lore();
-    this.intervalIncreasePlayer2 = setInterval(() => this.increasePlayer2Lore(), 150);
+    if (!this.player2Pressed) {
+      this.player2Pressed = true;
+      this.increasePlayer2Lore();
+      this.intervalIncreasePlayer2 = setInterval(() => this.increasePlayer2Lore(), 150);
+    }
   }
 
   stopIncreasePlayer2Lore(): void {
     clearInterval(this.intervalIncreasePlayer2);
+    this.player2Pressed = false;
   }
 
   public decreasePlayer2Lore() {
-    this.counterService.setPlayer2Lore(this.player2Lore - 1)
+    this.counterService.setPlayer2Lore(this.player2Lore - 1);
   }
 
   startDecreasePlayer2Lore(): void {
-    this.decreasePlayer2Lore();
-    this.intervalDecreasePlayer2 = setInterval(() => this.decreasePlayer2Lore(), 150);
+    if (!this.player2Pressed) {
+      this.player2Pressed = true;
+      this.decreasePlayer2Lore();
+      this.intervalDecreasePlayer2 = setInterval(() => this.decreasePlayer2Lore(), 150);
+    }
   }
 
   stopDecreasePlayer2Lore(): void {
     clearInterval(this.intervalDecreasePlayer2);
+    this.player2Pressed = false;
   }
 
   // PLAYER 3
-
   public increasePlayer3Lore() {
-    this.counterService.setPlayer3Lore(this.player3Lore + 1)
+    this.counterService.setPlayer3Lore(this.player3Lore + 1);
   }
 
   startIncreasePlayer3Lore(): void {
-
-    this.increasePlayer3Lore();
-    this.intervalIncreasePlayer3 = setInterval(() => this.increasePlayer3Lore(), 150);
+    if (!this.player3Pressed) {
+      this.player3Pressed = true;
+      this.increasePlayer3Lore();
+      this.intervalIncreasePlayer3 = setInterval(() => this.increasePlayer3Lore(), 150);
+    }
   }
 
   stopIncreasePlayer3Lore(): void {
     clearInterval(this.intervalIncreasePlayer3);
+    this.player3Pressed = false;
   }
 
   public decreasePlayer3Lore() {
-    this.counterService.setPlayer3Lore(this.player3Lore - 1)
+    this.counterService.setPlayer3Lore(this.player3Lore - 1);
   }
 
   startDecreasePlayer3Lore(): void {
-    this.decreasePlayer3Lore();
-    this.intervalDecreasePlayer3 = setInterval(() => this.decreasePlayer3Lore(), 150);
+    if (!this.player3Pressed) {
+      this.player3Pressed = true;
+      this.decreasePlayer3Lore();
+      this.intervalDecreasePlayer3 = setInterval(() => this.decreasePlayer3Lore(), 150);
+    }
   }
 
   stopDecreasePlayer3Lore(): void {
     clearInterval(this.intervalDecreasePlayer3);
+    this.player3Pressed = false;
   }
 
   // PLAYER 4
-
   public increasePlayer4Lore() {
-    this.counterService.setPlayer4Lore(this.player4Lore + 1)
+    this.counterService.setPlayer4Lore(this.player4Lore + 1);
   }
 
   startIncreasePlayer4Lore(): void {
-
-    this.increasePlayer4Lore();
-    this.intervalIncreasePlayer4 = setInterval(() => this.increasePlayer4Lore(), 150);
+    if (!this.player4Pressed) {
+      this.player4Pressed = true;
+      this.increasePlayer4Lore();
+      this.intervalIncreasePlayer4 = setInterval(() => this.increasePlayer4Lore(), 150);
+    }
   }
 
   stopIncreasePlayer4Lore(): void {
     clearInterval(this.intervalIncreasePlayer4);
+    this.player4Pressed = false;
   }
 
   public decreasePlayer4Lore() {
-    this.counterService.setPlayer4Lore(this.player4Lore - 1)
+    this.counterService.setPlayer4Lore(this.player4Lore - 1);
   }
 
   startDecreasePlayer4Lore(): void {
-    this.decreasePlayer4Lore();
-    this.intervalDecreasePlayer4 = setInterval(() => this.decreasePlayer4Lore(), 150);
+    if (!this.player4Pressed) {
+      this.player4Pressed = true;
+      this.decreasePlayer4Lore();
+      this.intervalDecreasePlayer4 = setInterval(() => this.decreasePlayer4Lore(), 150);
+    }
   }
 
   stopDecreasePlayer4Lore(): void {
     clearInterval(this.intervalDecreasePlayer4);
+    this.player4Pressed = false;
   }
 
 
