@@ -62,16 +62,16 @@
 
         <div class="mt-4 w-9/12">
             <label for="filterOnCardsName" class="block w-full text-grey-600 text-center">Card's name</label>
-            <input type="text" id="filterOnCardsName" name="filterOnCardsName"
+            <input [(ngModel)]="nameFilter" type="text" id="filterOnCardsName" name="filterOnCardsName"
                 class="h-12 text-center w-full bg-gray-100 border-2 border-fuchsia-300 rounded-lg"
                 [(ngModel)]="nameFilter">
         </div>
 
-        <!-- EFFECT -->
+        <!-- TEXT -->
 
         <div class="mt-4 w-9/12">
             <label for="filterOnCardsText" class="block w-full text-grey-600 text-center">Card's effect</label>
-            <input type="text" id="filterOnCardsText" name="filterOnCardsText"
+            <input [(ngModel)]="textFilter" type="text" id="filterOnCardsText" name="filterOnCardsText"
                 class="h-12 text-center w-full bg-gray-100 border-2 border-fuchsia-300 rounded-lg"
                 [(ngModel)]="textFilter">
         </div>
@@ -80,7 +80,7 @@
 
         <div class="mt-4 w-9/12">
             <label for="filterOnCardsType" class="block w-full text-grey-600 text-center">Card's type</label>
-            <input type="text" id="filterOnCardsType" name="filterOnCardsType"
+            <input [(ngModel)]="typeFilter" type="text" id="filterOnCardsType" name="filterOnCardsType"
                 class="h-12 text-center w-full bg-gray-100 border-2 border-fuchsia-300 rounded-lg"
                 [(ngModel)]="typeFilter">
         </div>
@@ -90,7 +90,7 @@
         <label for="filterOnCardsCost" class="mt-4 block w-full text-grey-600 text-center">Card's cost</label>
         <div class="w-9/12 flex flex-row justify-between">
 
-            <select (change)="OnChangeSelectOperator($event,'cost')"
+            <select [(ngModel)]="selectedCostOperator" (change)="OnChangeSelectOperator($event,'cost')"
                 class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
 
                 <option *ngFor="let operator of operators; let i = index" [value]="operator">
@@ -98,7 +98,7 @@
                 </option>
             </select>
 
-            <select (change)="OnChangeSelectOption($event,'cost')"
+            <select [(ngModel)]="selectedCostOption" (change)="OnChangeSelectOption($event,'cost')"
                 class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
                 <option value="all">all</option>
                 <option *ngFor="let value of values; let i = index" [value]="value">
@@ -115,7 +115,7 @@
         <label for="filterOnCardsStrength" class="mt-4 block w-full text-grey-600 text-center">Card's strength</label>
         <div class="w-9/12 flex flex-row justify-between">
 
-            <select (change)="OnChangeSelectOperator($event,'strength')"
+            <select [(ngModel)]="selectedStrengthOperator" (change)="OnChangeSelectOperator($event,'strength')"
                 class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
 
                 <option *ngFor="let operator of operators; let i = index" [value]="operator">
@@ -123,7 +123,7 @@
                 </option>
             </select>
 
-            <select (change)="OnChangeSelectOption($event,'strength')"
+            <select [(ngModel)]="selectedStrengthOption" (change)="OnChangeSelectOption($event,'strength')"
                 class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
                 <option value="all">all</option>
                 <option *ngFor="let value of values; let i = index" [value]="value">
@@ -142,7 +142,7 @@
         <label for="filterOnCardsWillpower" class="mt-4 block w-full text-grey-600 text-center">Card's willpower</label>
         <div class="w-9/12 flex flex-row justify-between">
 
-            <select (change)="OnChangeSelectOperator($event,'willpower')"
+            <select [(ngModel)]="selectedWillpowerOperator" (change)="OnChangeSelectOperator($event,'willpower')"
                 class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
 
                 <option *ngFor="let operator of operators; let i = index" [value]="operator">
@@ -150,7 +150,7 @@
                 </option>
             </select>
 
-            <select (change)="OnChangeSelectOption($event,'willpower')"
+            <select [(ngModel)]="selectedWillpowerOption" (change)="OnChangeSelectOption($event,'willpower')"
                 class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
                 <option value="all">all</option>
                 <option *ngFor="let value of values; let i = index" [value]="value">
@@ -169,7 +169,7 @@
         <label for="filterOnCardsLore" class="mt-4 block w-full text-grey-600 text-center">Card's lore</label>
         <div class="w-9/12 flex flex-row justify-between">
 
-            <select (change)="OnChangeSelectOperator($event,'lore')"
+            <select [(ngModel)]="selectedLoreOperator" (change)="OnChangeSelectOperator($event,'lore')"
                 class="p-3 w-[30%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
 
                 <option *ngFor="let operator of operators; let i = index" [value]="operator">
@@ -177,7 +177,7 @@
                 </option>
             </select>
 
-            <select (change)="OnChangeSelectOption($event,'lore')"
+            <select [(ngModel)]="selectedLoreOption" (change)="OnChangeSelectOption($event,'lore')"
                 class="p-3 w-[65%] text-center bg-gray-100 border-2 border-fuchsia-300 rounded-lg">
                 <option value="all">all</option>
                 <option *ngFor="let value of values; let i = index" [value]="value">

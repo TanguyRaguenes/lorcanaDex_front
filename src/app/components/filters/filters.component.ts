@@ -36,15 +36,15 @@ export class FiltersComponent implements OnInit, OnDestroy {
   protected operators: Array<string> = ['=', '>=', '<=', '>', '<']
   protected values: Array<String> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
-  private selectedCostOperator: string = "="
-  private selectedStrengthOperator: string = "="
-  private selectedWillpowerOperator: string = "="
-  private selectedLoreOperator: string = "="
+  protected selectedCostOperator: string = "="
+  protected selectedStrengthOperator: string = "="
+  protected selectedWillpowerOperator: string = "="
+  protected selectedLoreOperator: string = "="
 
-  private selectedCostOption: string = "="
-  private selectedStrengthOption: string = "="
-  private selectedWillpowerOption: string = "="
-  private selectedLoreOption: string = "="
+  protected selectedCostOption: string = "="
+  protected selectedStrengthOption: string = "="
+  protected selectedWillpowerOption: string = "="
+  protected selectedLoreOption: string = "="
 
   // CONTRUCTEUR
   constructor(private cardsService: CardsService) {
@@ -97,8 +97,9 @@ export class FiltersComponent implements OnInit, OnDestroy {
         img.classList.remove("grayscale-0")
         img.classList.remove("scale-125");
       }
-    })
+    });
 
+    (document.getElementById("filterOnCardsName") as HTMLSelectElement).value = "all";
 
     this.filters = [];
     this.filterCards()
