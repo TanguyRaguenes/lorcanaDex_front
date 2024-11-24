@@ -14,7 +14,7 @@
             <div class="tw_counter_btn_container " [ngClass]="{'-rotate-180':nbPlayers>1}">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-blue-600" (pointerdown)="startDecrease(0,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-blue-600" (pointerdown)="startDecrease(0)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -22,7 +22,7 @@
                 <p class="tw_counter_lore">{{ playersLore[0] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-blue-600" (pointerdown)="startIncrease(0,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-blue-600" (pointerdown)="startIncrease(0)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -47,7 +47,7 @@
             <div class="tw_counter_btn_container" [ngClass]="{'-rotate-180':nbPlayers>=3}">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-yellow-600" (pointerdown)="startDecrease(1,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-yellow-600" (pointerdown)="startDecrease(1)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -55,7 +55,7 @@
                 <p class="tw_counter_lore">{{ playersLore[1] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-yellow-600" (pointerdown)="startIncrease(1,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-yellow-600" (pointerdown)="startIncrease(1)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -81,7 +81,7 @@
             <div class="tw_counter_btn_container">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-green-600" (pointerdown)="startDecrease(2,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-green-600" (pointerdown)="startDecrease(2)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -89,7 +89,7 @@
                 <p class="tw_counter_lore">{{ playersLore[2] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-green-600" (pointerdown)="startIncrease(2,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-green-600" (pointerdown)="startIncrease(2)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -108,7 +108,7 @@
             <div class="tw_counter_btn_container">
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-red-600" (pointerdown)="startDecrease(3,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-red-600" (pointerdown)="startDecrease(3)"
                     (pointerup)="stopDecrease()" (pointerleave)="stopDecrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
                 </svg>
@@ -116,7 +116,7 @@
                 <p class="tw_counter_lore">{{ playersLore[3] }}</p>
 
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="tw_counter_btn bg-red-600" (pointerdown)="startIncrease(3,$event)"
+                    stroke="currentColor" class="tw_counter_btn bg-red-600" (pointerdown)="startIncrease(3)"
                     (pointerup)="stopIncrease()" (pointerleave)="stopIncrease()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
