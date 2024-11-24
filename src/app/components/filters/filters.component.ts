@@ -75,6 +75,38 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
   // METHODES
 
+  protected resetFilters() {
+
+    this.selectedCostOperator = "=";
+    this.selectedStrengthOperator = "=";
+    this.selectedWillpowerOperator = "=";
+    this.selectedLoreOperator = "=";
+
+    this.selectedCostOption = "all";
+    this.selectedStrengthOption = "all";
+    this.selectedWillpowerOption = "all";
+    this.selectedLoreOption = "all";
+
+    this.nameFilter = "";
+    this.textFilter = "";
+    this.typeFilter = "";
+
+    document.querySelectorAll(".reset").forEach(img => {
+      if (!img.classList.contains("grayscale")) {
+        img.classList.add("grayscale");
+        img.classList.remove("grayscale-0")
+        img.classList.remove("scale-125");
+      }
+    })
+
+
+    this.filters = [];
+    this.filterCards()
+
+    console.log("Filters reset!");
+
+  }
+
 
   protected OnChangeSelectOperator(event: Event, filter: string): void {
     const target = event.target as HTMLSelectElement;
@@ -226,6 +258,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     this.cardsService.filterCards(this.filters)
 
     this.toggleModal();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
   }
 

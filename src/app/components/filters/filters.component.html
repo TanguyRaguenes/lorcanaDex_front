@@ -24,7 +24,7 @@
                 class="p-3 w-1/3 h-20 md:h-24 lg:h-28 flex flex-col justify-center"
                 (click)="addNewFilter(color,'color',color,'')">
                 <img [id]=color [src]="'/assets/images/colors/' + color + '.png'" alt=""
-                    class="w-full h-full object-contain filter grayscale transition-all duration-300 hover:cursor-pointer">
+                    class="reset w-full h-full object-contain filter grayscale transition-all duration-300 hover:cursor-pointer">
             </div>
 
         </div>
@@ -38,7 +38,7 @@
                 class="p-3 w-1/3 h-20 md:h-24 lg:h-28 flex flex-col justify-center"
                 (click)="addNewFilter(rarity, 'rarity',rarity,'')">
                 <img [id]=rarity [src]="'/assets/images/rarities/' + rarity + '.png'" alt=""
-                    class="w-full h-full object-contain filter grayscale transition-all duration-300 hover:cursor-pointer">
+                    class="reset w-full h-full object-contain filter grayscale transition-all duration-300 hover:cursor-pointer">
             </div>
 
         </div>
@@ -189,10 +189,10 @@
         </div>
 
 
-
         <!-- BOUTON FILTRER -->
-
-        <button class="tw_btn fixed bottom-10 w-11/12" (click)="filterCards()">Filter</button>
+        <button class="tw_btn fixed bottom-20 w-11/12" (click)="filterCards()">Filter</button>
+        <!-- BOUTON ENLEVER FILTRES -->
+        <button class="tw_btn fixed bottom-10 w-11/12" (click)="resetFilters()">Reset filters</button>
 
     </div>
 
