@@ -167,46 +167,48 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
     idImg != null ? this.toggleGrayscale(idImg) : null;
 
-    let priority: number;
+    // let priority: number;
 
-    switch (key) {
-      case "color":
-        priority = 1;
-        break;
-      case "rarity":
-        priority = 2;
-        break;
-      case "set":
-        priority = 3;
-        break;
-      case "type":
-        priority = 4;
-        break;
-      case "cost":
-        priority = 5;
-        break;
-      case "strength":
-        priority = 6;
-        break;
-      case "willpower":
-        priority = 7;
-        break;
-      case "lore":
-        priority = 8;
-        break;
-      case "text":
-        priority = 9;
-        break;
-      case "name":
-        priority = 10;
-        break;
+    // switch (key) {
+    //   case "color":
+    //     priority = 1;
+    //     break;
+    //   case "rarity":
+    //     priority = 2;
+    //     break;
+    //   case "set":
+    //     priority = 3;
+    //     break;
+    //   case "type":
+    //     priority = 4;
+    //     break;
+    //   case "cost":
+    //     priority = 5;
+    //     break;
+    //   case "strength":
+    //     priority = 6;
+    //     break;
+    //   case "willpower":
+    //     priority = 7;
+    //     break;
+    //   case "lore":
+    //     priority = 8;
+    //     break;
+    //   case "text":
+    //     priority = 9;
+    //     break;
+    //   case "name":
+    //     priority = 10;
+    //     break;
 
-      default:
-        priority = 10;
-        break;
-    }
+    //   default:
+    //     priority = 10;
+    //     break;
+    // }
 
-    const filter = new Filter(priority, key, value, operator);
+    // const filter = new Filter(priority, key, value, operator);
+
+    const filter = new Filter(key, value, operator);
 
     let AllowedToPush: boolean = true;
 
@@ -255,7 +257,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }
 
     console.log("filterCards")
-    this.filters.sort((a, b) => a.getPriority() - b.getPriority())
+    // this.filters.sort((a, b) => a.getPriority() - b.getPriority())
     this.cardsService.filterCards(this.filters)
 
     this.toggleModal();

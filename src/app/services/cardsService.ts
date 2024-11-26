@@ -218,126 +218,197 @@ export class CardsService {
 
   public filterCards(filters: Array<Filter>) {
 
-    let filteredCards: Array<CardApiLorcast> = [];
-    !filters.some(e => e.getPriority() === 1) ? filteredCards = [...this.cardsAll] : null;
+    let filteredCards: Array<CardApiLorcast> = this.cardsAll.filter(card => {
+      return filters.every(filter => {
 
-    filters.forEach(filter => {
+        let value: number;
+        let operator: string;
 
-      console.log(filter);
+        switch (filter.getKey()) {
+          case "color":
+            return card.getInk() === filter.getValue();
 
-      let value: number = 0;
-      let operator: string = "";
+          case "rarity":
+            return card.getRarity() === filter.getValue();
 
-      switch (filter.getKey()) {
+          case "set":
+            return this.normalizeString(card.getSet().getName()).includes(this.normalizeString(filter.getValue()));
 
-        case "color":
-          filteredCards = [...filteredCards, ...this.cardsAll.filter(e => e.getInk() === filter.getValue())]
-          break;
-
-        case "rarity":
-          filteredCards = filteredCards.filter(e => e.getRarity() === filter.getValue())
-          break;
-
-        case "set":
-          filteredCards = filteredCards.filter(e => this.normalizeString(e.getSet().getName()).includes(this.normalizeString(filter.getValue())))
-          break;
-
-        case "type":
-          filteredCards = filteredCards.filter(e =>
-            e.getType().some(type =>
+          case "type":
+            return card.getType().some(type =>
               this.normalizeString(type).includes(this.normalizeString(filter.getValue()))
-            )
-          );
-          break;
+            );
 
-        case "cost":
-          value = parseInt(filter.getValue());
-          operator = filter.getOperator();
+          case "cost":
+          case "strength":
+          case "willpower":
+          case "lore":
 
-          if (operator === "=") {
-            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) == value);
-          } else if (operator === ">") {
-            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) > value);
-          } else if (operator === "<") {
-            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) < value);
-          } else if (operator === ">=") {
-            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) >= value);
-          } else if (operator === "<=") {
-            filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) <= value);
-          }
-          break;
-        case "strength":
-          value = parseInt(filter.getValue());
-          operator = filter.getOperator();
+            value = parseInt(filter.getValue());
+            operator = filter.getOperator();
+            let cardValue: number;
 
-          if (operator === "=") {
-            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) == value);
-          } else if (operator === ">") {
-            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) > value);
-          } else if (operator === "<") {
-            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) < value);
-          } else if (operator === ">=") {
-            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) >= value);
-          } else if (operator === "<=") {
-            filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) <= value);
-          }
-          break;
-        case "willpower":
-          value = parseInt(filter.getValue());
-          operator = filter.getOperator();
+            switch (filter.getKey()) {
+              case "cost":
+                cardValue = card.getCost() ?? 0;
+                break;
+              case "strength":
+                cardValue = card.getStrength() ?? 0;
+                break;
+              case "willpower":
+                cardValue = card.getWillpower() ?? 0;
+                break;
+              case "lore":
+                cardValue = card.getLore() ?? 0;
+                break;
+              default:
+                cardValue = 0;
+            }
 
-          if (operator === "=") {
-            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) == value);
-          } else if (operator === ">") {
-            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) > value);
-          } else if (operator === "<") {
-            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) < value);
-          } else if (operator === ">=") {
-            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) >= value);
-          } else if (operator === "<=") {
-            filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) <= value);
-          }
-          break;
-        case "lore":
-          value = parseInt(filter.getValue());
-          operator = filter.getOperator();
+            switch (operator) {
+              case "=": return cardValue === value;
+              case ">": return cardValue > value;
+              case "<": return cardValue < value;
+              case ">=": return cardValue >= value;
+              case "<=": return cardValue <= value;
+              default: return true;
+            }
 
-          if (operator === "=") {
-            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) == value);
-          } else if (operator === ">") {
-            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) > value);
-          } else if (operator === "<") {
-            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) < value);
-          } else if (operator === ">=") {
-            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) >= value);
-          } else if (operator === "<=") {
-            filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) <= value);
-          }
-          break;
+          case "text":
+            const cardText = card.getText();
+            return cardText ? this.normalizeString(cardText).includes(this.normalizeString(filter.getValue())) : false;
 
-        case "text":
-          filteredCards = filteredCards.filter(e => {
-            const cardText = e.getText();
-            return cardText
-              ? this.normalizeString(cardText).includes(this.normalizeString(filter.getValue()))
-              : false;
-          });
-          break;
+          case "name":
+            return this.normalizeString(card.getName()).includes(this.normalizeString(filter.getValue()));
+
+          default:
+            return true;
+        }
+      });
+    });
 
 
+    // let filteredCards: Array<CardApiLorcast> = [];
 
-        case "name":
-          filteredCards = filteredCards.filter(e => this.normalizeString(e.getName()).includes(this.normalizeString(filter.getValue())))
-          break;
+    // !filters.some(e => e.getPriority() === 1) ? filteredCards = [...this.cardsAll] : null;
+
+    // filters.forEach(filter => {
+
+    //   console.log(filter);
+
+    //   let value: number = 0;
+    //   let operator: string = "";
+
+    //   switch (filter.getKey()) {
+
+    //     case "color":
+    //       filteredCards = [...filteredCards, ...this.cardsAll.filter(e => e.getInk() === filter.getValue())]
+    //       break;
+
+    //     case "rarity":
+    //       filteredCards = filteredCards.filter(e => e.getRarity() === filter.getValue())
+    //       break;
+
+    //     case "set":
+    //       filteredCards = filteredCards.filter(e => this.normalizeString(e.getSet().getName()).includes(this.normalizeString(filter.getValue())))
+    //       break;
+
+    //     case "type":
+    //       filteredCards = filteredCards.filter(e =>
+    //         e.getType().some(type =>
+    //           this.normalizeString(type).includes(this.normalizeString(filter.getValue()))
+    //         )
+    //       );
+    //       break;
+
+    //     case "cost":
+    //       value = parseInt(filter.getValue());
+    //       operator = filter.getOperator();
+
+    //       if (operator === "=") {
+    //         filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) == value);
+    //       } else if (operator === ">") {
+    //         filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) > value);
+    //       } else if (operator === "<") {
+    //         filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) < value);
+    //       } else if (operator === ">=") {
+    //         filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) >= value);
+    //       } else if (operator === "<=") {
+    //         filteredCards = filteredCards.filter(e => (e.getCost() ?? 0) <= value);
+    //       }
+    //       break;
+    //     case "strength":
+    //       value = parseInt(filter.getValue());
+    //       operator = filter.getOperator();
+
+    //       if (operator === "=") {
+    //         filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) == value);
+    //       } else if (operator === ">") {
+    //         filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) > value);
+    //       } else if (operator === "<") {
+    //         filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) < value);
+    //       } else if (operator === ">=") {
+    //         filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) >= value);
+    //       } else if (operator === "<=") {
+    //         filteredCards = filteredCards.filter(e => (e.getStrength() ?? 0) <= value);
+    //       }
+    //       break;
+    //     case "willpower":
+    //       value = parseInt(filter.getValue());
+    //       operator = filter.getOperator();
+
+    //       if (operator === "=") {
+    //         filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) == value);
+    //       } else if (operator === ">") {
+    //         filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) > value);
+    //       } else if (operator === "<") {
+    //         filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) < value);
+    //       } else if (operator === ">=") {
+    //         filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) >= value);
+    //       } else if (operator === "<=") {
+    //         filteredCards = filteredCards.filter(e => (e.getWillpower() ?? 0) <= value);
+    //       }
+    //       break;
+    //     case "lore":
+    //       value = parseInt(filter.getValue());
+    //       operator = filter.getOperator();
+
+    //       if (operator === "=") {
+    //         filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) == value);
+    //       } else if (operator === ">") {
+    //         filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) > value);
+    //       } else if (operator === "<") {
+    //         filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) < value);
+    //       } else if (operator === ">=") {
+    //         filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) >= value);
+    //       } else if (operator === "<=") {
+    //         filteredCards = filteredCards.filter(e => (e.getLore() ?? 0) <= value);
+    //       }
+    //       break;
+
+    //     case "text":
+    //       filteredCards = filteredCards.filter(e => {
+    //         const cardText = e.getText();
+    //         return cardText
+    //           ? this.normalizeString(cardText).includes(this.normalizeString(filter.getValue()))
+    //           : false;
+    //       });
+    //       break;
 
 
-        default:
-          break;
-      }
 
-      console.log(filteredCards);
+    //     case "name":
+    //       filteredCards = filteredCards.filter(e => this.normalizeString(e.getName()).includes(this.normalizeString(filter.getValue())))
+    //       break;
 
-    })
+
+    //     default:
+    //       break;
+    //   }
+
+    //   console.log(filteredCards);
+
+    // })
 
     this.cardsToDisplay.next(filteredCards);
 
