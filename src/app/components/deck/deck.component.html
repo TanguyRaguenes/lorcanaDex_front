@@ -56,7 +56,7 @@
                     </div>
                 </div>
 
-                <img *ngIf="card?.getImageUris()?.getDigital()?.getSmall() !== null" alt="card"
+                <img *ngIf="card?.getImageUris()?.getDigital()?.getNormal() !== null" alt="card"
                     class="h-full w-full rounded-lg object-contain transform hover:cursor-pointer"
                     [src]="card?.getImageUris()?.getDigital()?.getNormal() || 'assets/cardBack.avif'"
                     [attr.loading]="i > 5? 'lazy' : 'eager'" (click)="showCardDetails(card)">
