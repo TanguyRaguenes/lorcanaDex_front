@@ -46,11 +46,20 @@
 
             </div>
 
+
+
             <div class="w-full flex items-center justify-center mb-2">
+
+                <div *ngIf="card?.getImageUris()?.getDigital()?.getNormal() == null"
+                    class="w-full h-60 flex items-center justify-center bg-white rounded-xl">
+                    <div class="animate-spin rounded-full h-6 w-6 border-4 border-fuchsia-400 border-t-transparent">
+                    </div>
+                </div>
+
                 <img *ngIf="card?.getImageUris()?.getDigital()?.getSmall() !== null" alt="card"
                     class="h-full w-full rounded-lg object-contain transform hover:cursor-pointer"
-                    [src]="card?.getImageUris()?.getDigital()?.getNormal()" [attr.loading]="i > 100 ? 'lazy' : null"
-                    (click)="showCardDetails(card)">
+                    [src]="card?.getImageUris()?.getDigital()?.getNormal() || 'assets/cardBack.avif'"
+                    [attr.loading]="i > 5? 'lazy' : 'eager'" (click)="showCardDetails(card)">
             </div>
 
         </div>
