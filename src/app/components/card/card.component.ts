@@ -29,8 +29,25 @@ export class CardComponent implements OnInit, OnDestroy {
       this.cardService.getCardToDisplay().subscribe({
         next: (response: CardApiLorcast) => {
           this.cardToDisplay = response
+          console.log({
+            "Update cardToDisplay": this.cardToDisplay
+          })
         }, error: (e => {
           console.log("getCardToDisplay error : " + e)
+        })
+      })
+
+    )
+
+    this.subscription.add(
+      this.cardService.getIsModalVisible().subscribe({
+        next: (response: boolean) => {
+          this.isModalVisible = response
+          console.log({
+            "Update isModalVisible": this.isModalVisible
+          })
+        }, error: (e => {
+          console.log("getIsModalVisible error : " + e)
         })
       })
 
@@ -42,7 +59,7 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   protected toggleModal() {
-    this.isModalVisible = !this.isModalVisible;
+    this.cardService.toggleModal();
   }
 
 
