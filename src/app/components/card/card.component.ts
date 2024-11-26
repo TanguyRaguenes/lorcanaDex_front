@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardsService } from '../../services/cardsService';
 import { Card } from '../../models/Card';
 import { CommonModule } from '@angular/common';
 import { CardApiLorcast } from '../../models/CardApiLorcast';
+import { CardService } from '../../services/card.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-card',
@@ -12,22 +14,31 @@ import { CardApiLorcast } from '../../models/CardApiLorcast';
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss'
 })
-export class CardComponent {
+export class CardComponent implements OnInit, OnDestroy {
 
-  protected cardToDisplay: CardApiLorcast | null;
-  protected isModalVisible: boolean;
+  protected cardToDisplay: CardApiLorcast | null = null;
+  protected isModalVisible: boolean = false;
+  private subscription: Subscription = new Subscription();
 
-  constructor() {
-    this.cardToDisplay = null;
-    this.isModalVisible = false;
+  constructor(private cardService: CardService) {
+
   }
 
-  public setCardToDisplay(card: CardApiLorcast) {
-    this.cardToDisplay = card;
-    // console.log({
-    //   "cardToDisplay : ": this.cardToDisplay
-    // })
-    this.toggleModal();
+  ngOnInit(): void {
+    this.subscription.add(
+      this.cardService.getCardToDisplay().subscribe({
+        next: (response: CardApiLorcast) => {
+          this.cardToDisplay = response
+        }, error: (e => {
+          console.log("getCardToDisplay error : " + e)
+        })
+      })
+
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
   protected toggleModal() {

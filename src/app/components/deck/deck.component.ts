@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Deck } from '../../models/Deck';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,9 +10,10 @@ import { FiltersComponent } from '../filters/filters.component';
 import { CardComponent } from '../card/card.component';
 import { DecksService } from '../../services/decks.service';
 import { DeckService } from '../../services/deck.service';
-import { map } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 import { FlashMessageService } from '../../services/flash-message.service';
 import { CardApiLorcast } from '../../models/CardApiLorcast';
+import { CardService } from '../../services/card.service';
 
 @Component({
   selector: 'app-deck',
@@ -21,8 +22,11 @@ import { CardApiLorcast } from '../../models/CardApiLorcast';
   templateUrl: './deck.component.html',
   styleUrl: './deck.component.scss'
 })
-export class DeckComponent implements OnInit {
+export class DeckComponent implements OnInit, OnDestroy {
 
+
+
+  private subscription: Subscription = new Subscription();
 
   // ATTRIBUTS
 
@@ -32,36 +36,15 @@ export class DeckComponent implements OnInit {
   protected deckColors: Array<string | undefined> = [];
 
 
-  protected cardsPool: Array<CardApiLorcast>;
-  protected cardsToDisplay: Array<CardApiLorcast>;
+  protected cardsPool: Array<CardApiLorcast> = [];
+  protected cardsToDisplay: Array<CardApiLorcast> = [];
 
-  protected isDeckVisible: boolean;
-
-
-  private router: Router;
-  private cardsService: CardsService;
-  private deckService: DeckService;
-  private flashMessageService: FlashMessageService;
-
-  protected showDeckList: boolean;
-
-  @ViewChild(CardComponent) cardComponent!: CardComponent;
-
+  protected isDeckVisible: boolean = false;
+  protected showDeckList: boolean = false;
 
   // CONSTRUCTEUR
 
-  constructor(router: Router, cardsService: CardsService, deckService: DeckService, flashMessageService: FlashMessageService) {
-
-    this.flashMessageService = flashMessageService;
-
-    this.isDeckVisible = false;
-    this.router = router;
-    this.cardsService = cardsService;
-    this.cardsPool = [];
-    this.cardsToDisplay = [];
-    this.showDeckList = false;
-
-    this.deckService = deckService;
+  constructor(private router: Router, private cardService: CardService, private cardsService: CardsService, private deckService: DeckService, private flashMessageService: FlashMessageService) {
 
     const data = sessionStorage.getItem("deckSelected");
 
@@ -77,33 +60,50 @@ export class DeckComponent implements OnInit {
         dataParse.secondInk)
     }
 
-    this.deckColors = [this.deckSelected?.getFirstInk(), this.deckSelected?.getSecondInk()];
-    this.cardsService.setColors(this.deckColors);
 
 
-    this.deckService.getDeckCards(this.deckSelected?.getDeckId()!).subscribe({
-      next: (response: any) => {
 
-        this.deckCardsMap = response;
-        this.updateDeckCardsArray();
+    // this.deckService.getDeckCards(this.deckSelected?.getDeckId()!).subscribe({
+    //   next: (response: any) => {
 
-      }, error: (e => {
-        console.log("getDeckCards error : " + e)
-      })
-    })
-    // console.log(this.deckColors);
+    //     this.deckCardsMap = response;
+    //     this.updateDeckCardsArray();
+
+    //   }, error: (e => {
+    //     console.log("getDeckCards error : " + e)
+    //   })
+    // })
+
 
 
   }
+
   ngOnInit(): void {
-    this.cardsService.getCardsToDisplay().subscribe({
-      next: (response: Array<CardApiLorcast>) => {
-        this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getInk()))];
-        this.cardsToDisplay = [...this.cardsPool];
-      }, error: (e => {
-        console.log("ngOnInit error " + e)
+
+
+
+    this.deckColors = [this.deckSelected?.getFirstInk(), this.deckSelected?.getSecondInk()];
+    this.cardsService.setColors(this.deckColors);
+
+    this.subscription.add(
+
+      this.cardsService.getCardsToDisplay().subscribe({
+        next: (response: Array<CardApiLorcast>) => {
+          this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getInk()))];
+          this.cardsToDisplay = [...this.cardsPool];
+        }, error: (e => {
+          console.log("ngOnInit error " + e)
+        })
+
       })
-    });
+
+    )
+
+  }
+
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 
 
@@ -218,7 +218,7 @@ export class DeckComponent implements OnInit {
   // AFFICHAGE DETAILS CARTE
 
   showCardDetails(card: CardApiLorcast) {
-    this.cardComponent.setCardToDisplay(card);
+    this.cardService.setCardToDisplay(card);
   }
 
 

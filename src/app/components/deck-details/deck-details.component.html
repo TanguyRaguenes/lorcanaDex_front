@@ -1,0 +1,28 @@
+<section class="mt-[10vh]">
+
+    <app-filters></app-filters>
+
+    <app-card></app-card>
+
+    <!-- AFFICHAGE CARTES -->
+
+    <div class="flex flex-wrap justify-center pb-[12vh]">
+
+        <div *ngFor="let card of deckCards; let i = index" class="p-2 w-1/2 md:w-1/4 lg:w-1/6 relative">
+
+            <div *ngIf="card?.getImageUris()?.getDigital()?.getNormal() == null"
+                class="w-full h-60 flex items-center justify-center bg-white rounded-xl">
+                <div class="animate-spin rounded-full h-6 w-6 border-4 border-fuchsia-400 border-t-transparent"></div>
+            </div>
+
+            <img *ngIf="card?.getImageUris()?.getDigital()?.getNormal() !== null" [attr.alt]="card?.getName() || 'card'"
+                class="z-10 h-full w-full rounded-lg object-contain transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl"
+                [src]="card?.getImageUris()?.getDigital()?.getNormal()  || 'assets/cardBack.avif'"
+                [attr.loading]="i > 5 ? 'lazy' : 'eager'" (click)="showCardDetails(card)">
+
+
+        </div>
+
+    </div>
+
+</section>

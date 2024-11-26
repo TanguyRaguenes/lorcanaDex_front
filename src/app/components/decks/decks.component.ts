@@ -8,6 +8,7 @@ import { CardsService } from '../../services/cardsService';
 import { FlashMessageComponent } from '../flash-message/flash-message.component';
 import { FlashMessageService } from '../../services/flash-message.service';
 import { Subscription } from 'rxjs';
+import { DeckService } from '../../services/deck.service';
 
 @Component({
   selector: 'app-decks',
@@ -21,62 +22,33 @@ export class DecksComponent implements OnInit, OnDestroy {
 
   // ATTRIBUTS
 
-  // Classes utilitaires
   private subscription = new Subscription();
 
-  // Services custom
-  private cardsService: CardsService;
-  private flashMessageService: FlashMessageService;
-  private decksService: DecksService;
-
-  // Services Angular
-  private router: Router;
-
   // Variables
-  protected userDecks: Array<Deck>;
-  protected colors: Array<string>;
-  protected rarities: Array<string>;
-  protected inksSelected: Array<string>;
-  protected deckNameChosen: string;
-  protected showErrorDeckNameChosenAlreadyUsed: boolean;
-  protected showErrorNoDeckNameChosen: boolean;
-  protected showErrorNoInkSelected: boolean;
-  protected isModalInitialized: boolean;
-  protected isModalVisible: boolean;
+  protected userDecks: Array<Deck> = [];
+  protected colors: Array<string> = [];
+  protected rarities: Array<string> = [];
+  protected inksSelected: Array<string> = [];
+  protected deckNameChosen: string = "";
+  protected showErrorDeckNameChosenAlreadyUsed: boolean = false;
+  protected showErrorNoDeckNameChosen: boolean = false;
+  protected showErrorNoInkSelected: boolean = false;
+  protected isModalVisible: boolean = false;
 
 
 
   // CONSTRUCTEUR
 
-  constructor(cardsService: CardsService, decksService: DecksService, router: Router, flashMessageService: FlashMessageService) {
-
-    this.cardsService = cardsService;
-    this.decksService = decksService;
-    this.flashMessageService = flashMessageService;
-    this.router = router;
-
-    this.deckNameChosen = "";
-    this.userDecks = [];
-    this.colors = [];
-    this.rarities = [];
-    this.inksSelected = [];
-    this.showErrorDeckNameChosenAlreadyUsed = false;
-    this.showErrorNoDeckNameChosen = false;
-    this.showErrorNoInkSelected = false;
-    this.isModalVisible = false;
-    this.isModalInitialized = false;
+  constructor(private cardsService: CardsService, private deckService: DeckService, private decksService: DecksService, private router: Router, private flashMessageService: FlashMessageService) {
 
   }
 
   ngOnInit(): void {
 
-    this.isModalInitialized = true;
-
     this.cardsService.resetColors();
     this.colors = [...this.cardsService.getColors()];
     this.cardsService.resetCardsToDisplay();
     this.rarities = [...this.cardsService.getRarities()];
-
 
     // ABONNEMENTS
 
@@ -121,6 +93,21 @@ export class DecksComponent implements OnInit, OnDestroy {
     if (deck) {
       sessionStorage.setItem("deckSelected", JSON.stringify(deck))
       this.router.navigate(["/deck"])
+    }
+
+  }
+
+  // SHOW DECK DETAILS
+
+  public showDeckDetails(deckId: number) {
+
+    const deck: Deck | undefined = this.userDecks.find(e => e.getDeckId() == deckId)
+
+    if (deck) {
+      sessionStorage.setItem("deckSelected", JSON.stringify(deck))
+      this.deckService.setDeck(deck)
+
+      this.router.navigate(["/deckDetails"])
     }
 
   }
@@ -239,5 +226,7 @@ export class DecksComponent implements OnInit, OnDestroy {
       })
     });
   }
+
+
 
 }

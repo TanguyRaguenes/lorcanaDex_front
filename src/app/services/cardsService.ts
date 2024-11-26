@@ -424,5 +424,10 @@ export class CardsService {
   }
 
 
+  public getCardById(cardId: number): CardApiLorcast {
+    return this.cardsAll.filter(card => card.getCardIdBdd() == cardId)[0];
+  }
+
+
 
 }

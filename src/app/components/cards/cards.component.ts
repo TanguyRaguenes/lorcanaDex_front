@@ -9,6 +9,7 @@ import { FiltersComponent } from '../filters/filters.component';
 import { CardComponent } from '../card/card.component';
 import { CardApiLorcast } from '../../models/CardApiLorcast';
 import { Subscription } from 'rxjs';
+import { CardService } from '../../services/card.service';
 
 @Component({
   selector: 'app-cards',
@@ -26,7 +27,7 @@ export class CardsComponent implements OnInit, OnDestroy {
   @ViewChild(CardComponent) cardComponent!: CardComponent;
 
   // CONSTRUCTEUR
-  constructor(private cardsService: CardsService) { };
+  constructor(private cardService: CardService, private cardsService: CardsService) { };
 
   ngOnInit(): void {
 
@@ -54,7 +55,7 @@ export class CardsComponent implements OnInit, OnDestroy {
   // AFFICHAGE DETAILS CARTE
 
   showCardDetails(card: CardApiLorcast) {
-    this.cardComponent.setCardToDisplay(card);
+    this.cardService.setCardToDisplay(card);
   }
 
 
