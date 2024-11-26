@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -48,6 +48,16 @@ export class NavbarComponent implements OnInit {
 
   isCurrentRoute(route: string): boolean {
     return this.router.url === `/${route}`;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const targetElement = event.target as HTMLElement;
+
+    // Vérifie si le clic est à l'intérieur de la navbar ou du menu
+    if (!targetElement.closest('header') && this.isModalOpen) {
+      this.isModalOpen = false; // Ferme le menu
+    }
   }
 
 

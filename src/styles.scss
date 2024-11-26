@@ -35,7 +35,7 @@ p {
 }
 
 .tw_modal {
-    @apply z-30 mt-20 pb-56 bg-white w-screen h-screen fixed top-0 flex flex-col items-center overflow-y-scroll transition-all duration-500 ease-in-out
+    @apply z-30 bg-white w-screen h-screen fixed top-0 flex flex-col items-center overflow-y-scroll transition-all duration-500 ease-in-out
 }
 
 .tw_h1 {

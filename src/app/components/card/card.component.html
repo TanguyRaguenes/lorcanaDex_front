@@ -1,8 +1,8 @@
-<section *ngIf="isModalVisible" class="tw_modal">
+<section *ngIf="isModalVisible" class="tw_modal pb-[15vh]">
 
 
     <!-- Affichage de l'image principale de la carte -->
-    <div class="w-11/12 mt-10">
+    <div class="w-11/12 mt-[12vh]">
         <img *ngIf="cardToDisplay?.getImageUris()?.getDigital()?.getLarge()" alt="card"
             class="rounded-lg object-contain object-center mx-auto"
             [src]="cardToDisplay?.getImageUris()?.getDigital()?.getLarge()">

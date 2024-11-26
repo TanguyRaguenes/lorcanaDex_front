@@ -1,6 +1,6 @@
 <!-- MODAL -->
 <div *ngIf="isModalInitialized" [ngClass]="isModalVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'"
-    class="tw_modal">
+    class="tw_modal mt-[10vh]">
 
     <button class="tw_btn w-11/12" (click)="toggleModal()">Back</button>
 
@@ -16,12 +16,13 @@
 
     </div>
 
-    <div class="mb-2 p-2 w-9/12 flex flex-col items-center border-2 border-white rounded-lg">
+    <div class="mb-2 p-2 w-11/12 flex flex-col items-center border-2 border-white rounded-lg">
         <label for="deckNameChosen" class="">Deck's name :</label>
-        <input type="text" id="deckNameChosen" name="deckNameChosen" class="tw_input" [(ngModel)]="deckNameChosen">
+        <input type="text" id="deckNameChosen" name="deckNameChosen" class="tw_input w-full"
+            [(ngModel)]="deckNameChosen">
     </div>
 
-    <button class="tw_btn w-11/12" (click)="addDeckToBdd()">Create deck</button>
+    <button class="tw_btn fixed bottom-[5vh] w-11/12" (click)="addDeckToBdd()">Create deck</button>
 
     <P *ngIf="showErrorDeckNameChosenAlreadyUsed">This deck's name is already used !</P>
     <P *ngIf="showErrorNoDeckNameChosen">You must chose a deck's name</P>
@@ -74,6 +75,6 @@
     </div>
 
 
-    <button class="tw_btn w-11/12 fixed bottom-10" (click)="toggleModal()">New deck</button>
+    <button class="tw_btn w-11/12 fixed bottom-[5vh]" (click)="toggleModal()">New deck</button>
 
 </section>

@@ -2,12 +2,13 @@
 
     <div class="flex flex-row w-full justify-center">
         <!-- BOUTON RETOUR -->
-        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed left-0 top-20" (click)="goBack()">Go back</button>
+        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed left-0 top-[10vh]" (click)="goBack()">Go back</button>
         <!-- BOUTON AFFICHER DECK -->
-        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed right-0 top-20" (click)="showDeck()">Show deck</button>
+        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed right-0 top-[10vh]" (click)="showDeck()">Show
+            deck</button>
 
         <!-- BOUTON AFFICHER TOUTES LES CARTES -->
-        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed top-20" (click)="showAll()">Show all
+        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed top-[10vh]" (click)="showAll()">Show all
             cards</button>
     </div>
 
@@ -64,7 +65,7 @@
 
         </div>
 
-        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed bottom-10" (click)="saveDeckCardsInBdd()">Save
+        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed bottom-[5vh]" (click)="saveDeckCardsInBdd()">Save
             deck</button>
 
     </div>
