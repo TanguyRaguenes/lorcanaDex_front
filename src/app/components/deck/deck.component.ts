@@ -42,6 +42,8 @@ export class DeckComponent implements OnInit, OnDestroy {
   protected isDeckVisible: boolean = false;
   protected showDeckList: boolean = false;
 
+  protected deckStats: Map<string, number> = new Map<string, number>();
+
   // CONSTRUCTEUR
 
   constructor(private router: Router, private cardService: CardService, private cardsService: CardsService, private deckService: DeckService, private flashMessageService: FlashMessageService) {
@@ -92,7 +94,23 @@ export class DeckComponent implements OnInit, OnDestroy {
           this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getInk()))];
           this.cardsToDisplay = [...this.cardsPool];
         }, error: (e => {
-          console.log("ngOnInit error " + e)
+          console.log("getCardsToDisplay error : " + e)
+        })
+
+      })
+
+    )
+
+    this.subscription.add(
+
+      this.deckService.getDeckStats().subscribe({
+        next: (response: Map<string, number>) => {
+          this.deckStats = response;
+          console.log({
+            "Update deckStats": this.deckStats
+          })
+        }, error: (e => {
+          console.log("getDeckStats error : " + e)
         })
 
       })

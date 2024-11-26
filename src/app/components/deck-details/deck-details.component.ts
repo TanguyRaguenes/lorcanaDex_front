@@ -4,11 +4,12 @@ import { Deck } from '../../models/Deck';
 import { Subscription } from 'rxjs';
 import { CardApiLorcast } from '../../models/CardApiLorcast';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FiltersComponent } from '../filters/filters.component';
 import { CardComponent } from '../card/card.component';
 import { CardService } from '../../services/card.service';
+import { DeckCard } from '../../models/DeckCard';
 
 
 @Component({
@@ -22,11 +23,12 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
 
 
   protected deck: Deck = new Deck(null, '', '', new Date(), null, '', '');
-  protected deckCards: Array<CardApiLorcast> = [];
+  protected deckCards: Array<DeckCard> = [];
   private subscription: Subscription = new Subscription();
+  protected deckStats: Map<string, number> = new Map<string, number>();
 
 
-  constructor(private deckService: DeckService, private cardService: CardService) {
+  constructor(private deckService: DeckService, private cardService: CardService, private router: Router) {
 
   }
 
@@ -47,7 +49,7 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
 
     this.subscription.add(
       this.deckService.getDeckCards().subscribe({
-        next: (response: Array<CardApiLorcast>) => {
+        next: (response: Array<DeckCard>) => {
           this.deckCards = response;
           console.log({
             "Update deckCards": this.deckCards
@@ -56,6 +58,22 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
           console.log("getDeckCards error : " + e)
         })
       })
+    )
+
+    this.subscription.add(
+
+      this.deckService.getDeckStats().subscribe({
+        next: (response: Map<string, number>) => {
+          this.deckStats = response;
+          console.log({
+            "Update deckStats": this.deckStats
+          })
+        }, error: (e => {
+          console.log("getDeckStats error : " + e)
+        })
+
+      })
+
     )
 
   }
@@ -68,5 +86,25 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
     this.cardService.setCardToDisplay(card);
   }
 
+
+  public getQuantity(cardId: number): number {
+    const tempDeckCard: DeckCard = this.deckCards.find(card => card.getCard().getCardIdBdd() == cardId)!;
+    return tempDeckCard.getQuantity();
+  }
+
+  public getPrice(cardId: number): number {
+
+    const tempDeckCard: DeckCard = this.deckCards.find(card => card.getCard().getCardIdBdd() == cardId)!;
+
+    if (tempDeckCard?.getCard()?.getPrices()?.getUsd()) {
+      return Number(tempDeckCard.getCard().getPrices().getUsd());
+    }
+
+    return 0;
+  }
+
+  public goBack() {
+    this.router.navigate(["/decks"]);
+  }
 
 }

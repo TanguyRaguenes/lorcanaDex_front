@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Deck } from '../models/Deck';
 import { CardApiLorcast } from '../models/CardApiLorcast';
 import { CardsService } from './cardsService';
+import { DeckCard } from '../models/DeckCard';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +15,46 @@ export class DeckService {
 
 
   private deck: BehaviorSubject<Deck> = new BehaviorSubject<Deck>(new Deck(null, '', '', new Date(), null, '', ''));
-  private deckCards: BehaviorSubject<Array<CardApiLorcast>> = new BehaviorSubject<Array<CardApiLorcast>>([]);
+  private deckCards: BehaviorSubject<Array<DeckCard>> = new BehaviorSubject<Array<DeckCard>>([]);
+
+  private deckStats: BehaviorSubject<Map<string, number>> = new BehaviorSubject<Map<string, number>>(new Map());
 
   constructor(private http: HttpClient, private cardsService: CardsService) {
 
   }
 
+
+  public calculateDeckStats(): void {
+
+    console.log("calculateDeckStats");
+    let deckPrice: number = 0;
+    const stats: Map<string, number> = new Map<string, number>();
+    const deckCardsValue = this.deckCards.value;
+
+    if (deckCardsValue) {
+      deckCardsValue.forEach(deckCard => {
+        deckPrice += parseFloat(deckCard.getCard().getPrices().getUsd() ?? '0') * deckCard.getQuantity();
+      });
+
+    }
+
+    stats.set("deckPrice", Math.round(deckPrice * 100) / 100)
+
+    this.deckStats.next(stats);
+
+  }
+
+  public getDeckStats(): Observable<Map<string, number>> {
+
+    return this.deckStats;
+  }
+
   public setDeck(deck: Deck): void {
     this.deck.next(deck)
-    this.getDeckCardsInBdd(deck.getDeckId()!).subscribe({
-      next: (response: Array<CardApiLorcast>) => {
+    this.fetchDeckCards(deck.getDeckId()!).subscribe({
+      next: (response: Array<DeckCard>) => {
         this.deckCards.next(response);
+        this.calculateDeckStats();
       }, error: (e => {
         console.log("getDeckCards error : " + e)
       })
@@ -37,7 +67,7 @@ export class DeckService {
     return this.deck;
   }
 
-  public getDeckCards(): Observable<Array<CardApiLorcast>> {
+  public getDeckCards(): Observable<Array<DeckCard>> {
     return this.deckCards;
   }
 
@@ -71,7 +101,7 @@ export class DeckService {
   }
 
 
-  public getDeckCardsInBdd(deckId: number): Observable<Array<CardApiLorcast>> {
+  public fetchDeckCards(deckId: number): Observable<Array<DeckCard>> {
 
     console.log({
       Methode: "getDeckCards",
@@ -93,11 +123,12 @@ export class DeckService {
 
       map(response => {
 
-        const tempArray: Array<CardApiLorcast> = [];
+        const tempArray: Array<DeckCard> = [];
         for (const key in response) {
           const tempCard: CardApiLorcast = this.cardsService.getCardById(parseInt(key));
+          const tempQuantity: number = response[key];
           if (tempCard) {
-            tempArray.push(tempCard)
+            tempArray.push(new DeckCard(tempCard, tempQuantity))
           }
         }
 
