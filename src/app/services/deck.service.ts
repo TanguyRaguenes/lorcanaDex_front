@@ -28,17 +28,42 @@ export class DeckService {
 
     console.log("calculateDeckStats");
     let deckPrice: number = 0;
+    let nbCards: number = 0;
+    const typeCards: Record<string, number> = {
+      Inkwell: 0,
+      Character: 0
+    }
+
+    const inkCounts: Record<string, number> = {
+      Amber: 0,
+      Amethyst: 0,
+      Emerald: 0,
+      Ruby: 0,
+      Sapphire: 0,
+      Steel: 0,
+    };
+
+
     const stats: Map<string, number> = new Map<string, number>();
     const deckCardsValue = this.deckCards.value;
+
 
     if (deckCardsValue) {
       deckCardsValue.forEach(deckCard => {
         deckPrice += parseFloat(deckCard.getCard().getPrices().getUsd() ?? '0') * deckCard.getQuantity();
+        inkCounts[deckCard.getCard().getInk()] += deckCard.getQuantity();
+        nbCards += deckCard.getQuantity();
+
       });
 
     }
 
+    Object.entries(inkCounts).forEach(([ink, count]) => {
+      stats.set(`nb${ink}Cards`, count);
+    })
+
     stats.set("deckPrice", Math.round(deckPrice * 100) / 100)
+    stats.set("nbCards", nbCards)
 
     this.deckStats.next(stats);
 

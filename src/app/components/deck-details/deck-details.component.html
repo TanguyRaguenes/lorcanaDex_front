@@ -16,6 +16,80 @@
                 <tr *ngIf="deckStats.get('deckPrice')!==null">
                     <td class="tw_td_label text-yellow-600">Price std ($)</td>
                     <td class="tw_td_value">{{ deckStats.get('deckPrice') }}</td>
+
+                </tr>
+
+                <tr *ngIf="deckStats.get('nbCards')!==null">
+                    <td class="tw_td_label">Nb cards</td>
+                    <td class="tw_td_value">{{ deckStats.get('nbCards') }}</td>
+
+                </tr>
+
+                <tr *ngIf="deckStats.get('nbAmberCards') !== 0">
+                    <td class="tw_td_label">
+                        <img src="assets/images/colors/Amber.png" alt="Amber" class="inline-block w-7 h-8" />
+                        Nb Amber cards :
+                    </td>
+                    <td class="tw_td_value">
+                        {{ deckStats.get('nbAmberCards') || 0 }} |
+                        {{ (deckStats.get('nbAmberCards') || 0) / (deckStats.get('nbCards') || 1) * 100 | number:
+                        '1.2-2' }}%
+                    </td>
+                </tr>
+                <tr *ngIf="deckStats.get('nbAmethystCards') !== 0">
+                    <td class="tw_td_label">
+                        <img src="assets/images/colors/Amethyst.png" alt="Amethyst" class="inline-block w-7 h-8" />
+                        Nb Amethyst cards :
+                    </td>
+                    <td class="tw_td_value">
+                        {{ deckStats.get('nbAmethystCards') || 0 }} |
+                        {{ (deckStats.get('nbAmethystCards') || 0) / (deckStats.get('nbCards') || 1) * 100 | number:
+                        '1.2-2' }}%
+                    </td>
+                </tr>
+                <tr *ngIf="deckStats.get('nbEmeraldCards') !== 0">
+                    <td class="tw_td_label">
+                        <img src="assets/images/colors/Emerald.png" alt="Emerald" class="inline-block w-7 h-8" />
+                        Nb Emerald cards :
+                    </td>
+                    <td class="tw_td_value">
+                        {{ deckStats.get('nbEmeraldCards') || 0 }} |
+                        {{ (deckStats.get('nbEmeraldCards') || 0) / (deckStats.get('nbCards') || 1) * 100 | number:
+                        '1.2-2' }}%
+                    </td>
+                </tr>
+                <tr *ngIf="deckStats.get('nbRubyCards') !== 0">
+                    <td class="tw_td_label">
+                        <img src="assets/images/colors/Ruby.png" alt="Ruby" class="inline-block w-7 h-8" />
+                        Nb Ruby cards :
+                    </td>
+                    <td class="tw_td_value">
+                        {{ deckStats.get('nbRubyCards') || 0 }} |
+                        {{ (deckStats.get('nbRubyCards') || 0) / (deckStats.get('nbCards') || 1) * 100 | number: '1.2-2'
+                        }}%
+                    </td>
+                </tr>
+                <tr *ngIf="deckStats.get('nbSapphireCards') !== 0">
+                    <td class="tw_td_label">
+                        <img src="assets/images/colors/Sapphire.png" alt="Sapphire" class="inline-block w-7 h-8" />
+                        Nb Sapphire cards :
+                    </td>
+                    <td class="tw_td_value">
+                        {{ deckStats.get('nbSapphireCards') || 0 }} |
+                        {{ (deckStats.get('nbSapphireCards') || 0) / (deckStats.get('nbCards') || 1) * 100 | number:
+                        '1.2-2' }}%
+                    </td>
+                </tr>
+                <tr *ngIf="deckStats.get('nbSteelCards') !== 0">
+                    <td class="tw_td_label">
+                        <img src="assets/images/colors/Steel.png" alt="Steel" class="inline-block w-7 h-8" />
+                        Nb Steel cards :
+                    </td>
+                    <td class="tw_td_value">
+                        {{ deckStats.get('nbSteelCards') || 0 }} |
+                        {{ (deckStats.get('nbSteelCards') || 0) / (deckStats.get('nbCards') || 1) * 100 | number:
+                        '1.2-2' }}%
+                    </td>
                 </tr>
 
 
