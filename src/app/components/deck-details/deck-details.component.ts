@@ -82,8 +82,21 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe()
   }
 
-  showCardDetails(card: CardApiLorcast) {
+  public showCardDetails(card: CardApiLorcast) {
     this.cardService.setCardToDisplay(card);
+  }
+
+  public getLabel(key: string): string {
+    return key.substring(5, key.length) !== '' ? key.substring(5, key.length) : 'Empty';
+  }
+
+  public getSortedCategory(prefix: string): { key: string; value: number }[] {
+    const statsArray = Array.from(this.deckStats.entries()) // Transforme la Map en tableau
+      .filter(([key, value]) => key.startsWith(prefix)) // Filtre les clés avec le préfixe donné
+      .map(([key, value]) => ({ key, value: value || 0 })) // Crée des objets avec clé et valeur
+      .sort((a, b) => b.value - a.value); // Trie par valeur décroissante
+
+    return statsArray;
   }
 
 

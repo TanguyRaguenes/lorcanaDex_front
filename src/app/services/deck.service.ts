@@ -29,19 +29,8 @@ export class DeckService {
     console.log("calculateDeckStats");
     let deckPrice: number = 0;
     let nbCards: number = 0;
-    const typeCards: Record<string, number> = {
-      Inkwell: 0,
-      Character: 0
-    }
+    let inkwell: number = 0;
 
-    const inkCounts: Record<string, number> = {
-      Amber: 0,
-      Amethyst: 0,
-      Emerald: 0,
-      Ruby: 0,
-      Sapphire: 0,
-      Steel: 0,
-    };
 
 
     const stats: Map<string, number> = new Map<string, number>();
@@ -51,16 +40,36 @@ export class DeckService {
     if (deckCardsValue) {
       deckCardsValue.forEach(deckCard => {
         deckPrice += parseFloat(deckCard.getCard().getPrices().getUsd() ?? '0') * deckCard.getQuantity();
-        inkCounts[deckCard.getCard().getInk()] += deckCard.getQuantity();
+        // inkCounts[deckCard.getCard().getInk()] += deckCard.getQuantity();
         nbCards += deckCard.getQuantity();
+
+        deckCard.getCard().getType().forEach(e => {
+          stats.set(`type_${e}`, (stats.get(`type_${e}`) ?? 0) + deckCard.getQuantity())
+        })
+
+        deckCard.getCard().getClassifications().forEach(e => {
+          stats.set(`clas_${e}`, (stats.get(`clas_${e}`) ?? 0) + deckCard.getQuantity())
+        })
+
+        deckCard.getCard().getKeywords().forEach(e => {
+          stats.set(`keyw_${e}`, (stats.get(`keyw_${e}`) ?? 0) + deckCard.getQuantity())
+        })
+
+
+        stats.set(`rari_${deckCard.getCard().getRarity()}`, (stats.get(`rari_${deckCard.getCard().getRarity()}`) ?? 0) + deckCard.getQuantity())
+        stats.set(`inks_${deckCard.getCard().getInk()}`, (stats.get(`inks_${deckCard.getCard().getInk()}`) ?? 0) + deckCard.getQuantity())
+        if (deckCard.getCard().getInkwell() == true) {
+          stats.set("inkwell", (stats.get("inkwell") ?? 0) + deckCard.getQuantity())
+        }
+
+
 
       });
 
     }
 
-    Object.entries(inkCounts).forEach(([ink, count]) => {
-      stats.set(`nb${ink}Cards`, count);
-    })
+    // inkwell = deckCardsValue.filter(deckCard => deckCard.getCard().getInkwell() == true).length
+    // stats.set("inkwell", inkwell)
 
     stats.set("deckPrice", Math.round(deckPrice * 100) / 100)
     stats.set("nbCards", nbCards)
