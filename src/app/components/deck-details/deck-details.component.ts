@@ -27,8 +27,15 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   protected deckStats: Map<string, number> = new Map<string, number>();
 
+  protected drawnCards: Array<CardApiLorcast> = [];
+  protected remainingCards: Array<CardApiLorcast> = [];
+
+  protected isModalVisible: boolean = false;
+  protected isDrawStarted = false
 
   constructor(private deckService: DeckService, private cardService: CardService, private router: Router) {
+
+
 
   }
 
@@ -118,6 +125,61 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
 
   public goBack() {
     this.router.navigate(["/decks"]);
+  }
+
+
+  public drawCards(): void {
+
+
+
+
+    const tempArray: Array<CardApiLorcast> = [];
+
+
+    if (!this.isDrawStarted) {
+
+      this.deckCards.forEach(deckCard => {
+        for (let i = 0; i < deckCard.getQuantity(); i++) {
+          this.remainingCards.push(deckCard.getCard())
+        }
+      })
+
+      for (let i = this.remainingCards.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        [this.remainingCards[i], this.remainingCards[randomIndex]] = [this.remainingCards[randomIndex], this.remainingCards[i]];
+      }
+
+      console.log("remainingCards.length : " + this.remainingCards.length)
+
+      this.isDrawStarted = true;
+    }
+
+
+
+    this.remainingCards.splice(0, 7)
+    tempArray.push(...this.remainingCards.slice(0, 7))
+
+
+    console.log({
+      drawnCards: this.drawnCards
+
+    })
+    this.drawnCards = tempArray;
+
+  }
+
+  public resetDraw(): void {
+
+    this.isDrawStarted = false;
+  }
+
+
+
+
+  public toggleModal(): void {
+
+    this.isModalVisible = !this.isModalVisible
+
   }
 
 }

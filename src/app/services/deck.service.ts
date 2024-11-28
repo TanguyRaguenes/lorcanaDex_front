@@ -39,8 +39,11 @@ export class DeckService {
 
     if (deckCardsValue) {
       deckCardsValue.forEach(deckCard => {
-        deckPrice += parseFloat(deckCard.getCard().getPrices().getUsd() ?? '0') * deckCard.getQuantity();
-        // inkCounts[deckCard.getCard().getInk()] += deckCard.getQuantity();
+
+
+
+        deckPrice += parseFloat(deckCard.getCard().getPrices().getUsd() ?? deckCard.getCard().getPrices().getUsdFoil() ?? '0') * deckCard.getQuantity();
+
         nbCards += deckCard.getQuantity();
 
         deckCard.getCard().getType().forEach(e => {
@@ -56,8 +59,18 @@ export class DeckService {
         })
 
 
+
+
         stats.set(`rari_${deckCard.getCard().getRarity()}`, (stats.get(`rari_${deckCard.getCard().getRarity()}`) ?? 0) + deckCard.getQuantity())
         stats.set(`inks_${deckCard.getCard().getInk()}`, (stats.get(`inks_${deckCard.getCard().getInk()}`) ?? 0) + deckCard.getQuantity())
+        stats.set(`cost_${deckCard.getCard().getCost()}`, (stats.get(`cost_${deckCard.getCard().getCost()}`) ?? 0) + deckCard.getQuantity())
+        stats.set(`lore_${deckCard.getCard().getLore()}`, (stats.get(`lore_${deckCard.getCard().getLore()}`) ?? 0) + deckCard.getQuantity())
+        stats.set(`stre_${deckCard.getCard().getStrength()}`, (stats.get(`stre_${deckCard.getCard().getStrength()}`) ?? 0) + deckCard.getQuantity())
+        stats.set(`will_${deckCard.getCard().getWillpower()}`, (stats.get(`will_${deckCard.getCard().getWillpower()}`) ?? 0) + deckCard.getQuantity())
+
+
+
+
         if (deckCard.getCard().getInkwell() == true) {
           stats.set("inkwell", (stats.get("inkwell") ?? 0) + deckCard.getQuantity())
         }
@@ -67,9 +80,6 @@ export class DeckService {
       });
 
     }
-
-    // inkwell = deckCardsValue.filter(deckCard => deckCard.getCard().getInkwell() == true).length
-    // stats.set("inkwell", inkwell)
 
     stats.set("deckPrice", Math.round(deckPrice * 100) / 100)
     stats.set("nbCards", nbCards)
