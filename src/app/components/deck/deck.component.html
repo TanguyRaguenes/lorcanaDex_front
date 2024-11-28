@@ -1,15 +1,30 @@
-<section class="w-full h-full">
+<section class="w-full h-full" [ngClass]="{'bg-fuchsia-200':isDeckVisible}">
 
-    <div class="flex flex-row w-full justify-center">
-        <!-- BOUTON RETOUR -->
-        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed left-0 top-[10vh]" (click)="goBack()">Go back</button>
-        <!-- BOUTON AFFICHER DECK -->
-        <button *ngIf="!isDeckVisible" class="tw_btn w-36 fixed right-0 top-[10vh]" (click)="showDeck()">Show
-            deck</button>
+    <div class="mt-[10vh] z-20 flex flex-col w-full items-center justify-center">
 
-        <!-- BOUTON AFFICHER TOUTES LES CARTES -->
-        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed top-[10vh]" (click)="showAll()">Show all
-            cards</button>
+        <div class="w-full flex flex-row justify-between items-center">
+            <button class="tw_btn w-36" (click)="goBack()">Go back</button>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="w-12 h-12 tw_svg" (click)="saveDeckCardsInBdd()">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                <path d="M14 4l0 4l-6 0l0 -4" />
+            </svg>
+
+            <button class="tw_btn w-36" (click)="toggleShowDeck()">{{(!isDeckVisible?"Show
+                my deck":"Show all cards")}}</button>
+        </div>
+
+
+        <div class="mt-2 w-full bg-white text-center rounded-md">
+            <p class="font-Satisfy font-semibold text-fuchsia-300 text-xl">{{(!isDeckVisible?"All cards :
+                ":"Your deck :")}}</p>
+
+        </div>
+
     </div>
 
     <app-filters *ngIf="!isDeckVisible"></app-filters>
@@ -18,7 +33,11 @@
 
     <!-- AFFICHAGE CARTES -->
 
-    <div class="mt-32 pb-20 w-full flex flex-wrap justify-center">
+
+
+    <div class="mt-1 pb-20 w-full flex flex-wrap justify-center">
+
+
 
         <div *ngFor="let card of cardsToDisplay; let i = index"
             class="z-10 w-5/12 md:w-1/4 lg:w-1/6 p-1 m-2 bg-white rounded-lg transform transition-all duration-200 hover:scale-105 hover:shadow-2xl ">
@@ -65,8 +84,6 @@
 
         </div>
 
-        <button *ngIf="isDeckVisible" class="tw_btn w-11/12 fixed bottom-[5vh]" (click)="saveDeckCardsInBdd()">Save
-            deck</button>
 
     </div>
 

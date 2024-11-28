@@ -14,6 +14,7 @@ import { map, Subscription } from 'rxjs';
 import { FlashMessageService } from '../../services/flash-message.service';
 import { CardApiLorcast } from '../../models/CardApiLorcast';
 import { CardService } from '../../services/card.service';
+import { DeckCard } from '../../models/DeckCard';
 
 @Component({
   selector: 'app-deck',
@@ -44,55 +45,78 @@ export class DeckComponent implements OnInit, OnDestroy {
 
   protected deckStats: Map<string, number> = new Map<string, number>();
 
+  protected deckCards: Array<DeckCard> = [];
+
   // CONSTRUCTEUR
 
   constructor(private router: Router, private cardService: CardService, private cardsService: CardsService, private deckService: DeckService, private flashMessageService: FlashMessageService) {
-
-    const data = sessionStorage.getItem("deckSelected");
-
-    if (data) {
-      const dataParse = JSON.parse(data);
-      this.deckSelected = new Deck(
-        dataParse.deckId,
-        dataParse.deckName,
-        dataParse.username,
-        dataParse.creationDate,
-        dataParse.updateDate,
-        dataParse.firstInk,
-        dataParse.secondInk)
-    }
-
-
-
-
-    // this.deckService.getDeckCards(this.deckSelected?.getDeckId()!).subscribe({
-    //   next: (response: any) => {
-
-    //     this.deckCardsMap = response;
-    //     this.updateDeckCardsArray();
-
-    //   }, error: (e => {
-    //     console.log("getDeckCards error : " + e)
-    //   })
-    // })
-
-
 
   }
 
   ngOnInit(): void {
 
+    this.subscription.add(
+
+      this.deckService.getDeck().subscribe({
+        next: (response: Deck) => {
+
+          this.deckColors = [response.getFirstInk(), response.getSecondInk()];
+          this.cardsService.setColors(this.deckColors);
+          this.deckSelected = response;
+
+          console.log({
+            "update deck": this.deckCards,
+            "update deckColors": this.deckCardsMap
+          })
+
+        }, error: (e => {
+          console.log("getDeck error : " + e)
+        })
+      })
 
 
-    this.deckColors = [this.deckSelected?.getFirstInk(), this.deckSelected?.getSecondInk()];
-    this.cardsService.setColors(this.deckColors);
+    )
+
+    this.subscription.add(
+      this.deckService.getDeckCards().subscribe({
+        next: (response: Array<DeckCard>) => {
+          this.deckCards = [...response]
+
+          this.deckCards.forEach(deckCard => {
+            this.deckCardsMap.set(deckCard.getCard().getCardIdBdd(), deckCard.getQuantity())
+          })
+
+          console.log({
+            "update deckCards": this.deckCards,
+            "update deckCardsMap": this.deckCardsMap
+          })
+
+        }, error: (e => {
+          console.log("getDeckCards error : " + e)
+        })
+      })
+
+
+    )
 
     this.subscription.add(
 
       this.cardsService.getCardsToDisplay().subscribe({
         next: (response: Array<CardApiLorcast>) => {
+          console.log({
+            "response getCardsToDisplay": response
+          })
+
+          console.log({
+            "deckColors": this.deckColors
+          })
+
           this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getInk()))];
           this.cardsToDisplay = [...this.cardsPool];
+          console.log({
+            "update cardsToDisplay": this.cardsToDisplay,
+            "update cardsPool": this.cardsPool
+          })
         }, error: (e => {
           console.log("getCardsToDisplay error : " + e)
         })
@@ -206,20 +230,18 @@ export class DeckComponent implements OnInit, OnDestroy {
 
   //AFFICHAGE DES CARTES DU DECK
 
-  protected showDeck() {
-    console.log("showDeck");
-    this.updateDeckCardsArray();
-    this.cardsToDisplay = [...this.deckCardsArray]
-    this.isDeckVisible = true;
-  }
+  protected toggleShowDeck() {
 
-
-  //AFFICHAGE DE TOUTES LES CARTES
-
-  protected showAll() {
-    console.log("showAll");
-    this.cardsToDisplay = [...this.cardsPool];
-    this.isDeckVisible = false;
+    if (!this.isDeckVisible) {
+      console.log("showDeck");
+      this.updateDeckCardsArray();
+      this.cardsToDisplay = [...this.deckCardsArray]
+      this.isDeckVisible = true;
+    } else {
+      console.log("showAll");
+      this.cardsToDisplay = [...this.cardsPool];
+      this.isDeckVisible = false;
+    }
 
   }
 
@@ -244,6 +266,13 @@ export class DeckComponent implements OnInit, OnDestroy {
 
   protected saveDeckCardsInBdd() {
     this.updateDeckCardsArray();
+
+    console.log({
+
+      "this.deckSelected?.getDeckId()": this.deckSelected?.getDeckId(),
+      "this.deckCardsMap": this.deckCardsMap
+
+    })
     this.deckService.saveDeckCardsInBdd(this.deckSelected?.getDeckId()!, this.deckCardsMap).subscribe({
       next: (response: any) => {
         console.log(response);

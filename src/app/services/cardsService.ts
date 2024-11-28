@@ -97,7 +97,7 @@ export class CardsService {
 
   public resetRarities(): void {
 
-    this.rarities = ["Common", "Uncommon", "Rare", "Super Rare", "Legendary"];
+    this.rarities = ["Common", "Uncommon", "Rare", "Super Rare", "Legendary", "Enchanted"];
 
   }
 

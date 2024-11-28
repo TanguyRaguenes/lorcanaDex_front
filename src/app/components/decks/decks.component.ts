@@ -92,6 +92,7 @@ export class DecksComponent implements OnInit, OnDestroy {
 
     if (deck) {
       sessionStorage.setItem("deckSelected", JSON.stringify(deck))
+      this.deckService.setDeck(deck)
       this.router.navigate(["/deck"])
     }
 

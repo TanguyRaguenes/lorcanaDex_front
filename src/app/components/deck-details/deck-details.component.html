@@ -218,11 +218,28 @@
 
     <div id="modal" *ngIf="isModalVisible" class="tw_modal opacity-0" [ngClass]="{'opacity-100':isModalVisible}">
 
-        <button class="tw_btn w-11/12 fixed top-[10vh]" (click)="drawCards()">Draw 7 cards</button>
+        <p class="mt-[12vh]" *ngIf="!isDrawStarted">Remaining cards in deck : <span
+                class="text-fuchsia-400 font-semibold">{{deckStats.get("nbCards")}}</span></p>
+        <p class="mt-[12vh]" *ngIf="isDrawStarted">Remaining cards in deck : <span
+                class="text-fuchsia-400 font-semibold">{{remainingCards.length}}</span></p>
 
 
-        <p class="mt-[17vh]" *ngIf="!isDrawStarted">Remaining cards in deck : {{deckStats.get("nbCards")}}</p>
-        <p class="mt-[17vh]" *ngIf="isDrawStarted">Remaining cards in deck : {{remainingCards.length}}</p>
+        <div class="flex flex-row items-center mt-2">
+
+            <label for="nbCardsToDraw" class="block mr-2">nb of cards to draw :</label>
+            <select [(ngModel)]="nbCardsToDrawSelected" name="nbCardsToDraw" id="nbCardsToDraw" class="tw_input w-10">
+                <option *ngFor="let nb of nbCardsToDrawOptions;let i=index" value="{{nb}}">{{nb}}</option>
+            </select>
+
+        </div>
+
+
+        <button class="tw_btn w-11/12" (click)="drawCards()">Draw cards</button>
+
+
+
+
+
         <div *ngIf="isDrawStarted" class="flex flex-wrap justify-center mt-1 pb-[12vh]">
 
 

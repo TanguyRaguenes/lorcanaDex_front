@@ -15,7 +15,7 @@ import { DeckCard } from '../../models/DeckCard';
 @Component({
   selector: 'app-deck-details',
   standalone: true,
-  imports: [RouterLink, CommonModule, FiltersComponent, CardComponent],
+  imports: [RouterLink, CommonModule, FiltersComponent, CardComponent, FormsModule],
   templateUrl: './deck-details.component.html',
   styleUrl: './deck-details.component.scss'
 })
@@ -28,10 +28,14 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
   protected deckStats: Map<string, number> = new Map<string, number>();
 
   protected drawnCards: Array<CardApiLorcast> = [];
+
   protected remainingCards: Array<CardApiLorcast> = [];
 
   protected isModalVisible: boolean = false;
   protected isDrawStarted = false
+
+  protected nbCardsToDrawOptions: Array<number> = [1, 2, 3, 4, 5, 6, 7]
+  protected nbCardsToDrawSelected: number = 1;
 
   constructor(private deckService: DeckService, private cardService: CardService, private router: Router) {
 
@@ -156,8 +160,8 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
 
 
 
-    this.remainingCards.splice(0, 7)
-    tempArray.push(...this.remainingCards.slice(0, 7))
+    this.remainingCards.splice(0, this.nbCardsToDrawSelected)
+    tempArray.push(...this.remainingCards.slice(0, this.nbCardsToDrawSelected))
 
 
     console.log({

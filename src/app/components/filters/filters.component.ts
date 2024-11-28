@@ -26,8 +26,8 @@ export class FiltersComponent implements OnInit, OnDestroy {
   protected willpowerFilter: number = 0;
   protected loreFilter: number = 0;
 
-  protected colors: Array<string>;
-  protected rarities: Array<string>;
+  protected colors: Array<string> = [];
+  protected rarities: Array<string> = [];
   protected filters: Array<Filter> = [];
   protected isModalVisible: boolean = false;
   protected sets: Array<SetApiLorcast> = [];
@@ -49,12 +49,14 @@ export class FiltersComponent implements OnInit, OnDestroy {
   // CONTRUCTEUR
   constructor(private cardsService: CardsService) {
 
-    this.colors = [...this.cardsService.getColors()]
-    this.rarities = [...this.cardsService.getRarities()];
+
 
   }
 
   ngOnInit(): void {
+
+    this.colors = [...this.cardsService.getColors()]
+    this.rarities = [...this.cardsService.getRarities()];
 
     this.subscription.add(
       this.cardsService.getSets().subscribe({
