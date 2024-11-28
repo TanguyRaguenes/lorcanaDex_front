@@ -3,7 +3,8 @@
     <div class="mt-[10vh] z-20 flex flex-col w-full items-center justify-center">
 
         <div class="w-full flex flex-row justify-between items-center">
-            <button class="tw_btn w-36" (click)="goBack()">Go back</button>
+            <button [ngClass]="{'opacity-0 pointer-events-none':isDeckVisible}" class="tw_btn w-36"
+                (click)="goBack()">Go back</button>
 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -20,8 +21,10 @@
 
 
         <div class="mt-2 w-full bg-white text-center rounded-md">
-            <p class="font-Satisfy font-semibold text-fuchsia-300 text-xl">{{(!isDeckVisible?"All cards :
-                ":"Your deck :")}}</p>
+            <p *ngIf="!isDeckVisible" class="font-Satisfy font-semibold text-fuchsia-300 text-xl">All cards :
+                {{cardsPool.length}}</p>
+            <p *ngIf="isDeckVisible" class="font-Satisfy font-semibold text-fuchsia-300 text-xl">Your deck :
+                {{getDeckNumberOfCards()}} /60 cards</p>
 
         </div>
 

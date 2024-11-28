@@ -67,6 +67,7 @@ export class DeckService {
         stats.set(`lore_${deckCard.getCard().getLore()}`, (stats.get(`lore_${deckCard.getCard().getLore()}`) ?? 0) + deckCard.getQuantity())
         stats.set(`stre_${deckCard.getCard().getStrength()}`, (stats.get(`stre_${deckCard.getCard().getStrength()}`) ?? 0) + deckCard.getQuantity())
         stats.set(`will_${deckCard.getCard().getWillpower()}`, (stats.get(`will_${deckCard.getCard().getWillpower()}`) ?? 0) + deckCard.getQuantity())
+        stats.set(`sets_${deckCard.getCard().getSet().getName()}`, (stats.get(`sets_${deckCard.getCard().getSet().getName()}`) ?? 0) + deckCard.getQuantity())
 
 
 

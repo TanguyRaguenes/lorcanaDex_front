@@ -218,18 +218,42 @@ export class CardsService {
 
   public filterCards(filters: Array<Filter>) {
 
-    let filteredCards: Array<CardApiLorcast> = this.cardsAll.filter(card => {
+
+    let filteredCards: Array<CardApiLorcast> = [];
+    let tempCards: Array<CardApiLorcast> = [];
+
+    filters.forEach(filter => {
+      if (filter.getKey() === "color") {
+        tempCards = this.cardsAll.filter(Card => Card.getInk() == filter.getValue());
+        console.log({
+          tempCards1: tempCards
+        })
+      }
+    });
+
+    filteredCards = [...tempCards];
+
+    filters.forEach(filter => {
+      if (filter.getKey() === "rarity") {
+        tempCards = filteredCards.filter(Card => Card.getRarity() == filter.getValue());
+
+      }
+    });
+
+    filteredCards = [...tempCards];
+
+    filteredCards = filteredCards.filter(card => {
       return filters.every(filter => {
 
         let value: number;
         let operator: string;
 
         switch (filter.getKey()) {
-          case "color":
-            return card.getInk() === filter.getValue();
+          // case "color":
+          //   return card.getInk() === filter.getValue();
 
-          case "rarity":
-            return card.getRarity() === filter.getValue();
+          // case "rarity":
+          //   return card.getRarity() === filter.getValue();
 
           case "set":
             return this.normalizeString(card.getSet().getName()).includes(this.normalizeString(filter.getValue()));
