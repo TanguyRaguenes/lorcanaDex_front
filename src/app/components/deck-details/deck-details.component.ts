@@ -175,6 +175,7 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
   public resetDraw(): void {
 
     this.isDrawStarted = false;
+    this.remainingCards = []
   }
 
 
