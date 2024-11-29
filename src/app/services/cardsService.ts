@@ -220,27 +220,50 @@ export class CardsService {
 
 
     let filteredCards: Array<CardApiLorcast> = [];
+    let tempFilteredCards1: Array<CardApiLorcast> = [];
+    let tempFilteredCards2: Array<CardApiLorcast> = [];
+
     let tempCards: Array<CardApiLorcast> = [];
 
-    filters.forEach(filter => {
-      if (filter.getKey() === "color") {
-        tempCards = this.cardsAll.filter(Card => Card.getInk() == filter.getValue());
-        console.log({
-          tempCards1: tempCards
-        })
-      }
-    });
 
-    filteredCards = [...tempCards];
+    if (filters.some(filter => filter.getKey() == "color")) {
 
-    filters.forEach(filter => {
-      if (filter.getKey() === "rarity") {
-        tempCards = filteredCards.filter(Card => Card.getRarity() == filter.getValue());
+      filters.forEach(filter => {
+        if (filter.getKey() === "color") {
 
-      }
-    });
+          tempCards = this.cardsAll.filter(Card => Card.getInk() == filter.getValue());
+          tempFilteredCards1 = [...tempFilteredCards1, ...tempCards];
 
-    filteredCards = [...tempCards];
+          console.log({
+            tempCards1: tempCards
+          })
+
+        }
+      });
+
+    } else {
+
+      tempFilteredCards1 = [...this.cardsAll];
+
+    }
+
+
+    if (filters.some(filter => filter.getKey() == "rarity")) {
+
+      filters.forEach(filter => {
+        if (filter.getKey() === "rarity") {
+          tempCards = tempFilteredCards1.filter(Card => Card.getRarity() == filter.getValue());
+          tempFilteredCards2 = [...tempFilteredCards2, ...tempCards];
+
+        }
+      });
+
+    } else {
+      tempFilteredCards2 = [...tempFilteredCards1];
+    }
+
+
+    filteredCards = [...tempFilteredCards2];
 
     filteredCards = filteredCards.filter(card => {
       return filters.every(filter => {
