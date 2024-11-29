@@ -134,9 +134,6 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
 
   public drawCards(): void {
 
-
-
-
     const tempArray: Array<CardApiLorcast> = [];
 
 
@@ -174,8 +171,9 @@ export class DeckDetailsComponent implements OnInit, OnDestroy {
 
   public resetDraw(): void {
 
-    this.isDrawStarted = false;
     this.remainingCards = []
+    this.isDrawStarted = false;
+
   }
 
 
