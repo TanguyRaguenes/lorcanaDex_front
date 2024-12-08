@@ -1,9 +1,9 @@
-<section class="w-full h-full" [ngClass]="{'bg-fuchsia-200':isDeckVisible}">
+<section class="w-full h-full">
 
     <div class="mt-[10vh] z-20 flex flex-col w-full items-center justify-center">
 
-        <div class="w-full flex flex-row justify-between items-center">
-            <button [ngClass]="{'opacity-0 pointer-events-none':isDeckVisible}" class="tw_btn w-36"
+        <div class="w-full flex flex-row justify-between items-center pl-5 pr-5">
+            <button [ngClass]="{'opacity-0 pointer-events-none':isDeckVisible}" class="tw_btn w-[30%]"
                 (click)="goBack()">Go back</button>
 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -15,8 +15,8 @@
                 <path d="M14 4l0 4l-6 0l0 -4" />
             </svg>
 
-            <button class="tw_btn w-36" (click)="toggleShowDeck()">{{(!isDeckVisible?"Show
-                my deck":"Show all cards")}}</button>
+            <button class="tw_btn w-[30%]" (click)="toggleShowDeck()">{{(!isDeckVisible?"
+                My deck":"All cards")}}</button>
         </div>
 
 

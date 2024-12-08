@@ -71,18 +71,18 @@ export class AuthService {
       "password": password
     }
 
-    console.log({
-      username: username,
-      password: password
-    })
+    // console.log({
+    //   username: username,
+    //   password: password
+    // })
 
     this.http.post<{ token: string; username: string }>(environment.serveSide_authApiRest + "/authentificate", body).subscribe({
       next: (response: { token: string; username: string }) => {
 
-        console.log({
-          token: response.token,
-          username: response.username
-        })
+        // console.log({
+        //   token: response.token,
+        //   username: response.username
+        // })
 
         if (response.token != null && response.username != null) {
           sessionStorage.setItem('token', response.token);

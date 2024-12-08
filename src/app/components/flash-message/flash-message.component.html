@@ -1,4 +1,4 @@
-<section id="flashMessage" (click)="hide()" [ngClass]=" {
+<section id="flashMessage" [ngClass]=" {
         'pointer-events-none opacity-0':!isVisible,
         'pointer-events-auto opacity-100':isVisible,
         'bg-green-500':messageType=='success',
@@ -7,10 +7,10 @@
     }"
     class="z-50 w-full h-20 fixed top-0 flex flex-col justify-center items-center transform transition-all duration-500 ease-in-out cursor-pointer">
 
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+    <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
         class="w-8 h-8 text-white tw_svg">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-    </svg>
+    </svg> -->
 
     <p class="text-center text-white">{{messageText}}</p>
 </section>

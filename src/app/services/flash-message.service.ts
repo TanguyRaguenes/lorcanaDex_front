@@ -46,6 +46,6 @@ export class FlashMessageService {
 
       this.isVisible.next(false);
 
-    }, 2000)
+    }, 3000)
   }
 }

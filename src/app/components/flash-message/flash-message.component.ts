@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { FlashMessageService } from '../../services/flash-message.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -80,8 +80,18 @@ export class FlashMessageComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public hide() {
-    this.isVisible = false;
+  // public hide() {
+  //   this.isVisible = false;
+  // }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent): void {
+    const targetElement = event.target as HTMLElement;
+
+    // Vérifie si le clic est à l'intérieur de la navbar ou du menu
+    if (!targetElement.closest('header') && this.isVisible) {
+      this.isVisible = false; // Ferme le menu
+    }
   }
 
 }
