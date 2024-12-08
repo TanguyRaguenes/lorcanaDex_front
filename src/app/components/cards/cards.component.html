@@ -18,7 +18,7 @@
       <img *ngIf="card?.getImageUris()?.getDigital()?.getNormal() !== null" [attr.alt]="card?.getName() || 'card'"
         class="z-10 h-full w-full rounded-lg object-contain transform transition-all duration-200 hover:scale-105 hover:cursor-pointer hover:shadow-2xl"
         [src]="card?.getImageUris()?.getDigital()?.getNormal()  || 'assets/cardBack.avif'"
-        [attr.loading]="i > 5 ? 'lazy' : 'eager'" (click)="showCardDetails(card)">
+        [attr.loading]="i > 20 ? 'lazy' : 'eager'" (click)="showCardDetails(card)">
 
       <!-- <svg *ngIf="card?.getPrices()?.getUsd() !== null || card?.getPrices()?.getUsdFoil()!==null"
         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"

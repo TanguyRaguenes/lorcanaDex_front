@@ -1,12 +1,11 @@
-<section class="mt-24 flex flex-col items-center">
+<section class="mt-[12vh] flex flex-col items-center">
 
     <h1 class="tw_h1">
         Authentication
     </h1>
 
-    <h2 class="mb-5 text-lg md:text-2xl lg:text-4xl font-Roboto text-center text-purple-900">Enter
-        the enchanted world of <br>
-        deck creation !</h2>
+    <h2 class="mb-5 text-lg md:text-2xl lg:text-4xl font-Roboto text-center italic">Enter
+        the enchanted world of deck creation !</h2>
 
     <!-- FORMULAIRE -->
 
@@ -31,9 +30,10 @@
 
         </div>
 
-        <button class="tw_btn w-11/12" type="submit" [disabled]="loginForm.invalid">Login</button>
+        <button class="tw_btn w-11/12" type="submit">Login</button>
 
-        <a href="registration" class="tw_btn w-11/12 text-center hover:cursor-pointer">Registration</a>
+        <a href="registration"
+            class="tw_btn w-11/12 flex items-center justify-center hover:cursor-pointer">Registration</a>
 
     </form>
 

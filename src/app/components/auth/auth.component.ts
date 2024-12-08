@@ -41,7 +41,21 @@ export class AuthComponent {
 
   public submit(): void {
 
+    if (this.username == '') {
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("Please enter your email.", true)
+      return
+    }
+
+    if (this.password == '') {
+      this.flashMessageService.setMessageType("information")
+      this.flashMessageService.setMessageText("Please enter your password.", true)
+      return
+    }
+
     this.authService.login(this.username, this.password);
+
+
 
   }
 

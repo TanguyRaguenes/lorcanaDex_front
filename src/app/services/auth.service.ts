@@ -71,14 +71,31 @@ export class AuthService {
       "password": password
     }
 
+    console.log({
+      username: username,
+      password: password
+    })
+
     this.http.post<{ token: string; username: string }>(environment.serveSide_authApiRest + "/authentificate", body).subscribe({
       next: (response: { token: string; username: string }) => {
-        sessionStorage.setItem('token', response.token);
-        sessionStorage.setItem('username', response.username);
-        this.startTimerToken();
-        this.router.navigate(['/home']);
-        this.flashMessageService.setMessageType("success")
-        this.flashMessageService.setMessageText("Connection successful.", true)
+
+        console.log({
+          token: response.token,
+          username: response.username
+        })
+
+        if (response.token != null && response.username != null) {
+          sessionStorage.setItem('token', response.token);
+          sessionStorage.setItem('username', response.username);
+          this.startTimerToken();
+          this.router.navigate(['/home']);
+          this.flashMessageService.setMessageType("success")
+          this.flashMessageService.setMessageText("Connection successful.", true)
+        } else {
+          this.flashMessageService.setMessageType("error")
+          this.flashMessageService.setMessageText("The email and password combination is invalid.", true)
+        }
+
       }, error: (e => {
         console.log("login error : " + e);
         this.flashMessageService.setMessageType("error")
