@@ -90,7 +90,7 @@ export class AuthService {
           this.startTimerToken();
           this.router.navigate(['/home']);
           this.flashMessageService.setMessageType("success")
-          this.flashMessageService.setMessageText("Connection successful.", true)
+          this.flashMessageService.setMessageText("Connection successful !", true)
         } else {
           this.flashMessageService.setMessageType("error")
           this.flashMessageService.setMessageText("The email and password combination is invalid.", true)
@@ -196,6 +196,6 @@ export class AuthService {
     this.router.navigate(['/'])
 
     this.flashMessageService.setMessageType("success")
-    this.flashMessageService.setMessageText("Logout successful.", true)
+    this.flashMessageService.setMessageText("Logout successful !", true)
   }
 }
