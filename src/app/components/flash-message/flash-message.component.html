@@ -1,4 +1,4 @@
-<section id="flashMessage" [ngClass]=" {
+<section id="flashMessage" (click)="hide()" [ngClass]=" {
         'pointer-events-none opacity-0':!isVisible,
         'pointer-events-auto opacity-100':isVisible,
         'bg-green-500':messageType=='success',

@@ -1,8 +1,10 @@
 <section class="w-full h-full">
 
-    <div class="mt-[10vh] z-20 flex flex-col w-full items-center justify-center">
+    <div
+        class="z-20 fixed top-[10.5vh] w-[99%] left-1/2 -translate-x-1/2 flex flex-col items-center justify-center bg-white rounded-md">
 
-        <div class="w-full flex flex-row justify-between items-center pl-5 pr-5">
+        <div class=" w-full flex flex-row justify-between items-center pl-5 pr-5 bg-white rounded-md ">
+
             <button [ngClass]="{'opacity-0 pointer-events-none':isDeckVisible}" class="tw_btn w-[30%]"
                 (click)="goBack()">Go back</button>
 
@@ -17,10 +19,11 @@
 
             <button class="tw_btn w-[30%]" (click)="toggleShowDeck()">{{(!isDeckVisible?"
                 My deck":"All cards")}}</button>
+
         </div>
 
 
-        <div class="mt-2 w-full bg-white text-center rounded-md">
+        <div class="text-center w-full">
             <p *ngIf="!isDeckVisible" class="font-Satisfy font-semibold text-fuchsia-300 text-xl">All cards :
                 {{cardsPool.length}}</p>
             <p *ngIf="isDeckVisible" class="font-Satisfy font-semibold text-fuchsia-300 text-xl">Your deck :
@@ -30,7 +33,7 @@
 
     </div>
 
-    <app-filters *ngIf="!isDeckVisible"></app-filters>
+    <app-filters *ngIf="!isDeckVisible" [parentName]="'DeckComponent'"></app-filters>
 
     <app-card></app-card>
 
@@ -38,7 +41,7 @@
 
 
 
-    <div class="mt-1 pb-20 w-full flex flex-wrap justify-center">
+    <div class="mt-[25vh] pb-20 w-full flex flex-wrap justify-center">
 
 
 

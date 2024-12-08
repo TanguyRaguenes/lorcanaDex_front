@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, OnDestroy, OnInit } from '@angular/core';
+import { booleanAttribute, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Filter } from '../../models/Filter';
 import { FormsModule } from '@angular/forms';
 import { CardsService } from '../../services/cardsService';
@@ -14,6 +14,8 @@ import { Subscription } from 'rxjs';
   styleUrl: './filters.component.scss'
 })
 export class FiltersComponent implements OnInit, OnDestroy {
+
+  @Input() parentName: string = '';
 
   // ATTRIBUTS
 
@@ -62,7 +64,15 @@ export class FiltersComponent implements OnInit, OnDestroy {
       this.cardsService.getSets().subscribe({
         next: (response: Array<SetApiLorcast>) => {
 
-          this.sets = [...response]
+          if (this.parentName == "DeckComponent") {
+            let responseFilter: Array<SetApiLorcast> = response.filter(set => !set.getName().includes("Promo"))
+            responseFilter = responseFilter.filter(set => !set.getName().includes("D23"))
+            this.sets = [...responseFilter]
+          } else {
+            this.sets = [...response]
+          }
+
+
         }, error: (e => {
           console.log("getSets error " + e)
         })

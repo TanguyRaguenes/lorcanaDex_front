@@ -213,6 +213,8 @@ export class DecksComponent implements OnInit, OnDestroy {
       next: (response: JSON) => {
         this.decksService.updateUserDecks();
         console.log(response);
+        this.deckService.setDeck(new Deck(null, '', '', new Date(), null, '', ''))
+        this.deckService.resetDeckCards()
         this.flashMessageService.setMessageType("success")
         this.flashMessageService.setMessageText("The deletion of the deck was successful.", true)
         this.router.navigate(['/temporary']).then(() => {

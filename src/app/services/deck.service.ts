@@ -116,6 +116,10 @@ export class DeckService {
     return this.deckCards;
   }
 
+  public resetDeckCards(): void {
+    this.deckCards.next([])
+  }
+
   //SAUVEGARDE DES CARTES DU DECK DANS LA BDD
 
   public saveDeckCardsInBdd(deckId: number, cardsAndQuantity: Map<number, number>): Observable<any> {

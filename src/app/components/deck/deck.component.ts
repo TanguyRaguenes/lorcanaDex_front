@@ -111,7 +111,10 @@ export class DeckComponent implements OnInit, OnDestroy {
             "deckColors": this.deckColors
           })
 
-          this.cardsPool = [...response.filter(e => this.deckColors.includes(e.getInk()))];
+          let responseTemp: Array<CardApiLorcast> = response.filter(card => !card.getSet().getName().includes("Promo"))
+          responseTemp = responseTemp.filter(card => !card.getSet().getName().includes("D23"))
+          responseTemp = responseTemp.filter(e => this.deckColors.includes(e.getInk()))
+          this.cardsPool = [...responseTemp];
           this.cardsToDisplay = [...this.cardsPool];
           console.log({
             "update cardsToDisplay": this.cardsToDisplay,
@@ -277,10 +280,10 @@ export class DeckComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         console.log(response);
         this.flashMessageService.setMessageType("success")
-        this.flashMessageService.setMessageText("The backup is a success", true)
+        this.flashMessageService.setMessageText("The backup is a success !", true)
       }, error: (e => {
         this.flashMessageService.setMessageType("error")
-        this.flashMessageService.setMessageText("Error saving deck cards", true)
+        this.flashMessageService.setMessageText("Error saving deck cards.", true)
         console.log("Error saveDeckCardsInBdd : " + e)
       })
     })
