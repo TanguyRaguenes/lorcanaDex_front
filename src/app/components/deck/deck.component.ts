@@ -172,21 +172,21 @@ export class DeckComponent implements OnInit, OnDestroy {
 
     const numberOfCopies: number = this.getCardNumberOfCopies(cardId);
 
-    if (this.getDeckNumberOfCards() < 60) {
+    // if (this.getDeckNumberOfCards() < 60) {
 
-      if (numberOfCopies < 4) {
-        this.deckCardsMap.set(cardId, numberOfCopies + 1)
-      } else {
-        this.flashMessageService.setMessageType("information")
-        this.flashMessageService.setMessageText("You can only have 4 copies of a card.", true)
-      }
-
+    if (numberOfCopies < 4) {
+      this.deckCardsMap.set(cardId, numberOfCopies + 1)
     } else {
-
       this.flashMessageService.setMessageType("information")
-      this.flashMessageService.setMessageText("You can only have 60 cards in your deck.", true)
-
+      this.flashMessageService.setMessageText("You can only have 4 copies of a card.", true)
     }
+
+    // } else {
+
+    //   this.flashMessageService.setMessageType("information")
+    //   this.flashMessageService.setMessageText("You can only have 60 cards in your deck.", true)
+
+    // }
 
 
 
